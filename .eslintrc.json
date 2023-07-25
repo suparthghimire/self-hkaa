@@ -19,7 +19,7 @@
 		],
 		"react/prop-types": "off",
 		"@typescript-eslint/prefer-as-const": "error",
-		"@typescript-eslint/await-thenable": "error",
+		"@typescript-eslint/await-thenable": "off",
 		"react/display-name": "off",
 		"no-redeclare": "off",
 		"no-mixed-spaces-and-tabs": "off"
