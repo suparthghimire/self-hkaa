@@ -1,9 +1,12 @@
-import MainLayout from "@/components/layout/main/MainLayout.template";
 import "@/app/globals.css";
-import { Inter } from "next/font/google";
+import MainLayout from "@/components/layout/main/MainLayout.template";
+import { Roboto_Condensed } from "next/font/google";
 import React, { PropsWithChildren } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto_Condensed({
+	subsets: ["latin"],
+	weight: "400",
+});
 
 export const metadata = {
 	title: "HKAA",
@@ -13,7 +16,7 @@ export const metadata = {
 const RootLayout: React.FC<PropsWithChildren> = (props) => {
 	return (
 		<html lang="en">
-			<body className={inter.className}>
+			<body className={roboto.className}>
 				<MainLayout>{props.children}</MainLayout>
 			</body>
 		</html>
