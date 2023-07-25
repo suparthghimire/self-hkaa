@@ -1,25 +1,23 @@
-import RootProvider from "@/lib/providers/RootProvider";
+import MainLayout from "@/components/layout/main/MainLayout.template";
 import "./globals.css";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import React, { PropsWithChildren } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
+export const metadata = {
 	title: "HKAA",
 	description: "Frontend for HKAA",
 };
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+const RootLayout: React.FC<PropsWithChildren> = (props) => {
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<RootProvider>{children}</RootProvider>
+				<MainLayout>{props.children}</MainLayout>
 			</body>
 		</html>
 	);
-}
+};
+
+export default RootLayout;
