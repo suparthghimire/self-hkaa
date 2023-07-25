@@ -1,3 +1,41 @@
 {
-  "extends": "next/core-web-vitals"
+	"extends": [
+		"eslint:recommended",
+		"next/core-web-vitals",
+		"next",
+		"plugin:react/recommended",
+		"plugin:react-hooks/recommended"
+	],
+	"globals": {
+		"React": "readonly"
+	},
+	"rules": {
+		"no-unused-vars": [
+			1,
+			{
+				"args": "after-used",
+				"argsIgnorePattern": "^_"
+			}
+		],
+		"react/prop-types": "off",
+		"@typescript-eslint/prefer-as-const": "error",
+		"@typescript-eslint/await-thenable": "error",
+		"react/display-name": "off",
+		"no-redeclare": "off",
+		"no-mixed-spaces-and-tabs": "off"
+	},
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"project": true,
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"plugins": ["react", "react-hooks", "@typescript-eslint"],
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"root": true
 }
