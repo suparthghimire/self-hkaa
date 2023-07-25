@@ -1,5 +1,5 @@
 import MainLayout from "@/components/layout/main/MainLayout.template";
-import "./globals.css";
+import "@/app/globals.css";
 import { Inter } from "next/font/google";
 import React, { PropsWithChildren } from "react";
 
