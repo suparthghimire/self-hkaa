@@ -3,6 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import React, { PropsWithChildren } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { FONT_FAMILY } from "../data/constants";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +16,7 @@ const RootProvider: React.FC<PropsWithChildren> = (props) => {
 				theme={{
 					colors: {
 						blue: [
-							"#6A89F8",
+							"#93AAFF",
 							"#6A89F8",
 							"#6A89F8",
 							"#6A89F8",
@@ -28,7 +29,7 @@ const RootProvider: React.FC<PropsWithChildren> = (props) => {
 						],
 					},
 					primaryColor: "blue",
-					fontFamily: 'Roboto Condensed, sans-serif',
+					fontFamily: FONT_FAMILY,
 				}}
 			>
 				{props.children}
