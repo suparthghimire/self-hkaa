@@ -10,6 +10,7 @@ interface IInstanceGrid {
 	buttonText: string;
 	instanceUpdated: string;
 	image: string | StaticImageData;
+	onClick: () => void;
 }
 
 const InstanceGrid: React.FC<IInstanceGrid> = ({
@@ -19,6 +20,7 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 	buttonText,
 	instanceUpdated,
 	image,
+	onClick,
 }) => {
 	return (
 		<Grid align="stretch" gutter="40px">
@@ -28,7 +30,7 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 					<div>
 						<h2 className="text-[40px] mb-[28px]">{title}</h2>
 						<p className="text-[20px]">{description}</p>
-						<Button radius={100} className="mt-[28px]">
+						<Button radius={100} className="mt-[28px]" onClick={onClick}>
 							{buttonText}
 						</Button>
 					</div>
