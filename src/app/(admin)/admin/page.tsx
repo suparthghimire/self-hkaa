@@ -1,7 +1,9 @@
-import React from "react";
+"use client";
+import InstanceSection from "@/components/homepage/InstanceSection";
 
+import React from "react";
 const AdminPage: React.FC = () => {
-	return <>This is a password protected page</>;
+	return <InstanceSection />;
 };
 
 export default AdminPage;

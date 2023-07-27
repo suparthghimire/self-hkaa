@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 body {
-    font-family: 'Roboto Condensed', sans-serif;
+	font-family: "__Roboto_Condensed_0fa0e8", "__Roboto_Condensed_Fallback_0fa0e8",
+		"Roboto Condensed", sans-serif;
 }
