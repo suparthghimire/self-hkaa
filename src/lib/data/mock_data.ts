@@ -1,4 +1,6 @@
-export const USER_INSTANCES = [
+import { T_Instance } from "@app/types";
+
+export const USER_INSTANCES: T_Instance[] = [
 	{
 		id: 1,
 		tabName: "Instance 1",
@@ -9,6 +11,7 @@ export const USER_INSTANCES = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
+		roomId: "instance-1-room-1",
 	},
 	{
 		id: 2,
@@ -20,6 +23,7 @@ export const USER_INSTANCES = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
+		roomId: "instance-2-room-2",
 	},
 	{
 		id: 3,
@@ -31,5 +35,22 @@ export const USER_INSTANCES = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
+		roomId: "instance-3-room-3",
 	},
+];
+
+export const ADMIN_INSTANCES = [
+	{
+		id: 0,
+		tabName: "Main Instance",
+		key: "instance-0",
+		title: "Main Instance",
+		subTitle: "Main Instance",
+		description:
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
+		buttonName: "Enter Instance",
+		date: "19/07/2023",
+		roomId: "instance-master-room-master",
+	},
+	...USER_INSTANCES,
 ];

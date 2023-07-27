@@ -2,9 +2,13 @@
 
 import instanceImg from "@/assets/instance-img.jpeg";
 import InstanceGrid from "@/components/common/InstanceGrid";
-import { USER_INSTANCES } from "@/lib/data/mock_data";
+import { MODES } from "@/lib/data/constants";
+import { ADMIN_INSTANCES, USER_INSTANCES } from "@/lib/data/mock_data";
+import { useExperience } from "@/lib/providers/experience/Experience.provider";
+import { T_Instance, T_UserType } from "@app/types";
 import { Container, MantineTheme, Tabs, TabsProps } from "@mantine/core";
-import React from "react";
+import React, { useCallback, useState } from "react";
+import Experience from "../templates/Experience";
 
 function StyledTabs(props: TabsProps) {
 	return (
@@ -57,18 +61,35 @@ function StyledTabs(props: TabsProps) {
 	);
 }
 
-const InstanceSection: React.FC = () => {
+type T_Props = {
+	userType: T_UserType;
+};
+const InstanceSection: React.FC<T_Props> = (props) => {
+	const {
+		openExperience,
+		info: { setRoomId },
+	} = useExperience();
+	const [instances] = useState(
+		props.userType === "admin" ? ADMIN_INSTANCES : USER_INSTANCES
+	);
+
+	const handleClick = useCallback((instance: T_Instance) => {
+		setRoomId(instance.roomId);
+		openExperience();
+	}, []);
+	console.log(instances, props.userType);
+
 	return (
 		<Container size="xl" px="xs">
-			<StyledTabs defaultValue={USER_INSTANCES[0].key}>
+			<StyledTabs defaultValue={instances[0].key}>
 				<Tabs.List position="center">
-					{USER_INSTANCES.map((instance) => (
+					{instances.map((instance) => (
 						<Tabs.Tab value={instance.key} key={instance.key}>
 							{instance.tabName}
 						</Tabs.Tab>
 					))}
 				</Tabs.List>
-				{USER_INSTANCES.map((instance) => (
+				{instances.map((instance) => (
 					<Tabs.Panel value={instance.key} key={instance.key}>
 						<InstanceGrid
 							instanceType={instance.subTitle}
@@ -77,10 +98,16 @@ const InstanceSection: React.FC = () => {
 							buttonText={instance.buttonName}
 							instanceUpdated={instance.date}
 							image={instanceImg}
+							onClick={() => {
+								handleClick(instance);
+							}}
 						/>
 					</Tabs.Panel>
 				))}
 			</StyledTabs>
+			<Experience
+				mode={props.userType === "admin" ? MODES.CREATOR : MODES.VISITOR}
+			/>
 		</Container>
 	);
 };

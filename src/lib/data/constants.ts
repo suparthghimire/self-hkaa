@@ -5,3 +5,10 @@ export const MAIN_PADDING_X = rem(80);
 export const MAIN_PADDING_Y = rem(20);
 export const FONT_FAMILY =
 	"__Roboto_Condensed_0fa0e8, __Roboto_Condensed_Fallback_0fa0e8, Roboto Condensed, sans-serif";
+
+export const MODES = {
+	VISITOR: 1,
+	CREATOR: 2,
+} as const;
+
+export type T_Modes = (typeof MODES)[keyof typeof MODES];
