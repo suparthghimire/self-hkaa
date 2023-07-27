@@ -1,3 +1,5 @@
+import InstanceSection from "@/components/homepage/InstanceSection";
+
 export default function Home() {
-	return <>Welcome to HKAA</>;
+	return <InstanceSection />;
 }
