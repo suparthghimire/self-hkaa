@@ -36,9 +36,10 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
             <Grid.Col span={6}>
                 <Image
                     src={image}
-                    width='100%'
+                    width={500}
+                    height={500}
                     alt="Instance Image"
-                    className="w-full"
+                    className="w-full h-auto"
                 />
             </Grid.Col>
         </Grid>
