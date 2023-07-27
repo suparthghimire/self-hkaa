@@ -17,9 +17,9 @@ function StyledTabs(props: TabsProps) {
                 },
                 tab: {
                     ...theme.fn.focusStyles(),
-                    backgroundColor: theme.white,
+                    backgroundColor: "#fff",
                     border: "none",
-                    color: theme.dark,
+                    color: "#131313",
                     padding: "12px 24px",
                     cursor: 'pointer',
                     fontSize: "20px",
@@ -39,7 +39,7 @@ function StyledTabs(props: TabsProps) {
                     '&[data-active]': {
                         backgroundColor: theme.colors.blue[7],
                         borderColor: theme.colors.blue[7],
-                        color: theme.white,
+                        color: "#fff",
                     },
                 },
                 tabsList: {

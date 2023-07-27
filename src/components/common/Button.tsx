@@ -8,10 +8,9 @@ const Button: React.FC<ButtonProps> = (props) => {
         padding: "12px 24px",
         fontSize: "20px",
         fontWeight: 500,
-        height: "auto",
-        textTransform: "uppercase",
+        height: "auto"
     };
-    return <MantineButton style={buttonStyle} {...props} />
+    return <MantineButton uppercase style={buttonStyle} {...props} />
 };
 
 export default Button
