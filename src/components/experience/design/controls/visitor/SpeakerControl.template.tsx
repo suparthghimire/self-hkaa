@@ -26,17 +26,25 @@ const Speaker = () => {
 					},
 				}}
 			>
-				<div className="flex items-center justify-start items-center gap-[12px]">
-					<CustomSwitch />
-					<p>Microphone</p>
-				</div>
-				<div className="flex items-center justify-start items-center gap-[12px]">
-					<CustomSwitch />
-					<p>Instance Sounds</p>
-				</div>
-				<div className="flex items-center justify-start items-center gap-[12px]">
-					<CustomSwitch />
-					<p>Voice Chat</p>
+				<div className="w-[190px]">
+					<div className="flex items-center justify-start items-center gap-[12px]">
+						<div className="w-[50px]">
+							<CustomSwitch />
+						</div>
+						<p>Microphone</p>
+					</div>
+					<div className="flex items-center justify-start items-center gap-[12px]">
+						<div className="w-[50px]">
+							<CustomSwitch />
+						</div>
+						<p>Instance Sounds</p>
+					</div>
+					<div className="flex items-center justify-start items-center gap-[12px]">
+						<div className="w-[50px]">
+							<CustomSwitch />
+						</div>
+						<p>Voice Chat</p>
+					</div>
 				</div>
 			</Modal>
 			<ExperienceIconButton onClick={() => setShowSpeakerOptions(true)}>
