@@ -1,4 +1,3 @@
-import { MODES } from "@/lib/data/constants";
 import useExperienceEventListener from "@/lib/hooks/useEventListener";
 import { T_Experience, T_ExperienceInfo } from "@experience/types";
 import {
@@ -10,21 +9,10 @@ import {
 } from "react";
 import reducer from "./Experience.reducer";
 
-const ExperienceContext = createContext<T_Experience>({} as T_Experience);
-
-const initialState: T_Experience = {
-	info: {
-		slug: "",
-		roomId: "",
-		layoutId: "",
-		mode: MODES.VISITOR,
-	},
-	iframeRef: null,
-	hasLoaded: false,
-	loaded: () => {},
-	setRoomInfo: (_: T_ExperienceInfo) => {},
-	setIframeRef: () => {},
-};
+const initialState = {} as T_Experience;
+const ExperienceContext = createContext<T_Experience>(
+	initialState as T_Experience
+);
 
 const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -45,6 +33,14 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 			}),
 		[]
 	);
+	const setLeaveUrl = useCallback(
+		(leaveUrl: string) =>
+			dispatch({
+				type: "SET_LEAVE_URL",
+				payload: leaveUrl,
+			}),
+		[]
+	);
 
 	useExperienceEventListener(dispatch);
 
@@ -57,6 +53,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				},
 				setRoomInfo,
 				setIframeRef,
+				setLeaveUrl,
 			}}
 		>
 			{props.children}

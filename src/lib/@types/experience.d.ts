@@ -6,6 +6,7 @@ declare module "@experience/types" {
 		roomId: string;
 		layoutId: string;
 		mode: T_Modes;
+		leaveUrl: string;
 	};
 	export type T_Experience = {
 		info: T_ExperienceInfo;
@@ -14,6 +15,7 @@ declare module "@experience/types" {
 		setRoomInfo: (info: T_ExperienceInfo) => void;
 		hasLoaded: boolean;
 		loaded: () => void;
+		setLeaveUrl: (url: string) => void;
 	};
 
 	export type T_Actions =
@@ -27,5 +29,9 @@ declare module "@experience/types" {
 		| {
 				type: "SET_IFRAME_REF";
 				payload: React.RefObject<HTMLIFrameElement>;
+		  }
+		| {
+				type: "SET_LEAVE_URL";
+				payload: string;
 		  };
 }

@@ -20,7 +20,7 @@ const RootProvider: React.FC<PropsWithChildren> = (props) => {
 						colors: {
 							blue: [
 								"#93AAFF",
-								"#6A89F8",
+								"#3D51E4",
 								"#6A89F8",
 								"#6A89F8",
 								"#6A89F8",

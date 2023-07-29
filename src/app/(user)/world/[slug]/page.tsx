@@ -11,7 +11,7 @@ type T_Props = {
 const VisitorWorldPage: React.FC<T_Props> = (props) => {
 	return (
 		<Experience
-			mode={MODES.CREATOR}
+			mode={MODES.VISITOR}
 			roomSlug={props.params.slug}
 			leaveUrl="/"
 		/>

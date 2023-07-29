@@ -6,11 +6,10 @@ export default function reducer(
 ): T_Experience {
 	switch (actions.type) {
 		case "SET_ROOM_INFO":
+			console.log("SET_ROOM_INFO", actions.payload);
 			return {
 				...state,
-				info: {
-					...state.info,
-				},
+				info: state.info,
 			};
 
 		case "LOADED": {
@@ -23,6 +22,15 @@ export default function reducer(
 			return {
 				...state,
 				iframeRef: actions.payload,
+			};
+		}
+		case "SET_LEAVE_URL": {
+			return {
+				...state,
+				info: {
+					...state.info,
+					leaveUrl: actions.payload,
+				},
 			};
 		}
 	}

@@ -1,5 +1,5 @@
 import Logo from "@/components/common/Logo.template";
-import AssetLibraryControl from "@/components/experience/design/controls/AssetLibrary/AssetLibrary.template";
+import AssetLibraryControl from "@/components/experience/design/controls/assetLibrary/AssetLibrary.template";
 import {
 	HEADER_HEIGHT,
 	MAIN_PADDING_X,
