@@ -61,3 +61,14 @@ export async function DecodeSlug(slug: string) {
 	);
 	return response.data;
 }
+
+export async function AdminLogin(email: string, password: string) {
+	const response: AxiosResponse<T_LoginSuccess> = await axiosInstance.post(
+		"/v1/auth/signin",
+		{
+			identity: email,
+			password: password,
+		}
+	);
+	return response.data;
+}

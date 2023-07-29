@@ -1,14 +1,34 @@
 import { useExperience } from "@/lib/providers/experience/Experience.provider";
-import { IconLogout2 } from "@tabler/icons-react";
-import React from "react";
+import { Modal, rem } from "@mantine/core";
+import { IconUpload } from "@tabler/icons-react";
+import React, { useState } from "react";
 import ButtonExperience from "../../common/Button";
+import SaveInstancePanel from "../../panels/SaveInstancePanel.template";
 const Save: React.FC = () => {
 	const {
 		info: { leaveUrl },
 	} = useExperience();
+
+	const [showSavePanel, setShowSavePanel] = useState(false);
 	return (
 		<>
-			<ButtonExperience leftIcon={<IconLogout2 />}>Save</ButtonExperience>
+			<Modal
+				onClose={() => setShowSavePanel(false)}
+				size="758px"
+				opened={showSavePanel}
+				padding={rem(40)}
+				withCloseButton={false}
+				centered
+				radius={16}
+			>
+				<SaveInstancePanel />
+			</Modal>
+			<ButtonExperience
+				onClick={() => setShowSavePanel(true)}
+				leftIcon={<IconUpload />}
+			>
+				Save
+			</ButtonExperience>
 		</>
 	);
 };
