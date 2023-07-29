@@ -55,7 +55,7 @@ const Experience: React.FC<T_Props> = (props) => {
 	}, [props.mode]);
 
 	return (
-		<div className="absolute w-screen h-screen top-0 bg-neutral-100 z-[9999999999999999999999]">
+		<div className="absolute w-screen h-screen top-0 bg-neutral-100 z-[100]">
 			{showLoadingScreen && <ExperienceLoading />}
 			{isSuccess && (
 				<>

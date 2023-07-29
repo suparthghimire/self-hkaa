@@ -4,7 +4,7 @@ import CommonUI from "./common/CommonUI";
 import CreatorUI from "./creator/CreatorUI.template";
 import VisitorUI from "./visitor/VisitorUI";
 
-const MARGIN = rem(40);
+export const MARGIN = rem(40);
 
 export const getMarginStyle = (
 	ydir: "top" | "bottom",
