@@ -1,6 +1,7 @@
 import Button from "@/components/common/Button";
 import { Grid } from "@mantine/core";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface IInstanceGrid {
@@ -10,7 +11,7 @@ interface IInstanceGrid {
 	buttonText: string;
 	instanceUpdated: string;
 	image: string | StaticImageData;
-	onClick: () => void;
+	link: string;
 }
 
 const InstanceGrid: React.FC<IInstanceGrid> = ({
@@ -20,7 +21,7 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 	buttonText,
 	instanceUpdated,
 	image,
-	onClick,
+	link,
 }) => {
 	return (
 		<Grid align="stretch" gutter="40px">
@@ -30,9 +31,11 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 					<div>
 						<h2 className="text-[40px] mb-[28px]">{title}</h2>
 						<p className="text-[20px]">{description}</p>
-						<Button radius={100} className="mt-[28px]" onClick={onClick}>
-							{buttonText}
-						</Button>
+						<Link href={link}>
+							<Button radius={100} className="mt-[28px]">
+								{buttonText}
+							</Button>
+						</Link>
 					</div>
 					<p>{instanceUpdated}</p>
 				</div>

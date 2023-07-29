@@ -12,3 +12,4 @@ export const MODES = {
 } as const;
 
 export type T_Modes = (typeof MODES)[keyof typeof MODES];
+export const HKAA_LAYOUT = "AAHK_V02";

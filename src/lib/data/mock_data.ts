@@ -11,7 +11,7 @@ export const USER_INSTANCES: T_Instance[] = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
-		roomId: "instance-1-room-1",
+		slug: "hkaa-instance-1",
 	},
 	{
 		id: 2,
@@ -23,7 +23,7 @@ export const USER_INSTANCES: T_Instance[] = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
-		roomId: "instance-2-room-2",
+		slug: "hkaa-instance-2",
 	},
 	{
 		id: 3,
@@ -35,7 +35,7 @@ export const USER_INSTANCES: T_Instance[] = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
-		roomId: "instance-3-room-3",
+		slug: "hkaa-instance-3",
 	},
 ];
 
@@ -50,7 +50,7 @@ export const ADMIN_INSTANCES = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
-		roomId: "instance-master-room-master",
+		slug: "hkaa-instance-1",
 	},
 	...USER_INSTANCES,
 ];

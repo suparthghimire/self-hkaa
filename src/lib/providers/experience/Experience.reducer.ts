@@ -5,23 +5,25 @@ export default function reducer(
 	actions: T_Actions
 ): T_Experience {
 	switch (actions.type) {
-		case "OPEN_EXPERIENCE":
-			return {
-				...state,
-				isOpen: true,
-			};
-		case "CLOSE_EXPERIENCE":
-			return {
-				...state,
-				isOpen: false,
-			};
 		case "SET_ROOM_INFO":
 			return {
 				...state,
 				info: {
 					...state.info,
-					roomId: actions.payload,
 				},
 			};
+
+		case "LOADED": {
+			return {
+				...state,
+				hasLoaded: true,
+			};
+		}
+		case "SET_IFRAME_REF": {
+			return {
+				...state,
+				iframeRef: actions.payload,
+			};
+		}
 	}
 }
