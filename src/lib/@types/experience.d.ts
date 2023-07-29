@@ -8,6 +8,11 @@ declare module "@experience/types" {
 		mode: T_Modes;
 		leaveUrl: string;
 	};
+	export type T_Chat = {
+		user: string;
+		message: string;
+		time: string;
+	};
 	export type T_Experience = {
 		info: T_ExperienceInfo;
 		iframeRef: React.RefObject<HTMLIFrameElement> | null;
@@ -16,6 +21,8 @@ declare module "@experience/types" {
 		hasLoaded: boolean;
 		loaded: () => void;
 		setLeaveUrl: (url: string) => void;
+		chatMessages: T_Chat[];
+		sendChatMessage: (messages: string) => void;
 	};
 
 	export type T_Actions =
@@ -33,5 +40,13 @@ declare module "@experience/types" {
 		| {
 				type: "SET_LEAVE_URL";
 				payload: string;
+		  }
+		| {
+				type: "SEND_CHAT_MESSAGE";
+				payload: string;
+		  }
+		| {
+				type: "SET_CHAT_MESSAGE";
+				payload: T_Chat;
 		  };
 }

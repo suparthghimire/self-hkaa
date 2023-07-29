@@ -27,6 +27,21 @@ export default function useExperienceEventListener(
 						});
 						break;
 					}
+					case "chat": {
+						const message = value as string;
+						const { user, time } = data as {
+							user: string;
+							time: string;
+						};
+						dispatch({
+							type: "SET_CHAT_MESSAGE",
+							payload: {
+								user,
+								message,
+								time,
+							},
+						});
+					}
 				}
 			} catch (error) {
 				console.log("EVENT NOT FROM IFRAME");

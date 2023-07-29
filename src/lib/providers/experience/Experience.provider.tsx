@@ -1,3 +1,4 @@
+import { MODES } from "@/lib/data/constants";
 import useExperienceEventListener from "@/lib/hooks/useEventListener";
 import { T_Experience, T_ExperienceInfo } from "@experience/types";
 import {
@@ -9,7 +10,23 @@ import {
 } from "react";
 import reducer from "./Experience.reducer";
 
-const initialState = {} as T_Experience;
+const initialState: T_Experience = {
+	chatMessages: [],
+	hasLoaded: false,
+	iframeRef: null,
+	info: {
+		layoutId: "",
+		leaveUrl: "",
+		mode: MODES.VISITOR,
+		roomId: "",
+		slug: "",
+	},
+	loaded: () => {},
+	sendChatMessage: () => {},
+	setIframeRef: () => {},
+	setLeaveUrl: () => {},
+	setRoomInfo: () => {},
+};
 const ExperienceContext = createContext<T_Experience>(
 	initialState as T_Experience
 );
@@ -42,6 +59,15 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		[]
 	);
 
+	const sendChatMessage = useCallback(
+		(chat: string) =>
+			dispatch({
+				type: "SEND_CHAT_MESSAGE",
+				payload: chat,
+			}),
+		[]
+	);
+
 	useExperienceEventListener(dispatch);
 
 	return (
@@ -54,6 +80,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				setRoomInfo,
 				setIframeRef,
 				setLeaveUrl,
+				sendChatMessage,
 			}}
 		>
 			{props.children}

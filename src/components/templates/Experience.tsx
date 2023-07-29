@@ -46,8 +46,10 @@ const Experience: React.FC<T_Props> = (props) => {
 	}, [isError, isSuccess, showLoadingScreen]);
 
 	useEffect(() => {
-		if (!iframeRef.current) return;
-		setIframeRef(iframeRef);
+		if (iframeRef.current) {
+			console.log("SETTING IFRAME REF", iframeRef.current);
+			setIframeRef(iframeRef);
+		}
 	}, [iframeRef]);
 
 	useEffect(() => {
@@ -60,6 +62,7 @@ const Experience: React.FC<T_Props> = (props) => {
 			{isSuccess && (
 				<>
 					<iframe
+						ref={iframeRef}
 						className="absolute top-0 left-0 w-full h-full"
 						src={JoinParams(
 							IFRAME_ENDPOINT,
