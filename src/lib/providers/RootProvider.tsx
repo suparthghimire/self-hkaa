@@ -1,11 +1,12 @@
 "use client";
+
 import { MantineProvider } from "@mantine/core";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import React, { PropsWithChildren } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FONT_FAMILY } from "../data/constants";
 import ExperienceProvider from "./experience/Experience.provider";
-
 const queryClient = new QueryClient();
 
 const RootProvider: React.FC<PropsWithChildren> = (props) => {
@@ -19,7 +20,7 @@ const RootProvider: React.FC<PropsWithChildren> = (props) => {
 						colors: {
 							blue: [
 								"#93AAFF",
-								"#6A89F8",
+								"#3D51E4",
 								"#6A89F8",
 								"#6A89F8",
 								"#6A89F8",
@@ -35,6 +36,12 @@ const RootProvider: React.FC<PropsWithChildren> = (props) => {
 					}}
 				>
 					{props.children}
+					<ProgressBar
+						height="4px"
+						color="#6A89F8"
+						options={{ showSpinner: true }}
+						shallowRouting
+					/>
 				</MantineProvider>
 			</ExperienceProvider>
 		</QueryClientProvider>

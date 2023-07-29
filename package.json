@@ -28,10 +28,12 @@
 		"@types/react-dom": "18.2.7",
 		"autoprefixer": "10.4.14",
 		"axios": "^1.4.0",
+		"date-fns": "^2.30.0",
 		"eslint": "8.45.0",
 		"eslint-config-next": "13.4.12",
 		"husky": "^8.0.3",
 		"next": "13.4.12",
+		"next-nprogress-bar": "^2.0.3",
 		"postcss": "8.4.27",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
@@ -42,6 +44,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "^17.6.7",
 		"@commitlint/config-conventional": "^17.6.7",
+		"@types/date-fns": "^2.6.0",
 		"@typescript-eslint/eslint-plugin": "^6.2.0",
 		"prettier": "^3.0.0"
 	}

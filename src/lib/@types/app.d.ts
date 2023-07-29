@@ -9,6 +9,6 @@ declare module "@app/types" {
 		description: string;
 		buttonName: string;
 		date: string;
-		roomId: string;
+		slug: string;
 	};
 }

@@ -2,13 +2,10 @@
 
 import instanceImg from "@/assets/instance-img.jpeg";
 import InstanceGrid from "@/components/common/InstanceGrid";
-import { MODES } from "@/lib/data/constants";
 import { ADMIN_INSTANCES, USER_INSTANCES } from "@/lib/data/mock_data";
-import { useExperience } from "@/lib/providers/experience/Experience.provider";
-import { T_Instance, T_UserType } from "@app/types";
+import { T_UserType } from "@app/types";
 import { Container, MantineTheme, Tabs, TabsProps } from "@mantine/core";
-import React, { useCallback, useState } from "react";
-import Experience from "../templates/Experience";
+import React, { useState } from "react";
 
 function StyledTabs(props: TabsProps) {
 	return (
@@ -65,20 +62,10 @@ type T_Props = {
 	userType: T_UserType;
 };
 const InstanceSection: React.FC<T_Props> = (props) => {
-	const {
-		openExperience,
-		info: { setRoomId },
-	} = useExperience();
 	const [instances] = useState(
 		props.userType === "admin" ? ADMIN_INSTANCES : USER_INSTANCES
 	);
-
-	const handleClick = useCallback((instance: T_Instance) => {
-		setRoomId(instance.roomId);
-		openExperience();
-	}, []);
-	console.log(instances, props.userType);
-
+	2;
 	return (
 		<Container size="xl" px="xs">
 			<StyledTabs defaultValue={instances[0].key}>
@@ -98,16 +85,15 @@ const InstanceSection: React.FC<T_Props> = (props) => {
 							buttonText={instance.buttonName}
 							instanceUpdated={instance.date}
 							image={instanceImg}
-							onClick={() => {
-								handleClick(instance);
-							}}
+							link={
+								props.userType === "admin"
+									? `/admin/world/${instance.slug}`
+									: `/world/${instance.slug}`
+							}
 						/>
 					</Tabs.Panel>
 				))}
 			</StyledTabs>
-			<Experience
-				mode={props.userType === "admin" ? MODES.CREATOR : MODES.VISITOR}
-			/>
 		</Container>
 	);
 };
