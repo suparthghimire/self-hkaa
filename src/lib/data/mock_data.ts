@@ -1,4 +1,5 @@
 import { T_Instance } from "@app/types";
+import { USE_TEST_ROOM } from "../config";
 
 export const USER_INSTANCES: T_Instance[] = [
 	{
@@ -11,7 +12,7 @@ export const USER_INSTANCES: T_Instance[] = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
-		slug: "hkaa-instance-1",
+		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-1",
 	},
 	{
 		id: 2,
@@ -23,7 +24,7 @@ export const USER_INSTANCES: T_Instance[] = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
-		slug: "hkaa-instance-2",
+		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-2",
 	},
 	{
 		id: 3,
@@ -35,7 +36,7 @@ export const USER_INSTANCES: T_Instance[] = [
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
-		slug: "hkaa-instance-3",
+		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-3",
 	},
 ];
 

@@ -6,14 +6,18 @@ import ButtonExperience from "../../common/Button";
 import SaveInstancePanel from "../../panels/SaveInstancePanel.template";
 const Save: React.FC = () => {
 	const {
-		info: { leaveUrl },
+		roomInfo: { leaveUrl },
+		setSaveStatus,
 	} = useExperience();
 
 	const [showSavePanel, setShowSavePanel] = useState(false);
 	return (
 		<>
 			<Modal
-				onClose={() => setShowSavePanel(false)}
+				onClose={() => {
+					setShowSavePanel(false);
+					setSaveStatus("idle");
+				}}
 				size="758px"
 				opened={showSavePanel}
 				padding={rem(40)}
@@ -21,7 +25,12 @@ const Save: React.FC = () => {
 				centered
 				radius={16}
 			>
-				<SaveInstancePanel />
+				<SaveInstancePanel
+					closeSavePanel={() => {
+						setShowSavePanel(false);
+						setSaveStatus("idle");
+					}}
+				/>
 			</Modal>
 			<ButtonExperience
 				onClick={() => setShowSavePanel(true)}

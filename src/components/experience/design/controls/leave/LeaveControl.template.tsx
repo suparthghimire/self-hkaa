@@ -5,7 +5,7 @@ import React from "react";
 import ButtonExperience from "../../common/Button";
 const Save: React.FC = () => {
 	const {
-		info: { leaveUrl },
+		roomInfo: { leaveUrl },
 	} = useExperience();
 	return (
 		<>

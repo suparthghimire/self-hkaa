@@ -1,6 +1,7 @@
 "use client";
 
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import React, { PropsWithChildren } from "react";
 
@@ -35,6 +36,7 @@ const RootProvider: React.FC<PropsWithChildren> = (props) => {
 						fontFamily: FONT_FAMILY,
 					}}
 				>
+					<Notifications />
 					{props.children}
 					<ProgressBar
 						height="4px"
