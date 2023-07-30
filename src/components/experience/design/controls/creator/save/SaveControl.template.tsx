@@ -2,8 +2,8 @@ import { useExperience } from "@/lib/providers/experience/Experience.provider";
 import { Modal, rem } from "@mantine/core";
 import { IconUpload } from "@tabler/icons-react";
 import React, { useState } from "react";
-import ButtonExperience from "../../common/Button";
-import SaveInstancePanel from "../../panels/SaveInstancePanel.template";
+import ButtonExperience from "../../../common/Button";
+import SaveInstancePanel from "../../../panels/SaveInstancePanel.template";
 const Save: React.FC = () => {
 	const {
 		roomInfo: { leaveUrl },
