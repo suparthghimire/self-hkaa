@@ -13,3 +13,10 @@ export const MODES = {
 
 export type T_Modes = (typeof MODES)[keyof typeof MODES];
 export const HKAA_LAYOUT = "AAHK_V02";
+export const VALID_MEDIA_UPLOAD_MIMES = [
+	"image/jpeg",
+	"image/png",
+	"image/webp",
+	"video/mp4",
+	"video/webm",
+];

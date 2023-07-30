@@ -7,6 +7,7 @@ declare module "@experience/types" {
 		layoutId: string;
 		mode: T_Modes;
 		leaveUrl: string;
+		accessToken: string;
 	};
 	export type T_Chat = {
 		user: string;
@@ -14,16 +15,29 @@ declare module "@experience/types" {
 		time: string;
 	};
 	export type T_Experience = {
-		info: T_ExperienceInfo;
+		roomInfo: T_ExperienceInfo;
+		worldInfo: T_WorldInfo;
 		iframeRef: React.RefObject<HTMLIFrameElement> | null;
 		setIframeRef: (ref: React.RefObject<HTMLIFrameElement>) => void;
 		setRoomInfo: (info: T_ExperienceInfo) => void;
 		hasLoaded: boolean;
 		loaded: () => void;
-		setLeaveUrl: (url: string) => void;
 		chatMessages: T_Chat[];
 		sendChatMessage: (messages: string) => void;
+		setWorldInfo: (info: T_WorldInfo) => void;
+		saveStatus: T_SaveStatus;
+		saveRoom: (info: T_WorldInfo) => void;
+		setSaveStatus: (status: T_SaveStatus) => void;
+		captureImage: () => void;
 	};
+	export type T_WorldInfo = {
+		name: string;
+		description: string;
+		urlshortcode: string;
+		image: File | string;
+		isPublic: boolean;
+	};
+	export type T_SaveStatus = "idle" | "success" | "error" | "loading";
 
 	export type T_Actions =
 		| {
@@ -38,15 +52,30 @@ declare module "@experience/types" {
 				payload: React.RefObject<HTMLIFrameElement>;
 		  }
 		| {
-				type: "SET_LEAVE_URL";
-				payload: string;
-		  }
-		| {
 				type: "SEND_CHAT_MESSAGE";
 				payload: string;
 		  }
 		| {
 				type: "SET_CHAT_MESSAGE";
 				payload: T_Chat;
+		  }
+		| {
+				type: "SET_WORLD_INFO";
+				payload: T_WorldInfo;
+		  }
+		| {
+				type: "SET_SAVE_STATUS";
+				payload: T_SaveStatus;
+		  }
+		| {
+				type: "SAVE_ROOM";
+				payload: T_WorldInfo;
+		  }
+		| {
+				type: "CAPTURE_IMAGE";
+		  }
+		| {
+				type: "SET_CAPTURED_IMAGE";
+				payload: string;
 		  };
 }

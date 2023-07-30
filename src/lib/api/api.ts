@@ -1,4 +1,5 @@
 import {
+	T_CloudUpload,
 	T_DecodeSlugSuccess,
 	T_Demo,
 	T_LoginSuccess,
@@ -58,6 +59,44 @@ export async function DecodeSlug(slug: string) {
 			hashid: slug,
 		},
 		{}
+	);
+	return response.data;
+}
+
+export async function AdminLogin(email: string, password: string) {
+	const response: AxiosResponse<T_LoginSuccess> = await axiosInstance.post(
+		"/v1/auth/signin",
+		{
+			identity: email,
+			password: password,
+		}
+	);
+	return response.data;
+}
+
+export async function CloudUpload(file: File) {
+	const folderName = "roomassets";
+	const ext = file.name.split(".").pop();
+	const fileNameWithoutExt = file.name.split(".").slice(0, -1).join(".");
+	const filename = fileNameWithoutExt + "_" + file.size + "." + ext;
+
+	// replace space with underscore
+	const filenameWithUnderscore = filename.replace(/ /g, "_");
+
+	// create form data
+	const formData = new FormData();
+	formData.append("folder", folderName);
+	formData.append("uploadfiles", file);
+	formData.append("filename", filenameWithUnderscore);
+
+	const response: AxiosResponse<T_CloudUpload> = await axiosInstance.post(
+		"/cloudupload",
+		formData,
+		{
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		}
 	);
 	return response.data;
 }

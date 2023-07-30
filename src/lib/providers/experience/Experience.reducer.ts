@@ -23,7 +23,7 @@ export default function reducer(
 			console.log("SET_ROOM_INFO", actions.payload);
 			return {
 				...state,
-				info: state.info,
+				roomInfo: actions.payload,
 			};
 
 		case "LOADED": {
@@ -38,21 +38,11 @@ export default function reducer(
 				iframeRef: actions.payload,
 			};
 		}
-		case "SET_LEAVE_URL": {
-			return {
-				...state,
-				info: {
-					...state.info,
-					leaveUrl: actions.payload,
-				},
-			};
-		}
 		case "SEND_CHAT_MESSAGE": {
 			const message = {
 				key: "chat",
 				value: actions.payload,
 			};
-			console.log("[WEB UI] SENDING", message);
 			iframePostMessage(message);
 			return state;
 		}
@@ -63,6 +53,52 @@ export default function reducer(
 			return {
 				...state,
 				chatMessages: currentChat,
+			};
+		}
+		case "SET_WORLD_INFO": {
+			return {
+				...state,
+				worldInfo: actions.payload,
+			};
+		}
+		case "SAVE_ROOM": {
+			const message = {
+				key: "saveroom",
+				value: {
+					...actions.payload,
+					public: actions.payload.isPublic,
+				},
+			};
+
+			iframePostMessage(message);
+			return {
+				...state,
+				worldInfo: actions.payload,
+				saveStatus: "loading",
+			};
+		}
+		case "SET_SAVE_STATUS": {
+			return {
+				...state,
+				saveStatus: actions.payload,
+			};
+		}
+		case "CAPTURE_IMAGE": {
+			const message = {
+				key: "captureimage",
+				value: "",
+			};
+
+			iframePostMessage(message);
+			return state;
+		}
+		case "SET_CAPTURED_IMAGE": {
+			return {
+				...state,
+				worldInfo: {
+					...state.worldInfo,
+					image: actions.payload,
+				},
 			};
 		}
 	}

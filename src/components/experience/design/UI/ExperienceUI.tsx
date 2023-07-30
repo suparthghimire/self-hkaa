@@ -17,7 +17,6 @@ type T_Props = {
 	mode: T_Modes;
 };
 const ExperienceUI: React.FC<T_Props> = (props) => {
-	console.log("UI PROPOS MODE", props.mode);
 	return (
 		<>
 			<CommonUI />

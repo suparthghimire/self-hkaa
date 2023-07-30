@@ -1,6 +1,6 @@
 import { Button, ButtonProps, rem } from "@mantine/core";
 
-type T_Props = ButtonProps;
+type T_Props = ButtonProps & React.DOMAttributes<HTMLButtonElement>;
 
 const ButtonExperience: React.FC<T_Props> = (props) => {
 	return (

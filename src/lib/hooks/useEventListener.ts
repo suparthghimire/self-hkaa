@@ -1,4 +1,4 @@
-import { T_Actions } from "@experience/types";
+import { T_Actions, T_WorldInfo } from "@experience/types";
 import { useEffect } from "react";
 
 type T_Event = {
@@ -18,9 +18,6 @@ export default function useExperienceEventListener(
 				const { key, value } = data as T_Event;
 				console.log("[Web UI] After Parsing Message", data);
 				switch (key) {
-					case "worldinfo": {
-						break;
-					}
 					case "sceneloaded": {
 						dispatch({
 							type: "LOADED",
@@ -41,6 +38,43 @@ export default function useExperienceEventListener(
 								time,
 							},
 						});
+						break;
+					}
+					case "worldinfo": {
+						const { description, image, name, urlshortcode, isPublic } =
+							value as T_WorldInfo;
+						dispatch({
+							type: "SET_WORLD_INFO",
+							payload: {
+								name,
+								description,
+								image,
+								urlshortcode: urlshortcode ?? "",
+								isPublic: isPublic ?? false,
+							},
+						});
+						break;
+					}
+					case "savedroom": {
+						dispatch({
+							type: "SET_SAVE_STATUS",
+							payload: "success",
+						});
+						break;
+					}
+					case "saveroomfail": {
+						dispatch({
+							type: "SET_SAVE_STATUS",
+							payload: "error",
+						});
+						break;
+					}
+					case "captureimage": {
+						dispatch({
+							type: "SET_CAPTURED_IMAGE",
+							payload: value,
+						});
+						break;
 					}
 				}
 			} catch (error) {

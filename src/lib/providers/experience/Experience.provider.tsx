@@ -1,6 +1,6 @@
 import { MODES } from "@/lib/data/constants";
 import useExperienceEventListener from "@/lib/hooks/useEventListener";
-import { T_Experience, T_ExperienceInfo } from "@experience/types";
+import { T_Experience, T_ExperienceInfo, T_WorldInfo } from "@experience/types";
 import {
 	PropsWithChildren,
 	createContext,
@@ -14,17 +14,29 @@ const initialState: T_Experience = {
 	chatMessages: [],
 	hasLoaded: false,
 	iframeRef: null,
-	info: {
+	roomInfo: {
 		layoutId: "",
 		leaveUrl: "",
 		mode: MODES.VISITOR,
 		roomId: "",
 		slug: "",
+		accessToken: "",
 	},
+	worldInfo: {
+		description: "",
+		image: "",
+		isPublic: false,
+		name: "",
+		urlshortcode: "",
+	},
+	captureImage: () => {},
+	saveStatus: "idle",
+	setSaveStatus: () => {},
+	saveRoom: () => {},
+	setWorldInfo: () => {},
 	loaded: () => {},
 	sendChatMessage: () => {},
 	setIframeRef: () => {},
-	setLeaveUrl: () => {},
 	setRoomInfo: () => {},
 };
 const ExperienceContext = createContext<T_Experience>(
@@ -50,14 +62,6 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 			}),
 		[]
 	);
-	const setLeaveUrl = useCallback(
-		(leaveUrl: string) =>
-			dispatch({
-				type: "SET_LEAVE_URL",
-				payload: leaveUrl,
-			}),
-		[]
-	);
 
 	const sendChatMessage = useCallback(
 		(chat: string) =>
@@ -68,19 +72,51 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		[]
 	);
 
+	const setWorldInfo = useCallback(
+		(info: T_WorldInfo) =>
+			dispatch({
+				type: "SET_WORLD_INFO",
+				payload: info,
+			}),
+		[]
+	);
+	const saveRoom = useCallback(
+		(info: T_WorldInfo) =>
+			dispatch({
+				type: "SAVE_ROOM",
+				payload: info,
+			}),
+		[]
+	);
+	const setSaveStatus = useCallback(
+		(status: "idle" | "loading" | "success" | "error") =>
+			dispatch({
+				type: "SET_SAVE_STATUS",
+				payload: status,
+			}),
+		[]
+	);
+	const captureImage = useCallback(
+		() =>
+			dispatch({
+				type: "CAPTURE_IMAGE",
+			}),
+		[]
+	);
+
 	useExperienceEventListener(dispatch);
 
 	return (
 		<ExperienceContext.Provider
 			value={{
 				...state,
-				info: {
-					...state.info,
-				},
 				setRoomInfo,
 				setIframeRef,
-				setLeaveUrl,
 				sendChatMessage,
+				setWorldInfo,
+				saveRoom,
+				setSaveStatus,
+				captureImage,
 			}}
 		>
 			{props.children}

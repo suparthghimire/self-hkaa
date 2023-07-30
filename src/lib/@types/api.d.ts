@@ -33,4 +33,12 @@ declare module "@api/types" {
 		longurl: string;
 		shortHash: string;
 	}>;
+	export type T_CloudUpload = {
+		names: string[];
+		urls: {
+			[key: string]: string;
+		};
+		errfiles: [];
+		errors: boolean;
+	};
 }

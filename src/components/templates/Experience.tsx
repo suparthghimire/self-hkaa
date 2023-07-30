@@ -1,5 +1,5 @@
 import { IFRAME_ENDPOINT } from "@/lib/config";
-import { HKAA_LAYOUT, MODES, T_Modes } from "@/lib/data/constants";
+import { HKAA_LAYOUT, T_Modes } from "@/lib/data/constants";
 import { JoinParams } from "@/lib/helpers";
 import useSessionToken from "@/lib/hooks/useSessionToken";
 import { useExperience } from "@/lib/providers/experience/Experience.provider";
@@ -13,7 +13,7 @@ type T_Props = {
 	leaveUrl: string;
 };
 const Experience: React.FC<T_Props> = (props) => {
-	const { hasLoaded, setIframeRef, setLeaveUrl, setRoomInfo } = useExperience();
+	const { hasLoaded, setIframeRef, setRoomInfo } = useExperience();
 	const iframeRef = React.useRef<HTMLIFrameElement>(null);
 
 	const {
@@ -35,13 +35,13 @@ const Experience: React.FC<T_Props> = (props) => {
 
 	useEffect(() => {
 		if (isError || !isSuccess || showLoadingScreen) return;
-		console.log("PROPS MODE", props.mode);
 		setRoomInfo({
 			layoutId: HKAA_LAYOUT,
 			leaveUrl: props.leaveUrl,
 			roomId: roomId,
 			mode: props.mode,
 			slug: props.roomSlug,
+			accessToken: accessToken,
 		});
 	}, [isError, isSuccess, showLoadingScreen]);
 
@@ -52,32 +52,30 @@ const Experience: React.FC<T_Props> = (props) => {
 		}
 	}, [iframeRef]);
 
-	useEffect(() => {
-		setLeaveUrl(props.mode === MODES.CREATOR ? "/admin" : "/");
-	}, [props.mode]);
-
 	return (
 		<div className="absolute w-screen h-screen top-0 bg-neutral-100 z-[100]">
 			{showLoadingScreen && <ExperienceLoading />}
-			{isSuccess && (
-				<>
-					<iframe
-						ref={iframeRef}
-						className="absolute top-0 left-0 w-full h-full"
-						src={JoinParams(
-							IFRAME_ENDPOINT,
-							{
-								code: sessionToken,
-							},
-							["noui"]
-						)}
-						style={{
-							transform: showLoadingScreen ? "scale(0)" : "scale(1)",
-						}}
-					/>
-					{!showLoadingScreen && <ExperienceUI mode={props.mode} />}
-				</>
-			)}
+			<>
+				<iframe
+					ref={iframeRef}
+					className="absolute top-0 left-0 w-full h-full"
+					src={
+						isSuccess
+							? JoinParams(
+									IFRAME_ENDPOINT,
+									{
+										code: sessionToken,
+									},
+									["noui"]
+							  )
+							: "#"
+					}
+					style={{
+						transform: showLoadingScreen ? "scale(0)" : "scale(1)",
+					}}
+				/>
+				{!showLoadingScreen && <ExperienceUI mode={props.mode} />}
+			</>
 		</div>
 	);
 };

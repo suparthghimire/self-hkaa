@@ -29,7 +29,7 @@ const AdminPageLayout: React.FC<PropsWithChildren> = (props) => {
 				centered
 				opened={passwordModalOpen}
 				onClose={() => {
-					setPasswordModalOpen(false);
+					// setPasswordModalOpen(false);
 				}}
 				title="Admin Password"
 			>
