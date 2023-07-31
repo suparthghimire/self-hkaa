@@ -21,16 +21,19 @@
 		"@mantine/modals": "^6.0.17",
 		"@mantine/next": "^6.0.17",
 		"@mantine/notifications": "^6.0.17",
+		"@tabler/icons-react": "^2.29.0",
 		"@tanstack/react-query": "^4.32.0",
 		"@types/node": "20.4.4",
 		"@types/react": "18.2.16",
 		"@types/react-dom": "18.2.7",
 		"autoprefixer": "10.4.14",
 		"axios": "^1.4.0",
+		"date-fns": "^2.30.0",
 		"eslint": "8.45.0",
 		"eslint-config-next": "13.4.12",
 		"husky": "^8.0.3",
 		"next": "13.4.12",
+		"next-nprogress-bar": "^2.0.3",
 		"postcss": "8.4.27",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
@@ -41,6 +44,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "^17.6.7",
 		"@commitlint/config-conventional": "^17.6.7",
+		"@types/date-fns": "^2.6.0",
 		"@typescript-eslint/eslint-plugin": "^6.2.0",
 		"prettier": "^3.0.0"
 	}
