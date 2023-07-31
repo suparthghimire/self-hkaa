@@ -19,6 +19,11 @@ declare module "@experience/types" {
 		worldInfo: T_WorldInfo;
 		userInfo: T_UserInfo;
 
+		audio: T_AudioOptions;
+
+		toggleMic: () => void;
+		toggleVoice: () => void;
+
 		changeUserName: (name: string) => void;
 		iframeRef: React.RefObject<HTMLIFrameElement> | null;
 		setIframeRef: (ref: React.RefObject<HTMLIFrameElement>) => void;
@@ -33,6 +38,11 @@ declare module "@experience/types" {
 		setSaveStatus: (status: T_SaveStatus) => void;
 		captureImage: () => void;
 	};
+	export type T_AudioOptions = {
+		micEnabled: boolean;
+		voiceEnabled: boolean;
+	};
+
 	export type T_UserInfo = {
 		name: string;
 	};
@@ -87,5 +97,11 @@ declare module "@experience/types" {
 		| {
 				type: "CHANGE_USER_NAME";
 				payload: string;
+		  }
+		| {
+				type: "TOGGLE_MIC";
+		  }
+		| {
+				type: "TOGGLE_VOICE";
 		  };
 }

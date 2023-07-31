@@ -118,5 +118,37 @@ export default function reducer(
 				},
 			};
 		}
+		case "TOGGLE_MIC": {
+			const currMicVal = state.audio.micEnabled;
+			const newMicVal = !currMicVal;
+			const message = {
+				key: "voicetoggle",
+				value: newMicVal,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				audio: {
+					...state.audio,
+					micEnabled: newMicVal,
+				},
+			};
+		}
+		case "TOGGLE_VOICE": {
+			const currVoiceVal = state.audio.voiceEnabled;
+			const newVoiceVal = !currVoiceVal;
+			const message = {
+				key: "audio",
+				value: newVoiceVal,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				audio: {
+					...state.audio,
+					voiceEnabled: newVoiceVal,
+				},
+			};
+		}
 	}
 }
