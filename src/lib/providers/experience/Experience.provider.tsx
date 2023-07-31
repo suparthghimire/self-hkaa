@@ -1,6 +1,12 @@
 import { MODES } from "@/lib/data/constants";
 import useExperienceEventListener from "@/lib/hooks/useEventListener";
-import { T_Experience, T_ExperienceInfo, T_WorldInfo } from "@experience/types";
+import {
+	T_Experience,
+	T_ExperienceInfo,
+	T_HotspotAssetSend,
+	T_HotspotSelect,
+	T_WorldInfo,
+} from "@experience/types";
 import {
 	PropsWithChildren,
 	createContext,
@@ -14,6 +20,9 @@ const initialState: T_Experience = {
 	chatMessages: [],
 	hasLoaded: false,
 	iframeRef: null,
+	hotspotInfo: {
+		selectedAsset: null,
+	},
 	roomInfo: {
 		layoutId: "",
 		leaveUrl: "",
@@ -36,6 +45,14 @@ const initialState: T_Experience = {
 		name: "",
 		urlshortcode: "",
 	},
+	status: {
+		loadingText: null,
+		errorText: null,
+	},
+	setErrorText: () => {},
+	setLoadingText: () => {},
+	sendHotspotAssetSelected: () => {},
+	setSelectedHotspot: () => {},
 	toggleMic: () => {},
 	toggleVoice: () => {},
 	changeUserName: () => {},
@@ -137,6 +154,39 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 			}),
 		[]
 	);
+	const sendHotspotAssetSelected = useCallback(
+		(asset: T_HotspotAssetSend) =>
+			dispatch({
+				type: "SEND_HOTSPOT_ASSET",
+				payload: asset,
+			}),
+		[]
+	);
+	const setSelectedHotspot = useCallback(
+		(hotspot: T_HotspotSelect | null) =>
+			dispatch({
+				type: "SET_HOTSPOT_ASSET",
+				payload: hotspot,
+			}),
+		[]
+	);
+
+	const setErrorText = useCallback(
+		(text: string | null) =>
+			dispatch({
+				type: "SET_ERROR_TEXT",
+				payload: text,
+			}),
+		[]
+	);
+	const setLoadingText = useCallback(
+		(text: string | null) =>
+			dispatch({
+				type: "SET_LOADING_TEXT",
+				payload: text,
+			}),
+		[]
+	);
 
 	useExperienceEventListener(dispatch);
 
@@ -154,6 +204,10 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				changeUserName,
 				toggleMic,
 				toggleVoice,
+				sendHotspotAssetSelected,
+				setSelectedHotspot,
+				setErrorText,
+				setLoadingText,
 			}}
 		>
 			{props.children}

@@ -1,4 +1,4 @@
-import { T_Actions, T_WorldInfo } from "@experience/types";
+import { T_Actions, T_HotspotSelect, T_WorldInfo } from "@experience/types";
 import { useEffect } from "react";
 
 type T_Event = {
@@ -72,6 +72,28 @@ export default function useExperienceEventListener(
 					case "captureimage": {
 						dispatch({
 							type: "SET_CAPTURED_IMAGE",
+							payload: value,
+						});
+						break;
+					}
+					case "hotspotselect": {
+						const hotspot = value as T_HotspotSelect;
+						dispatch({
+							type: "SET_HOTSPOT_ASSET",
+							payload: hotspot,
+						});
+						break;
+					}
+					case "loadingtext": {
+						dispatch({
+							type: "SET_LOADING_TEXT",
+							payload: value,
+						});
+						break;
+					}
+					case "error": {
+						dispatch({
+							type: "SET_ERROR_TEXT",
 							payload: value,
 						});
 						break;
