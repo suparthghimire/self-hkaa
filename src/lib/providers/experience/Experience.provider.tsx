@@ -22,6 +22,9 @@ const initialState: T_Experience = {
 		slug: "",
 		accessToken: "",
 	},
+	userInfo: {
+		name: "",
+	},
 	worldInfo: {
 		description: "",
 		image: "",
@@ -29,6 +32,7 @@ const initialState: T_Experience = {
 		name: "",
 		urlshortcode: "",
 	},
+	changeUserName: () => {},
 	captureImage: () => {},
 	saveStatus: "idle",
 	setSaveStatus: () => {},
@@ -104,6 +108,15 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		[]
 	);
 
+	const changeUserName = useCallback(
+		(name: string) =>
+			dispatch({
+				type: "CHANGE_USER_NAME",
+				payload: name,
+			}),
+		[]
+	);
+
 	useExperienceEventListener(dispatch);
 
 	return (
@@ -117,6 +130,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				saveRoom,
 				setSaveStatus,
 				captureImage,
+				changeUserName,
 			}}
 		>
 			{props.children}

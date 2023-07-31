@@ -89,7 +89,14 @@ const MyChatMessage: React.FC<T_MyChatMessage> = (props) => {
 	return (
 		<li className="w-full flex justify-end align-items-end">
 			<Box className="p-[10px] rounded-[16px_16px_0px_16px]" bg="blue.1">
-				<Text className="text-white">{props.message}</Text>
+				<Text
+					className="text-white"
+					style={{
+						color: "white",
+					}}
+				>
+					{props.message}
+				</Text>
 			</Box>
 		</li>
 	);

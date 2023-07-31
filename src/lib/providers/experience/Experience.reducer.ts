@@ -101,5 +101,22 @@ export default function reducer(
 				},
 			};
 		}
+		case "CHANGE_USER_NAME": {
+			const message = {
+				key: "alias",
+				value: actions.payload,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				worldInfo: {
+					...state.worldInfo,
+				},
+				userInfo: {
+					...state.userInfo,
+					name: actions.payload,
+				},
+			};
+		}
 	}
 }

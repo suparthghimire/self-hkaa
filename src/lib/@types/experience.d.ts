@@ -17,6 +17,9 @@ declare module "@experience/types" {
 	export type T_Experience = {
 		roomInfo: T_ExperienceInfo;
 		worldInfo: T_WorldInfo;
+		userInfo: T_UserInfo;
+
+		changeUserName: (name: string) => void;
 		iframeRef: React.RefObject<HTMLIFrameElement> | null;
 		setIframeRef: (ref: React.RefObject<HTMLIFrameElement>) => void;
 		setRoomInfo: (info: T_ExperienceInfo) => void;
@@ -29,6 +32,9 @@ declare module "@experience/types" {
 		saveRoom: (info: T_WorldInfo) => void;
 		setSaveStatus: (status: T_SaveStatus) => void;
 		captureImage: () => void;
+	};
+	export type T_UserInfo = {
+		name: string;
 	};
 	export type T_WorldInfo = {
 		name: string;
@@ -76,6 +82,10 @@ declare module "@experience/types" {
 		  }
 		| {
 				type: "SET_CAPTURED_IMAGE";
+				payload: string;
+		  }
+		| {
+				type: "CHANGE_USER_NAME";
 				payload: string;
 		  };
 }
