@@ -41,7 +41,7 @@ export default function useExperienceEventListener(
 						break;
 					}
 					case "worldinfo": {
-						const { description, image, name, urlshortcode, isPublic } =
+						const { description, image, name, urlshortcode, published } =
 							value as T_WorldInfo;
 						dispatch({
 							type: "SET_WORLD_INFO",
@@ -50,7 +50,7 @@ export default function useExperienceEventListener(
 								description,
 								image,
 								urlshortcode: urlshortcode ?? "",
-								isPublic: isPublic ?? false,
+								published: published ?? false,
 							},
 						});
 						break;

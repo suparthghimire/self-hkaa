@@ -51,7 +51,7 @@ declare module "@experience/types" {
 		description: string;
 		urlshortcode: string;
 		image: File | string;
-		isPublic: boolean;
+		published: boolean;
 	};
 	export type T_SaveStatus = "idle" | "success" | "error" | "loading";
 

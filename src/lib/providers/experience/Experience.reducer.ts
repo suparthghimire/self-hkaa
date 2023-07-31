@@ -64,10 +64,7 @@ export default function reducer(
 		case "SAVE_ROOM": {
 			const message = {
 				key: "saveroom",
-				value: {
-					...actions.payload,
-					public: actions.payload.isPublic,
-				},
+				value: actions.payload,
 			};
 
 			iframePostMessage(message);

@@ -3,6 +3,7 @@ import { T_Chat } from "@experience/types";
 import { ActionIcon, Box, ScrollArea, Text, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { IconSend } from "@tabler/icons-react";
+import { format } from "date-fns";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 
@@ -109,7 +110,7 @@ const OtherChatMessage: React.FC<T_OtherChatMessage> = (props) => {
 			<div className="w-full">
 				<div className="flex gap-2">
 					<Text weight={600}>{props.user}</Text>
-					<Text color="gray.5">{props.time}</Text>
+					<Text color="gray.5">{format(new Date(props.time), "hh:mm")}</Text>
 				</div>
 				<Text>{props.message}</Text>
 			</div>
