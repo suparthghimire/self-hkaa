@@ -47,7 +47,7 @@ const ChangeNameModal: React.FC<T_Props> = (props) => {
 						{...nameForm.getInputProps("name")}
 						placeholder="Enter your nickname"
 					/>
-					<Button type="submit">Done CHANGE</Button>
+					<Button type="submit">Done</Button>
 				</form>
 			</div>
 		</Modal>
