@@ -54,7 +54,7 @@ const SaveInstancePanel: React.FC<T_Props> = (props) => {
 			description: worldInfo.description,
 			image: worldInfo.image,
 			name: worldInfo.name,
-			isPublic: worldInfo.isPublic,
+			published: worldInfo.published,
 			urlshortcode: slug,
 		},
 		validate: zodResolver(SaveRoomSchema),
@@ -88,7 +88,7 @@ const SaveInstancePanel: React.FC<T_Props> = (props) => {
 			description: worldInfo.description,
 			image: worldInfo.image,
 			name: worldInfo.name,
-			isPublic: worldInfo.isPublic,
+			published: worldInfo.published,
 			urlshortcode: slug,
 		});
 	}, [worldInfo.image]);
@@ -194,7 +194,7 @@ const SaveInstancePanel: React.FC<T_Props> = (props) => {
 							</Text>
 							<div className="flex items-center w-full gap-[8px]">
 								<Text>Public</Text>
-								<Switch {...saveForm.getInputProps("isPublic")} />
+								<Switch {...saveForm.getInputProps("published")} />
 								<Text>Private</Text>
 							</div>
 						</div>

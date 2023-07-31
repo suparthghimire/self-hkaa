@@ -1,13 +1,28 @@
-import { Modal, Switch, rem } from "@mantine/core";
-import { IconVolume } from "@tabler/icons-react";
-import { useState } from "react";
-import { MARGIN } from "../../UI/ExperienceUI";
+import { useExperience } from "@/lib/providers/experience/Experience.provider";
+import { Switch } from "@mantine/core";
+import { IconVolume, IconVolumeOff } from "@tabler/icons-react";
 import ExperienceIconButton from "../../common/IconButton";
 const Speaker = () => {
-	const [showSpeakerOptions, setShowSpeakerOptions] = useState(false);
+	const {
+		audio: { voiceEnabled },
+		toggleVoice,
+	} = useExperience();
 	return (
 		<>
-			<Modal
+			<ExperienceIconButton
+				onClick={toggleVoice}
+				color={`${voiceEnabled ? "blue.1" : "gray.7"}`}
+			>
+				{voiceEnabled ? <IconVolume /> : <IconVolumeOff />}
+			</ExperienceIconButton>
+		</>
+	);
+};
+
+/**
+ * 
+ * @OldVariant 
+ * 			<Modal
 				opened={showSpeakerOptions}
 				onClose={() => setShowSpeakerOptions(false)}
 				title="Audio Settings"
@@ -47,12 +62,7 @@ const Speaker = () => {
 					</div>
 				</div>
 			</Modal>
-			<ExperienceIconButton onClick={() => setShowSpeakerOptions(true)}>
-				<IconVolume />
-			</ExperienceIconButton>
-		</>
-	);
-};
+ */
 
 const CustomSwitch = () => {
 	return (

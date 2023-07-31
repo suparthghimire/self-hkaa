@@ -22,13 +22,23 @@ const initialState: T_Experience = {
 		slug: "",
 		accessToken: "",
 	},
+	audio: {
+		micEnabled: false,
+		voiceEnabled: false,
+	},
+	userInfo: {
+		name: "",
+	},
 	worldInfo: {
 		description: "",
 		image: "",
-		isPublic: false,
+		published: false,
 		name: "",
 		urlshortcode: "",
 	},
+	toggleMic: () => {},
+	toggleVoice: () => {},
+	changeUserName: () => {},
 	captureImage: () => {},
 	saveStatus: "idle",
 	setSaveStatus: () => {},
@@ -104,6 +114,30 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		[]
 	);
 
+	const changeUserName = useCallback(
+		(name: string) =>
+			dispatch({
+				type: "CHANGE_USER_NAME",
+				payload: name,
+			}),
+		[]
+	);
+
+	const toggleMic = useCallback(
+		() =>
+			dispatch({
+				type: "TOGGLE_MIC",
+			}),
+		[]
+	);
+	const toggleVoice = useCallback(
+		() =>
+			dispatch({
+				type: "TOGGLE_VOICE",
+			}),
+		[]
+	);
+
 	useExperienceEventListener(dispatch);
 
 	return (
@@ -117,6 +151,9 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				saveRoom,
 				setSaveStatus,
 				captureImage,
+				changeUserName,
+				toggleMic,
+				toggleVoice,
 			}}
 		>
 			{props.children}

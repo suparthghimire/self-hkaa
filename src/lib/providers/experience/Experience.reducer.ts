@@ -64,10 +64,7 @@ export default function reducer(
 		case "SAVE_ROOM": {
 			const message = {
 				key: "saveroom",
-				value: {
-					...actions.payload,
-					public: actions.payload.isPublic,
-				},
+				value: actions.payload,
 			};
 
 			iframePostMessage(message);
@@ -98,6 +95,55 @@ export default function reducer(
 				worldInfo: {
 					...state.worldInfo,
 					image: actions.payload,
+				},
+			};
+		}
+		case "CHANGE_USER_NAME": {
+			const message = {
+				key: "alias",
+				value: actions.payload,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				worldInfo: {
+					...state.worldInfo,
+				},
+				userInfo: {
+					...state.userInfo,
+					name: actions.payload,
+				},
+			};
+		}
+		case "TOGGLE_MIC": {
+			const currMicVal = state.audio.micEnabled;
+			const newMicVal = !currMicVal;
+			const message = {
+				key: "voicetoggle",
+				value: newMicVal,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				audio: {
+					...state.audio,
+					micEnabled: newMicVal,
+				},
+			};
+		}
+		case "TOGGLE_VOICE": {
+			const currVoiceVal = state.audio.voiceEnabled;
+			const newVoiceVal = !currVoiceVal;
+			const message = {
+				key: "audio",
+				value: newVoiceVal,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				audio: {
+					...state.audio,
+					voiceEnabled: newVoiceVal,
 				},
 			};
 		}

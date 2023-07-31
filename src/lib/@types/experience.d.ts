@@ -17,6 +17,14 @@ declare module "@experience/types" {
 	export type T_Experience = {
 		roomInfo: T_ExperienceInfo;
 		worldInfo: T_WorldInfo;
+		userInfo: T_UserInfo;
+
+		audio: T_AudioOptions;
+
+		toggleMic: () => void;
+		toggleVoice: () => void;
+
+		changeUserName: (name: string) => void;
 		iframeRef: React.RefObject<HTMLIFrameElement> | null;
 		setIframeRef: (ref: React.RefObject<HTMLIFrameElement>) => void;
 		setRoomInfo: (info: T_ExperienceInfo) => void;
@@ -30,12 +38,20 @@ declare module "@experience/types" {
 		setSaveStatus: (status: T_SaveStatus) => void;
 		captureImage: () => void;
 	};
+	export type T_AudioOptions = {
+		micEnabled: boolean;
+		voiceEnabled: boolean;
+	};
+
+	export type T_UserInfo = {
+		name: string;
+	};
 	export type T_WorldInfo = {
 		name: string;
 		description: string;
 		urlshortcode: string;
 		image: File | string;
-		isPublic: boolean;
+		published: boolean;
 	};
 	export type T_SaveStatus = "idle" | "success" | "error" | "loading";
 
@@ -77,5 +93,15 @@ declare module "@experience/types" {
 		| {
 				type: "SET_CAPTURED_IMAGE";
 				payload: string;
+		  }
+		| {
+				type: "CHANGE_USER_NAME";
+				payload: string;
+		  }
+		| {
+				type: "TOGGLE_MIC";
+		  }
+		| {
+				type: "TOGGLE_VOICE";
 		  };
 }

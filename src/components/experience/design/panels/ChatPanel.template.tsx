@@ -3,6 +3,7 @@ import { T_Chat } from "@experience/types";
 import { ActionIcon, Box, ScrollArea, Text, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { IconSend } from "@tabler/icons-react";
+import { format } from "date-fns";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 
@@ -89,7 +90,14 @@ const MyChatMessage: React.FC<T_MyChatMessage> = (props) => {
 	return (
 		<li className="w-full flex justify-end align-items-end">
 			<Box className="p-[10px] rounded-[16px_16px_0px_16px]" bg="blue.1">
-				<Text className="text-white">{props.message}</Text>
+				<Text
+					className="text-white"
+					style={{
+						color: "white",
+					}}
+				>
+					{props.message}
+				</Text>
 			</Box>
 		</li>
 	);
@@ -102,7 +110,7 @@ const OtherChatMessage: React.FC<T_OtherChatMessage> = (props) => {
 			<div className="w-full">
 				<div className="flex gap-2">
 					<Text weight={600}>{props.user}</Text>
-					<Text color="gray.5">{props.time}</Text>
+					<Text color="gray.5">{format(new Date(props.time), "hh:mm")}</Text>
 				</div>
 				<Text>{props.message}</Text>
 			</div>
