@@ -20,3 +20,5 @@ export const VALID_MEDIA_UPLOAD_MIMES = [
 	"video/mp4",
 	"video/webm",
 ];
+
+export const SHOP_PATH = "/admin/shop";
