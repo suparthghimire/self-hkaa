@@ -147,5 +147,41 @@ export default function reducer(
 				},
 			};
 		}
+		case "SEND_HOTSPOT_ASSET": {
+			const message = {
+				key: "hotspotselected",
+				value: actions.payload,
+			};
+			iframePostMessage(message);
+			return state;
+		}
+		case "SET_HOTSPOT_ASSET": {
+			const hotspot = actions.payload;
+			return {
+				...state,
+				hotspotInfo: {
+					...state.hotspotInfo,
+					selectedAsset: hotspot,
+				},
+			};
+		}
+		case "SET_LOADING_TEXT": {
+			return {
+				...state,
+				status: {
+					...state.status,
+					loadingText: actions.payload,
+				},
+			};
+		}
+		case "SET_ERROR_TEXT": {
+			return {
+				...state,
+				status: {
+					...state.status,
+					errorText: actions.payload,
+				},
+			};
+		}
 	}
 }

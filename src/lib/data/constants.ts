@@ -19,4 +19,8 @@ export const VALID_MEDIA_UPLOAD_MIMES = [
 	"image/webp",
 	"video/mp4",
 	"video/webm",
-];
+] as const;
+
+export const VALID_MEDIA_EXT = VALID_MEDIA_UPLOAD_MIMES.map(
+	(mime) => mime.split("/")[1]
+);

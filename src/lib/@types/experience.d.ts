@@ -14,10 +14,28 @@ declare module "@experience/types" {
 		message: string;
 		time: string;
 	};
+	export type T_HotspotAssetType = "2d" | "2dai" | "3d" | "audio" | "video";
+	export type T_HotspotSelect = {
+		assettype: T_HotspotAssetType;
+		targetname: string;
+		targetpath: string[];
+		targetpos: [number, number, number];
+	};
+	export type T_HotspotAssetSend = T_HotspotSelect & {
+		value: {
+			source: T_HotspotAssetType;
+			url: string;
+			[other: string]: any;
+		};
+	};
 	export type T_Experience = {
 		roomInfo: T_ExperienceInfo;
 		worldInfo: T_WorldInfo;
 		userInfo: T_UserInfo;
+		hotspotInfo: T_HotspotInfo;
+
+		setSelectedHotspot: (hotspot: T_HotspotSelect | null) => void;
+		sendHotspotAssetSelected: (hotspotAsset: T_HotspotAssetSend) => void;
 
 		audio: T_AudioOptions;
 
@@ -37,7 +55,19 @@ declare module "@experience/types" {
 		saveRoom: (info: T_WorldInfo) => void;
 		setSaveStatus: (status: T_SaveStatus) => void;
 		captureImage: () => void;
+
+		status: {
+			loadingText: string | null;
+			errorText: string | null;
+		};
+		setLoadingText: (text: string | null) => void;
+		setErrorText: (text: string | null) => void;
 	};
+
+	export type T_HotspotInfo = {
+		selectedAsset: T_HotspotSelect | null;
+	};
+
 	export type T_AudioOptions = {
 		micEnabled: boolean;
 		voiceEnabled: boolean;
@@ -103,5 +133,21 @@ declare module "@experience/types" {
 		  }
 		| {
 				type: "TOGGLE_VOICE";
+		  }
+		| {
+				type: "SET_HOTSPOT_ASSET";
+				payload: T_HotspotSelect | null;
+		  }
+		| {
+				type: "SEND_HOTSPOT_ASSET";
+				payload: T_HotspotAssetSend;
+		  }
+		| {
+				type: "SET_LOADING_TEXT";
+				payload: string | null;
+		  }
+		| {
+				type: "SET_ERROR_TEXT";
+				payload: string | null;
 		  };
 }
