@@ -32,7 +32,7 @@ const initialState: T_Experience = {
 	worldInfo: {
 		description: "",
 		image: "",
-		isPublic: false,
+		published: false,
 		name: "",
 		urlshortcode: "",
 	},
