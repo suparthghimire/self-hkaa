@@ -14,7 +14,13 @@ declare module "@experience/types" {
 		message: string;
 		time: string;
 	};
-	export type T_HotspotAssetType = "2d" | "2dai" | "3d" | "audio" | "video";
+	export type T_HotspotAssetType =
+		| "2d"
+		| "2dai"
+		| "3d"
+		| "audio"
+		| "video"
+		| "stream";
 	export type T_HotspotSelect = {
 		assettype: T_HotspotAssetType;
 		targetname: string;
@@ -24,7 +30,7 @@ declare module "@experience/types" {
 	export type T_HotspotAssetSend = T_HotspotSelect & {
 		value: {
 			source: T_HotspotAssetType;
-			url: string;
+			url?: string;
 			[other: string]: any;
 		};
 	};

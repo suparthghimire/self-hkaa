@@ -14,6 +14,7 @@ export default function useShowStatusNotification(args: T_Args) {
 				color: "blue.9",
 				loading: true,
 				onClose: args.loading.onClose,
+				autoClose: 1000,
 			});
 		else if (args.success.status)
 			updateNotification({
@@ -22,6 +23,7 @@ export default function useShowStatusNotification(args: T_Args) {
 				color: "green",
 				loading: false,
 				onClose: args.success.onClose,
+				autoClose: 1000,
 			});
 		else if (args.error.status)
 			updateNotification({
@@ -30,6 +32,7 @@ export default function useShowStatusNotification(args: T_Args) {
 				color: "red",
 				loading: false,
 				onClose: args.error.onClose,
+				autoClose: 1000,
 			});
 	}, [
 		args.success.status,
