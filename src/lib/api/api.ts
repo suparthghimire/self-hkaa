@@ -1,4 +1,5 @@
 import {
+	T_AnonLoginSuccess,
 	T_CloudUpload,
 	T_DecodeSlugSuccess,
 	T_Demo,
@@ -20,7 +21,7 @@ export async function DemoApi() {
 }
 
 export async function AnonLogin() {
-	const response: AxiosResponse<T_LoginSuccess> = await axiosInstance.post(
+	const response: AxiosResponse<T_AnonLoginSuccess> = await axiosInstance.post(
 		"/v1/auth/signin/anonymous"
 	);
 	return response.data;
@@ -63,12 +64,12 @@ export async function DecodeSlug(slug: string) {
 	return response.data;
 }
 
-export async function AdminLogin(email: string, password: string) {
+export async function AdminLogin(data: { identity: string; password: string }) {
 	const response: AxiosResponse<T_LoginSuccess> = await axiosInstance.post(
 		"/v1/auth/signin",
 		{
-			identity: email,
-			password: password,
+			identity: data.identity,
+			password: data.password,
 		}
 	);
 	return response.data;

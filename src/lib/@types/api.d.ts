@@ -19,8 +19,22 @@ declare module "@api/types" {
 		userid: number;
 		uuid: string;
 	};
-	export type T_LoginSuccess = T_Response<{
+	export type T_AnonLoginSuccess = T_Response<{
 		user: T_User;
+		role: string;
+		token: string;
+		tokenspan: number;
+	}>;
+	export type T_LoginSuccess = T_Response<{
+		user: {
+			primary: {
+				username: string;
+				nickname: string;
+				email: string;
+				uuid: string | null;
+			};
+		};
+		role: string;
 		token: string;
 		tokenspan: number;
 	}>;
