@@ -24,3 +24,4 @@ export const VALID_MEDIA_UPLOAD_MIMES = [
 export const VALID_MEDIA_EXT = VALID_MEDIA_UPLOAD_MIMES.map(
 	(mime) => mime.split("/")[1]
 );
+export const SHOP_PATH = "/admin/shop";
