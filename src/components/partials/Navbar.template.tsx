@@ -8,15 +8,56 @@ import {
 	SHOP_PATH,
 } from "@/lib/data/constants";
 import { T_UserType } from "@app/types";
-import { Header, UnstyledButton } from "@mantine/core";
-import { usePathname, useRouter } from "next/navigation";
+import { Button, ButtonProps, Header } from "@mantine/core";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
+
+type T_TabButtonProps = ButtonProps &
+	React.DOMAttributes<HTMLButtonElement> & {
+		status: boolean;
+		link: string;
+	};
+
+const TabButton: React.FC<T_TabButtonProps> = (props) => {
+	return (
+		<Link href={props.link}>
+			<Button
+				variant="transparent"
+				radius={0}
+				p={0}
+				className="text-[28px] py-5 uppercase"
+				styles={() => ({
+					root: {
+						position: "relative",
+						height: "auto",
+						fontWeight: 400,
+						...(props.status && {
+							"::after": {
+								content: "''",
+								position: "absolute",
+								bottom: "-8px",
+								left: 0,
+								width: "100%",
+								height: "4px",
+								backgroundColor: "#2563EB",
+							},
+						}),
+					},
+				})}
+			>
+				{props.children}
+			</Button>
+		</Link>
+	);
+};
+
 type T_Props = {
 	userType: T_UserType;
 };
 
 const NavbarTemplate: React.FC<T_Props> = (props) => {
 	const pathname = usePathname();
-	const router = useRouter();
 	return (
 		<Header
 			height={HEADER_HEIGHT}
@@ -27,26 +68,12 @@ const NavbarTemplate: React.FC<T_Props> = (props) => {
 			<Logo />
 			{props.userType === "admin" && (
 				<div className="flex gap-[80px] mb-[-10px]">
-					<UnstyledButton
-						onClick={() => router.push("/admin")}
-						className={`text-[28px] py-5 uppercase ${
-							pathname !== SHOP_PATH
-								? "border-b-4 border-blue-500 border-solid font-[500]"
-								: ""
-						}`}
-					>
+					<TabButton link="/admin" status={pathname !== SHOP_PATH}>
 						Instances
-					</UnstyledButton>
-					<UnstyledButton
-						onClick={() => router.push("/admin/shop")}
-						className={`text-[28px] py-5 uppercase ${
-							pathname === SHOP_PATH
-								? "border-b-4 border-blue-500 border-solid font-[500]"
-								: ""
-						}`}
-					>
+					</TabButton>
+					<TabButton link="/admin/shop" status={pathname === SHOP_PATH}>
 						Shops
-					</UnstyledButton>
+					</TabButton>
 				</div>
 			)}
 			{props.userType === "admin" && <AssetLibraryControl />}
