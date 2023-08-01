@@ -25,3 +25,4 @@ export const VALID_MEDIA_EXT = VALID_MEDIA_UPLOAD_MIMES.map(
 	(mime) => mime.split("/")[1]
 );
 export const SHOP_PATH = "/admin/shop";
+export const MAX_FILE_SIZE = 1024 * 1024 * 10; // 10MB
