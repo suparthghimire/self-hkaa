@@ -264,6 +264,7 @@ const HotspotPanel: React.FC<T_Props> = (props) => {
 											source: "stream",
 										},
 									});
+									props.closeHotspotPanel();
 								}}
 							>
 								CONNECT WEB CAM
