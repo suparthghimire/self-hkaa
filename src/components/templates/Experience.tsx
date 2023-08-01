@@ -73,6 +73,7 @@ const Experience: React.FC<T_Props> = (props) => {
 					style={{
 						transform: showLoadingScreen ? "scale(0)" : "scale(1)",
 					}}
+					allow="microphone *; camera *; clipboard-write"
 				/>
 				{!showLoadingScreen && <ExperienceUI mode={props.mode} />}
 			</>
