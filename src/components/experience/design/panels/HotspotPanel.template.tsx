@@ -1,13 +1,17 @@
 import { CloudUpload } from "@/lib/api/api";
+import { MAX_FILE_SIZE } from "@/lib/data/constants";
+import { ByteToMb } from "@/lib/helpers";
 import useShowStatusNotification from "@/lib/hooks/useShowStatusNotification";
 import { useExperience } from "@/lib/providers/experience/Experience.provider";
-import { Button, FileButton, Text, rem } from "@mantine/core";
+import { Button, FileButton, Tabs, Text, rem } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
 import { IconUpload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactPlayer from "react-player";
 import SelectInputExperience from "../common/SelectInputExperience.template";
+import StyledTabs from "../common/StyledTabs.template";
 import TextInputExperience from "../common/TextInput.template";
 
 type T_Form = {
@@ -99,136 +103,175 @@ const HotspotPanel: React.FC<T_Props> = (props) => {
 
 	return (
 		<form className="grid gap-[24px]" onSubmit={hotspotForm.onSubmit(onSubmit)}>
-			<div className="flex items-center justify-between">
-				<Text size={20} weight={600} className="uppercase">
-					Hotspot
-				</Text>
-				<Text size={20} className="uppercase">
-					Upload Media
-				</Text>
-			</div>
-			<div className="w-full grid gap-[16px]">
-				<div className="w-full grid gap-[4px]">
-					<div className="w-full flex justify-end">
-						<FileButton
-							onChange={(f) =>
-								hotspotForm.setValues({
-									src: f,
-								})
-							}
-						>
-							{(fileBtnProps) => (
-								<Button
-									{...fileBtnProps}
-									size="xs"
-									variant="transparent"
-									className="outline-none"
-									leftIcon={<IconUpload size="20px" />}
-									styles={(theme) => ({
-										root: {
-											color: theme.colors.blue[9],
+			<Text size={20} weight={600} align="center" className="uppercase">
+				Hotspot
+			</Text>
+			<StyledTabs defaultValue="upload">
+				<Tabs.List grow>
+					<Tabs.Tab value="upload">Upload Media</Tabs.Tab>
+					<Tabs.Tab value="web_cam">Web Cam</Tabs.Tab>
+				</Tabs.List>
+				<Tabs.Panel value="upload">
+					<div className="w-full grid gap-[24px] mt-[24px]">
+						<div className="w-full grid gap-[16px]">
+							<div className="w-full grid gap-[4px]">
+								<div className="w-full flex justify-end">
+									<FileButton
+										onChange={(f) => {
+											if (f && f.size > MAX_FILE_SIZE) {
+												showNotification({
+													title: "Upload Error",
+													message: `File size is too large. Please upload a file less than ${ByteToMb(
+														MAX_FILE_SIZE
+													)}MB`,
+													color: "red",
+												});
+												return;
+											}
+											hotspotForm.setValues({
+												src: f,
+											});
+										}}
+									>
+										{(fileBtnProps) => (
+											<Button
+												{...fileBtnProps}
+												size="xs"
+												variant="transparent"
+												className="outline-none"
+												leftIcon={<IconUpload size="20px" />}
+												styles={(theme) => ({
+													root: {
+														color: theme.colors.blue[9],
+													},
+												})}
+											>
+												Upload From Computer
+											</Button>
+										)}
+									</FileButton>
+								</div>
+								<div className="w-full h-[254px]">
+									<MediaRenderer src={hotspotForm.values.src} />
+								</div>
+								<Text size={12} align="center" color="gray.7">
+									Supported file types: mp4, mkv, ogv, mov, mp3, ogg, wav, jpg,
+									png, webp, gif, glb, gltf
+								</Text>
+							</div>
+							<Text align="center">OR</Text>
+							<div className="w-full flex gap-[8px]">
+								<div className="w-full">
+									<TextInputExperience
+										value={url}
+										onChange={(e) => setUrl(e.currentTarget.value)}
+										placeholder="Enter url for image, audio, or video"
+										rightSection={
+											<Button
+												size="xs"
+												mr={30}
+												onClick={() => {
+													hotspotForm.setValues({
+														src: url,
+													});
+												}}
+											>
+												Load
+											</Button>
+										}
+										error={hotspotForm.errors.src}
+									/>
+								</div>
+								<div className="w-[130px]">
+									<SelectInputExperience
+										onChange={(e) => {
+											if (e)
+												hotspotForm.setValues({
+													type: e as "video" | "image" | "audio" | "live",
+												});
+										}}
+										defaultValue="audio"
+										data={[
+											{
+												label: "Video",
+												value: "video",
+											},
+											{
+												label: "Image",
+												value: "image",
+											},
+											{
+												label: "Audio",
+												value: "audio",
+											},
+											{
+												label: "Live Stream",
+												value: "live",
+											},
+										]}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="flex justify-center gap-[48px]">
+							<Button
+								variant="outline"
+								radius={rem(8)}
+								styles={() => ({
+									root: {
+										padding: "12px 24px",
+										height: "auto",
+										width: "146px",
+										borderWidth: rem(3),
+									},
+								})}
+								onClick={props.closeHotspotPanel}
+							>
+								CANCEL
+							</Button>
+							<Button
+								type="submit"
+								radius={rem(8)}
+								styles={() => ({
+									root: {
+										padding: "12px 24px",
+										height: "auto",
+										width: "146px",
+										borderWidth: rem(3),
+									},
+								})}
+							>
+								DONE
+							</Button>
+						</div>
+					</div>
+				</Tabs.Panel>
+				<Tabs.Panel value="web_cam">
+					<div className="mt-[24px] h-[475px]">
+						<div className="grid gap-[24px]">
+							<Text>Livestream yourself via web cam</Text>
+							<Button
+								color="blue.0"
+								radius={8}
+								onClick={() => {
+									if (!selectedAsset) return;
+									sendHotspotAssetSelected({
+										...selectedAsset,
+										assettype: "stream",
+										value: {
+											email: "",
+											type: "camera",
+											source: "stream",
 										},
-									})}
-								>
-									Upload From Computer
-								</Button>
-							)}
-						</FileButton>
-					</div>
-					<div className="w-full h-[254px]">
-						<MediaRenderer src={hotspotForm.values.src} />
-					</div>
-					<Text size={12} align="center" color="gray.7">
-						Supported file types: mp4, mkv, ogv, mov, mp3, ogg, wav, jpg, png,
-						webp, gif, glb, gltf
-					</Text>
-				</div>
-				<Text align="center">OR</Text>
-				<form action="" className="w-full flex gap-[8px]">
-					<div className="w-full">
-						<TextInputExperience
-							value={url}
-							onChange={(e) => setUrl(e.currentTarget.value)}
-							placeholder="Enter url for image, audio, or video"
-							rightSection={
-								<Button
-									size="xs"
-									mr={30}
-									onClick={() => {
-										hotspotForm.setValues({
-											src: url,
-										});
-									}}
-								>
-									Load
-								</Button>
-							}
-							error={hotspotForm.errors.src}
-						/>
-					</div>
-					<div className="w-[130px]">
-						<SelectInputExperience
-							onChange={(e) => {
-								if (e)
-									hotspotForm.setValues({
-										type: e as "video" | "image" | "audio" | "live",
 									});
-							}}
-							defaultValue="audio"
-							data={[
-								{
-									label: "Video",
-									value: "video",
-								},
-								{
-									label: "Image",
-									value: "image",
-								},
-								{
-									label: "Audio",
-									value: "audio",
-								},
-								{
-									label: "Live Stream",
-									value: "live",
-								},
-							]}
-						/>
+								}}
+							>
+								CONNECT WEB CAM
+							</Button>
+						</div>
 					</div>
-				</form>
-			</div>
-			<div className="flex justify-center gap-[48px]">
-				<Button
-					variant="outline"
-					radius={rem(8)}
-					styles={() => ({
-						root: {
-							padding: "12px 24px",
-							height: "auto",
-							width: "146px",
-							borderWidth: rem(3),
-						},
-					})}
-					onClick={props.closeHotspotPanel}
-				>
-					CANCEL
-				</Button>
-				<Button
-					variant="filled"
-					type="submit"
-					radius={rem(8)}
-					styles={() => ({
-						root: {
-							padding: "12px 24px",
-							height: "auto",
-							width: "146px",
-							borderWidth: rem(3),
-						},
-					})}
-				>
-					DONE
-				</Button>
-			</div>
+				</Tabs.Panel>
+			</StyledTabs>
 		</form>
 	);
 };

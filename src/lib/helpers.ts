@@ -24,3 +24,6 @@ export const JoinParams = (
 		console.log(error);
 	}
 };
+export const ByteToMb = (bytes: number) => {
+	return bytes / 1024 / 1024;
+};
