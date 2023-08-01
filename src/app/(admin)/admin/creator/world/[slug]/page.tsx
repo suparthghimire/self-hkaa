@@ -1,6 +1,7 @@
 "use client";
 import Experience from "@/components/templates/Experience";
 import { MODES } from "@/lib/data/constants";
+import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import React from "react";
 
 type T_Props = {
@@ -8,14 +9,19 @@ type T_Props = {
 		slug: string;
 	};
 };
-const VisitorWorldPage: React.FC<T_Props> = (props) => {
+const CreatorWorldPage: React.FC<T_Props> = (props) => {
+	const { auth } = useAuth();
+
+	if (!auth.status) return <>Not Admin</>;
+
 	return (
 		<Experience
 			mode={MODES.CREATOR}
 			roomSlug={props.params.slug}
 			leaveUrl="/admin"
+			accessToken={auth.user.token}
 		/>
 	);
 };
 
-export default VisitorWorldPage;
+export default CreatorWorldPage;

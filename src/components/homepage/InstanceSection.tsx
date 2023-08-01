@@ -3,6 +3,7 @@
 import instanceImg from "@/assets/instance-img.jpeg";
 import InstanceGrid from "@/components/common/InstanceGrid";
 import { ADMIN_INSTANCES, USER_INSTANCES } from "@/lib/data/mock_data";
+import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import { T_UserType } from "@app/types";
 import { Container, MantineTheme, Tabs, TabsProps } from "@mantine/core";
 import React, { useState } from "react";
@@ -65,7 +66,7 @@ const InstanceSection: React.FC<T_Props> = (props) => {
 	const [instances] = useState(
 		props.userType === "admin" ? ADMIN_INSTANCES : USER_INSTANCES
 	);
-	2;
+	const { auth } = useAuth();
 	return (
 		<Container size="xl" px="xs">
 			<StyledTabs defaultValue={instances[0].key}>
@@ -82,14 +83,10 @@ const InstanceSection: React.FC<T_Props> = (props) => {
 							instanceType={instance.subTitle}
 							title={instance.title}
 							description={instance.description}
-							buttonText={instance.buttonName}
 							instanceUpdated={instance.date}
 							image={instanceImg}
-							link={
-								props.userType === "admin"
-									? `/admin/world/${instance.slug}`
-									: `/world/${instance.slug}`
-							}
+							type={props.userType}
+							slug={instance.slug}
 						/>
 					</Tabs.Panel>
 				))}

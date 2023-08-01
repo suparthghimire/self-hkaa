@@ -1,4 +1,6 @@
 import Button from "@/components/common/Button";
+import { useAuth } from "@/lib/providers/Auth/AuthProvider";
+import { T_UserType } from "@app/types";
 import { Grid } from "@mantine/core";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
@@ -8,21 +10,22 @@ interface IInstanceGrid {
 	instanceType: string;
 	title: string;
 	description: string;
-	buttonText: string;
 	instanceUpdated: string;
 	image: string | StaticImageData;
-	link: string;
+	type: T_UserType;
+	slug: string;
 }
 
 const InstanceGrid: React.FC<IInstanceGrid> = ({
 	instanceType,
 	title,
 	description,
-	buttonText,
 	instanceUpdated,
 	image,
-	link,
+	slug,
+	type,
 }) => {
+	const { auth } = useAuth();
 	return (
 		<Grid align="stretch" gutter="40px">
 			<Grid.Col span={6}>
@@ -31,11 +34,30 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 					<div>
 						<h2 className="text-[40px] mb-[28px]">{title}</h2>
 						<p className="text-[20px]">{description}</p>
-						<Link href={link}>
-							<Button radius={100} className="mt-[28px]">
-								{buttonText}
-							</Button>
-						</Link>
+
+						<div className="flex gap-3 w-full">
+							{/* visitor */}
+
+							<Link
+								href={
+									type === "user"
+										? `/world/${slug}`
+										: `/admin/visitor/world/${slug}`
+								}
+							>
+								<Button radius={100} className="mt-[28px]">
+									{type === "user" ? "Enter Instance" : "Enter as Visitor"}
+								</Button>
+							</Link>
+							{/* creator */}
+							{type === "admin" && auth.status === true && (
+								<Link href={`/admin/creator/world/${slug}`}>
+									<Button radius={100} className="mt-[28px]">
+										Enter as Creator
+									</Button>
+								</Link>
+							)}
+						</div>
 					</div>
 					<p>{instanceUpdated}</p>
 				</div>
