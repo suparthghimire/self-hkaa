@@ -1,30 +1,19 @@
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
-import { Modal, Tabs, rem } from "@mantine/core";
-import { IconFolder } from "@tabler/icons-react";
-import { useState } from "react";
+import { Modal, ModalProps, Tabs, rem } from "@mantine/core";
 import StyledTabs from "../../common/StyledTabs.template";
 import LibraryAsset from "./panels/LibraryAsset.template";
 import UploadAsset from "./panels/UploadAsset.template";
 
-const AssetLibraryControl = () => {
-	const [openAssetLibrary, setOpenAssetLibrary] = useState(false);
+const AssetLibrary: React.FC<ModalProps> = (props) => {
 	return (
 		<>
-			<Button
-				color="gray.8"
-				leftIcon={<IconFolder />}
-				onClick={() => setOpenAssetLibrary(true)}
-			>
-				Asset Library
-			</Button>
 			<Modal
 				size={rem(837)}
 				centered
-				opened={openAssetLibrary}
-				onClose={() => setOpenAssetLibrary(false)}
 				radius={rem(16)}
 				padding={rem(40)}
+				{...props}
 			>
 				<div className="flex h-[600px] flex-col justify-between">
 					<div className="grid gap-[40px]">
@@ -45,7 +34,7 @@ const AssetLibraryControl = () => {
 						</StyledTabs>
 					</div>
 					<div className="grid place-items-center">
-						<Button onClick={() => setOpenAssetLibrary(false)}>Done</Button>
+						<Button onClick={props.onClose}>Done</Button>
 					</div>
 				</div>
 			</Modal>
@@ -53,4 +42,4 @@ const AssetLibraryControl = () => {
 	);
 };
 
-export default AssetLibraryControl;
+export default AssetLibrary;
