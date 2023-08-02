@@ -1,4 +1,5 @@
 import CustomButton from "@/components/common/Button";
+import ConfirmationModal from "@/components/common/ConfirmationModal";
 import ExperienceIconButton from "@/components/experience/design/common/IconButton";
 import { Button, Drawer, Text, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -6,13 +7,18 @@ import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import InputControl from "./InputControl.template";
 
 const AssetHandle = () => {
-	const [opened, { open, close }] = useDisclosure(false);
+	const [drawerOpened, { open: openDrawer, close: closeDrawer }] =
+		useDisclosure(false);
+	const [
+		revertModalOpened,
+		{ open: openRevertConfirm, close: closeRevertConfirm },
+	] = useDisclosure(false);
 
 	return (
 		<>
 			<Drawer
-				opened={opened}
-				onClose={close}
+				opened={drawerOpened}
+				onClose={closeDrawer}
 				position="right"
 				overlayProps={{
 					blur: 0,
@@ -57,6 +63,7 @@ const AssetHandle = () => {
 									variant="transparent"
 									p={0}
 									className="underline w-fit"
+									onClick={openRevertConfirm}
 									styles={() => ({
 										root: {
 											fontWeight: 400,
@@ -75,7 +82,18 @@ const AssetHandle = () => {
 				</div>
 			</Drawer>
 
-			<ExperienceIconButton color="blue.1" onClick={open}>
+			<ConfirmationModal
+				opened={revertModalOpened}
+				onClose={closeRevertConfirm}
+				onYes={closeRevertConfirm}
+				onCancel={closeRevertConfirm}
+			>
+				<Text size={22} weight={500} mb={rem(48)}>
+					Revert this asset to its default size and position?
+				</Text>
+			</ConfirmationModal>
+
+			<ExperienceIconButton color="blue.1" onClick={openDrawer}>
 				<IconAdjustmentsHorizontal />
 			</ExperienceIconButton>
 		</>
