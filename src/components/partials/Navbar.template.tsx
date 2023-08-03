@@ -8,6 +8,7 @@ import {
 	MAIN_PADDING_Y,
 	SHOP_PATH,
 } from "@/lib/data/constants";
+import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import { T_UserType } from "@app/types";
 import { Button, ButtonProps, Header } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -63,6 +64,7 @@ const NavbarTemplate: React.FC<T_Props> = (props) => {
 	const pathname = usePathname();
 
 	const [openedAssetLibrary, { open, close }] = useDisclosure(false);
+
 	return (
 		<Header
 			height={HEADER_HEIGHT}
@@ -82,15 +84,24 @@ const NavbarTemplate: React.FC<T_Props> = (props) => {
 				</div>
 			)}
 			{props.userType === "admin" && (
-				<>
+				<div className="flex gap-2">
 					<CustomButton color="gray.8" leftIcon={<IconFolder />} onClick={open}>
 						Asset Library
 					</CustomButton>
+					<LogoutButton />
 					<AssetLibrary opened={openedAssetLibrary} onClose={close} />
-				</>
+				</div>
 			)}
 		</Header>
 	);
+};
+
+const LogoutButton = () => {
+	const {
+		auth: { user },
+	} = useAuth();
+
+	return <CustomButton>Logout {user?.primary.username}</CustomButton>;
 };
 
 export default NavbarTemplate;

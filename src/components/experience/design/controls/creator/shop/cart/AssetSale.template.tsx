@@ -15,6 +15,7 @@ import {
 import { Dropzone, DropzoneProps } from "@mantine/dropzone";
 import { IconInfoCircle, IconUpload } from "@tabler/icons-react";
 import React from "react";
+
 const AssetSale: React.FC<ModalProps> = (props) => {
 	const theme = useMantineTheme();
 	return (

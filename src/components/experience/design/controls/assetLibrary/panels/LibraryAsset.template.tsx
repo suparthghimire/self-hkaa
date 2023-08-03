@@ -5,7 +5,12 @@ import { Button, Pagination, Text, TextInput, rem } from "@mantine/core";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import React, { useState } from "react";
-const LibraryAsset: React.FC = () => {
+
+type T_Props = {
+	setAssetId: (id: string) => void;
+};
+
+const LibraryAsset: React.FC<T_Props> = (props) => {
 	const [removeAsset, setRemoveAsset] = useState<{
 		open: boolean;
 		asset: T_LibraryAsset | null;
@@ -26,8 +31,9 @@ const LibraryAsset: React.FC = () => {
 					SELECT AN ASSET
 				</Text>
 				<div className="grid grid-cols-5 gap-[30px]">
-					{[1, 2, 3, 4, 5].map((item, idx) => (
+					{["1", "2", "3", "4", "5"].map((item, idx) => (
 						<AssetItem
+							onClick={() => props.setAssetId(item)}
 							onRemove={() => {
 								setRemoveAsset(() => ({
 									open: true,
@@ -96,40 +102,56 @@ const LibraryAsset: React.FC = () => {
 type T_AssetItemProps = {
 	asset: T_LibraryAsset;
 	onRemove: () => void;
+	onClick: () => void;
 };
 
 const AssetItem: React.FC<T_AssetItemProps> = (props) => {
-	return (
-		<div className="grid gap-[8px] w-[127px] relative">
-			<div className="w-full h-[108px] relative">
-				<Image
-					className="object-cover w-full h-full rounded-[6px]"
-					fill
-					src={props.asset.image}
-					alt={props.asset.title}
-				/>
-			</div>
-			<Text size={rem(16)} weight={400} className="leading-[24px] text-center">
-				{props.asset.title}
-			</Text>
+	const [isHover, setIsHover] = useState(false);
 
-			<Button
-				className="absolute top-[4px] right-[4px]"
-				variant="transparent"
-				p={2}
-				radius={rem(20)}
-				styles={() => ({
-					root: {
-						border: "2px solid #000",
-						width: "20px",
-						height: "20px",
-					},
-				})}
-				onClick={() => props.onRemove()}
+	return (
+		<>
+			<div
+				className="grid gap-[8px] w-[127px] relative cursor-pointer"
+				onMouseEnter={() => setIsHover(true)}
+				onMouseLeave={() => setIsHover(false)}
+				onClick={props.onClick}
 			>
-				<IconX />
-			</Button>
-		</div>
+				<div className="w-full h-[108px] relative">
+					<Image
+						className="object-cover w-full h-full rounded-[6px]"
+						fill
+						src={props.asset.image}
+						alt={props.asset.title}
+					/>
+				</div>
+				<Text
+					size={rem(16)}
+					weight={400}
+					className="leading-[24px] text-center"
+				>
+					{props.asset.title}
+				</Text>
+
+				<Button
+					className={`absolute top-[4px] right-[4px] ${
+						isHover ? "block" : "hidden"
+					}`}
+					variant="transparent"
+					p={2}
+					radius={rem(20)}
+					styles={() => ({
+						root: {
+							border: "2px solid #000",
+							width: "20px",
+							height: "20px",
+						},
+					})}
+					onClick={() => props.onRemove()}
+				>
+					<IconX />
+				</Button>
+			</div>
+		</>
 	);
 };
 
