@@ -1,11 +1,11 @@
 import Button from "@/components/common/Button";
+import StyledLabel from "@/components/experience/design/common/StyledLabel.template";
 import {
 	Modal,
 	ModalProps,
 	Text,
 	TextInput,
 	TextInputProps,
-	TextProps,
 	Textarea,
 	TextareaProps,
 	Tooltip,
@@ -36,7 +36,7 @@ const AssetSale: React.FC<ModalProps> = (props) => {
 				<div className="grid gap-[12px]">
 					<div className="grid gap-[4px]">
 						<div className="w-full flex items-center gap-[4px]">
-							<InputLabel>Upload Product Image(s)</InputLabel>
+							<StyledLabel>Upload Product Image(s)</StyledLabel>
 							<Tooltip label="Upload Image">
 								<IconInfoCircle size={18} color={theme.colors.gray[7]} />
 							</Tooltip>
@@ -60,16 +60,16 @@ const AssetSale: React.FC<ModalProps> = (props) => {
 					</div>
 					<StyledTextInput
 						placeholder="Enter product name"
-						label={<InputLabel>Product Name</InputLabel>}
+						label={<StyledLabel>Product Name</StyledLabel>}
 					/>
 					<StyledTextArea
 						placeholder="Enter a description"
-						label={<InputLabel>Description</InputLabel>}
+						label={<StyledLabel>Description</StyledLabel>}
 					/>
 					<StyledTextInput
 						type="number"
 						placeholder="Enter product price"
-						label={<InputLabel>Price</InputLabel>}
+						label={<StyledLabel>Price</StyledLabel>}
 						rightSection={
 							<Text
 								size={14}
@@ -81,7 +81,7 @@ const AssetSale: React.FC<ModalProps> = (props) => {
 					/>
 					<StyledTextInput
 						placeholder="https://example.com/product-info"
-						label={<InputLabel>Product URL</InputLabel>}
+						label={<StyledLabel>Product URL</StyledLabel>}
 					/>
 				</div>
 				<div className="grid place-items-center">
@@ -89,18 +89,6 @@ const AssetSale: React.FC<ModalProps> = (props) => {
 				</div>
 			</div>
 		</Modal>
-	);
-};
-
-const InputLabel: React.FC<TextProps> = (props) => {
-	return (
-		<Text
-			size={14}
-			weight={600}
-			color="gray.6"
-			className="uppercase"
-			{...props}
-		/>
 	);
 };
 

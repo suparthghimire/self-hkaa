@@ -15,26 +15,30 @@ const AssetLibrary: React.FC<ModalProps> = (props) => {
 				padding={rem(40)}
 				{...props}
 			>
-				<div className="flex h-[600px] flex-col justify-between">
-					<div className="grid gap-[40px]">
+				<div className="h-[600px]">
+					<div className="grid gap-[40px] grid-rows-[40px_1fr] h-full">
 						<Title>Asset Library</Title>
 						<StyledTabs defaultValue="library">
 							<Tabs.List className="mb-6" grow>
 								<Tabs.Tab value="library">Choose from Library</Tabs.Tab>
 								<Tabs.Tab value="upload">Upload Asset</Tabs.Tab>
 							</Tabs.List>
-							<div className="grid gap-[32px] w-full">
-								<Tabs.Panel value="library" className="w-full">
-									<LibraryAsset />
+							<div className="grid gap-[32px] h-full w-full">
+								<Tabs.Panel value="library">
+									<div className="h-full flex flex-col justify-between">
+										<LibraryAsset />
+										<div className="grid place-items-center">
+											<Button onClick={props.onClose}>Done</Button>
+										</div>
+									</div>
 								</Tabs.Panel>
 								<Tabs.Panel value="upload">
-									<UploadAsset />
+									<div className="h-full">
+										<UploadAsset />
+									</div>
 								</Tabs.Panel>
 							</div>
 						</StyledTabs>
-					</div>
-					<div className="grid place-items-center">
-						<Button onClick={props.onClose}>Done</Button>
 					</div>
 				</div>
 			</Modal>
