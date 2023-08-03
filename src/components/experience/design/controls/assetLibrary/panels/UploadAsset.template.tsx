@@ -12,7 +12,10 @@ import {
 } from "@mantine/core";
 import React, { useState } from "react";
 import StyledLabel from "../../../common/StyledLabel.template";
-const UploadAsset: React.FC = () => {
+type T_Props = {
+	onDone: () => void;
+};
+const UploadAsset: React.FC<T_Props> = (props) => {
 	const theme = useMantineTheme();
 	const [_file, setFile] = useState<File | null>(null);
 	return (
@@ -123,7 +126,7 @@ const UploadAsset: React.FC = () => {
 					</div>
 				</div>
 				<div className="grid place-items-center">
-					<CustomButtom>Done</CustomButtom>
+					<CustomButtom onClick={props.onDone}>Done</CustomButtom>
 				</div>
 			</div>
 		</div>

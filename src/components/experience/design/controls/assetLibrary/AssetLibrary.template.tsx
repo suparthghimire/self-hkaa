@@ -34,7 +34,7 @@ const AssetLibrary: React.FC<ModalProps> = (props) => {
 								</Tabs.Panel>
 								<Tabs.Panel value="upload">
 									<div className="h-full">
-										<UploadAsset />
+										<UploadAsset onDone={props.onClose} />
 									</div>
 								</Tabs.Panel>
 							</div>
