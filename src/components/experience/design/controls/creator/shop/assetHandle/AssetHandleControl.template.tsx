@@ -77,7 +77,7 @@ const AssetHandle = () => {
 						</div>
 					</div>
 					<div className="w-full grid place-items-center">
-						<CustomButton onClick={close}>Done</CustomButton>
+						<CustomButton onClick={closeDrawer}>Done</CustomButton>
 					</div>
 				</div>
 			</Drawer>

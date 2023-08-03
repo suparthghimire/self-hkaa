@@ -85,7 +85,7 @@ const AssetSale: React.FC<ModalProps> = (props) => {
 					/>
 				</div>
 				<div className="grid place-items-center">
-					<Button>Done</Button>
+					<Button onClick={props.onClose}>Done</Button>
 				</div>
 			</div>
 		</Modal>
