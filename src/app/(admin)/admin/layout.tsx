@@ -42,7 +42,12 @@ const AdminPageLayout: React.FC<PropsWithChildren> = (props) => {
 
 	if (myInfo.isLoading) return <>Loading My Info</>;
 
-	if (!isAuth || myInfo.isError) return <AdminAuth>{props.children}</AdminAuth>;
+	if (!isAuth || myInfo.isError)
+		return (
+			<AdminAuth>
+				<MainLayout userType="admin">{props.children}</MainLayout>;
+			</AdminAuth>
+		);
 
 	return <></>;
 };
