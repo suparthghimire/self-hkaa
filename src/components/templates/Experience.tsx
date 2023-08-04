@@ -11,6 +11,7 @@ type T_Props = {
 	roomSlug: string;
 	accessToken?: string;
 	leaveUrl: string;
+	ui?: React.ReactNode;
 };
 const Experience: React.FC<T_Props> = (props) => {
 	const { hasLoaded, setIframeRef, setRoomInfo } = useExperience();
@@ -73,9 +74,9 @@ const Experience: React.FC<T_Props> = (props) => {
 					style={{
 						transform: showLoadingScreen ? "scale(0)" : "scale(1)",
 					}}
-					allow="microphone *; camera *; clipboard-write"
+					allow="camera; microphone; display-capture; autoplay; clipboard-write"
 				/>
-				{!showLoadingScreen && <ExperienceUI mode={props.mode} />}
+				{!showLoadingScreen && (props.ui ?? <ExperienceUI mode={props.mode} />)}
 			</>
 		</div>
 	);

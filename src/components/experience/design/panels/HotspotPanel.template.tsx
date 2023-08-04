@@ -10,7 +10,7 @@ import { IconUpload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactPlayer from "react-player";
-import SelectInputExperience from "../common/SelectInputExperience.template";
+import StyledSelect from "../common/StyledSelect.template";
 import StyledTabs from "../common/StyledTabs.template";
 import TextInputExperience from "../common/TextInput.template";
 
@@ -183,7 +183,7 @@ const HotspotPanel: React.FC<T_Props> = (props) => {
 									/>
 								</div>
 								<div className="w-[130px]">
-									<SelectInputExperience
+									<StyledSelect
 										onChange={(e) => {
 											if (e)
 												hotspotForm.setValues({

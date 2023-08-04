@@ -1,7 +1,7 @@
 import { Select, SelectProps } from "@mantine/core";
 import React from "react";
 
-const SelectInputExperience: React.FC<SelectProps> = (props) => {
+const StyledSelect: React.FC<SelectProps> = (props) => {
 	return (
 		<Select
 			{...props}
@@ -19,4 +19,4 @@ const SelectInputExperience: React.FC<SelectProps> = (props) => {
 	);
 };
 
-export default SelectInputExperience;
+export default StyledSelect;

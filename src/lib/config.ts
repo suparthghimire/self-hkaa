@@ -8,3 +8,5 @@ export const IFRAME_ENDPOINT =
 
 export const USE_TEST_ROOM =
 	process.env.NEXT_PUBLIC_USE_TEST_ROOM === "true" ? true : false ?? false;
+export const ADMIN_LOGIN_ENABLED =
+	process.env.NEXT_PUBLIC_ADMIN_LOGIN === "false" ? false : true ?? true;

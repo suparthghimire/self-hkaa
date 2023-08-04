@@ -1,14 +1,18 @@
 "use client";
+import CustomButton from "@/components/common/Button";
 import Logo from "@/components/common/Logo.template";
-import AssetLibraryControl from "@/components/experience/design/controls/assetLibrary/AssetLibrary.template";
+import AssetLibrary from "@/components/experience/design/controls/assetLibrary/AssetLibrary.template";
 import {
 	HEADER_HEIGHT,
 	MAIN_PADDING_X,
 	MAIN_PADDING_Y,
 	SHOP_PATH,
 } from "@/lib/data/constants";
+import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import { T_UserType } from "@app/types";
 import { Button, ButtonProps, Header } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { IconFolder } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -58,6 +62,9 @@ type T_Props = {
 
 const NavbarTemplate: React.FC<T_Props> = (props) => {
 	const pathname = usePathname();
+
+	const [openedAssetLibrary, { open, close }] = useDisclosure(false);
+
 	return (
 		<Header
 			height={HEADER_HEIGHT}
@@ -76,9 +83,25 @@ const NavbarTemplate: React.FC<T_Props> = (props) => {
 					</TabButton>
 				</div>
 			)}
-			{props.userType === "admin" && <AssetLibraryControl />}
+			{props.userType === "admin" && (
+				<div className="flex gap-2">
+					<CustomButton color="gray.8" leftIcon={<IconFolder />} onClick={open}>
+						Asset Library
+					</CustomButton>
+					<LogoutButton />
+					<AssetLibrary opened={openedAssetLibrary} onClose={close} />
+				</div>
+			)}
 		</Header>
 	);
+};
+
+const LogoutButton = () => {
+	const {
+		auth: { user },
+	} = useAuth();
+
+	return <CustomButton>Logout {user?.primary.username}</CustomButton>;
 };
 
 export default NavbarTemplate;

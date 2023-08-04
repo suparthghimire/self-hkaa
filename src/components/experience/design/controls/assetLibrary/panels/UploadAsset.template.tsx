@@ -1,67 +1,53 @@
-import PlaceholderImage from "@/assets/placeholder.svg";
+import CustomButtom from "@/components/common/Button";
 import {
 	Button,
+	Divider,
 	FileButton,
 	Select,
 	Text,
 	TextInput,
+	Textarea,
+	rem,
 	useMantineTheme,
 } from "@mantine/core";
-import Image from "next/image";
 import React, { useState } from "react";
-const UploadAsset: React.FC = () => {
+import StyledLabel from "../../../common/StyledLabel.template";
+type T_Props = {
+	onDone: () => void;
+};
+const UploadAsset: React.FC<T_Props> = (props) => {
 	const theme = useMantineTheme();
 	const [_file, setFile] = useState<File | null>(null);
 	return (
-		<div className="grid place-items-center">
-			<div className="w-[420px] grid place-items-center gap-[16px]">
-				<div className="grid gap-[4px] w-full">
-					<div className="w-full h-[274px] relative">
-						<Image
-							fill
-							src={PlaceholderImage}
-							className="object-cover object-center rounded-[8px]"
-							alt="Placeholder Image"
-						/>
-					</div>
-					<Text size={12} align="center" color="gray.7">
-						Supported file types: mp4, mkv, ogv, mov, mp3, ogg, wav, jpg, png,
-						webp, gif, glb, gltf
-					</Text>
+		<div className="flex w-full h-full justify-center gap-[24px]">
+			<div className="w-full h-full justify-center flex flex-col gap-[24px]">
+				<div className="w-full h-[207px]">
+					<img
+						src="/assets/placeholder.svg"
+						className="object-cover w-full h-full object-center rounded-[8px]"
+						alt="Placeholder Image"
+					/>
 				</div>
-				<Text color="gray.9">OR</Text>
-				<div className="w-full flex gap-[8px]">
+				<Text align="center" color="gray.9">
+					OR
+				</Text>
+				<div className="flex items-end gap-[8px]">
 					<TextInput
 						className="w-full"
-						placeholder="Enter url for image, audio, or video "
+						placeholder="https://"
 						styles={() => ({
 							input: {
-								height: "48px",
+								height: rem(48),
 							},
 						})}
-						rightSection={
-							<FileButton onChange={(f) => setFile(f)}>
-								{(fileBtnProps) => (
-									<Button
-										{...fileBtnProps}
-										mr={50}
-										styles={() => ({
-											root: {
-												background: theme.colors.blue[0],
-											},
-										})}
-									>
-										Upload
-									</Button>
-								)}
-							</FileButton>
-						}
+						label={<StyledLabel>Enter URL</StyledLabel>}
+						rightSection={<Button mr={40}>Load</Button>}
 					/>
 					<Select
 						styles={() => ({
 							input: {
 								width: "97px",
-								height: "48px",
+								height: rem(48),
 							},
 						})}
 						defaultValue="audio"
@@ -73,8 +59,77 @@ const UploadAsset: React.FC = () => {
 					/>
 				</div>
 			</div>
+			<Divider orientation="vertical" />
+			<div className="flex h-full w-full flex-col justify-between">
+				<div className="flex flex-col gap-[12px]">
+					<TextInput
+						className="w-full"
+						placeholder="Choose a name that helps ID the asset"
+						styles={() => ({
+							input: {
+								height: rem(48),
+							},
+						})}
+						label={<StyledLabel>Name</StyledLabel>}
+					/>
+					<Textarea
+						className="w-full"
+						placeholder="Describe how this asset should be used"
+						styles={() => ({
+							input: {
+								height: rem(56),
+							},
+						})}
+						label={<StyledLabel>Description</StyledLabel>}
+					/>
+					<TextInput
+						className="w-full"
+						placeholder="Tags should be separated by spaces"
+						styles={() => ({
+							input: {
+								height: rem(48),
+							},
+						})}
+						label={<StyledLabel>Tags</StyledLabel>}
+					/>
+					<div className="grid gap-[2px]">
+						<div className="flex gap-[8px] items-center">
+							<StyledLabel>Thumbnail</StyledLabel>
+							<FileButton onChange={() => {}}>
+								{(fBtnProps) => (
+									<Button
+										{...fBtnProps}
+										variant="transparent"
+										px={0}
+										py={0}
+										className="cursor-pointer"
+										styles={() => ({
+											label: {
+												color: theme.colors.blue[0],
+												textDecoration: "underline",
+												fontWeight: 500,
+											},
+										})}
+									>
+										UPLOAD
+									</Button>
+								)}
+							</FileButton>
+						</div>
+						<div className="w-[97px] h-[58px]">
+							<img
+								src="/assets/placeholder.svg"
+								className="object-cover w-full h-full object-center rounded-[8px]"
+								alt="Placeholder Image"
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="grid place-items-center">
+					<CustomButtom onClick={props.onDone}>Done</CustomButtom>
+				</div>
+			</div>
 		</div>
 	);
 };
-
 export default UploadAsset;

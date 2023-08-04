@@ -61,6 +61,7 @@ function StyledTabs(props: TabsProps) {
 
 type T_Props = {
 	userType: T_UserType;
+	experienceType: "world" | "shop";
 };
 const InstanceSection: React.FC<T_Props> = (props) => {
 	const [instances] = useState(
@@ -80,6 +81,7 @@ const InstanceSection: React.FC<T_Props> = (props) => {
 				{instances.map((instance) => (
 					<Tabs.Panel value={instance.key} key={instance.key}>
 						<InstanceGrid
+							experienceType={props.experienceType}
 							instanceType={instance.subTitle}
 							title={instance.title}
 							description={instance.description}

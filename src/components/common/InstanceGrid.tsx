@@ -14,6 +14,7 @@ interface IInstanceGrid {
 	image: string | StaticImageData;
 	type: T_UserType;
 	slug: string;
+	experienceType: "world" | "shop";
 }
 
 const InstanceGrid: React.FC<IInstanceGrid> = ({
@@ -24,6 +25,7 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 	image,
 	slug,
 	type,
+	experienceType,
 }) => {
 	const { auth } = useAuth();
 	return (
@@ -42,7 +44,7 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 								href={
 									type === "user"
 										? `/world/${slug}`
-										: `/admin/visitor/world/${slug}`
+										: `/admin/visitor/${experienceType}/${slug}`
 								}
 							>
 								<Button radius={100} className="mt-[28px]">
@@ -51,7 +53,7 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 							</Link>
 							{/* creator */}
 							{type === "admin" && auth.status === true && (
-								<Link href={`/admin/creator/world/${slug}`}>
+								<Link href={`/admin/creator/${experienceType}/${slug}`}>
 									<Button radius={100} className="mt-[28px]">
 										Enter as Creator
 									</Button>
