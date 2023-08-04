@@ -22,7 +22,8 @@
 		"@typescript-eslint/await-thenable": "off",
 		"react/display-name": "off",
 		"no-redeclare": "off",
-		"no-mixed-spaces-and-tabs": "off"
+		"no-mixed-spaces-and-tabs": "off",
+		"react/no-unknown-property": "off"
 	},
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {

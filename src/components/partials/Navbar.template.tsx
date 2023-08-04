@@ -101,7 +101,7 @@ const LogoutButton = () => {
 		auth: { user },
 	} = useAuth();
 
-	return <CustomButton>Logout {user?.primary.username}</CustomButton>;
+	return <CustomButton>Logout</CustomButton>;
 };
 
 export default NavbarTemplate;

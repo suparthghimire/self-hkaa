@@ -1,8 +1,10 @@
+import { T_UploadAssetSchema } from "@/components/experience/lib/schema/uploadAsset.schema";
 import {
 	T_AnonLoginSuccess,
 	T_CloudUpload,
 	T_DecodeSlugSuccess,
 	T_Demo,
+	T_LibraryAsset,
 	T_LoginSuccess,
 	T_Response,
 	T_SessionTokenSuccess,
@@ -131,5 +133,41 @@ export async function GetMyData(token: string) {
 			},
 		}
 	);
+	return response.data;
+}
+
+export async function UploadAssetToLibrary(
+	data: T_UploadAssetSchema,
+	token: string
+) {
+	// if data.source is file. upload it and get url
+	// upload data.thumbnail and get url
+
+	const thumbnailUpload = await CloudUpload(data.thumb!);
+	const thumbnailUrl = Object.values(thumbnailUpload.urls)[0];
+
+	let source = data.source;
+	if (source instanceof File) {
+		const sourceUpload = await CloudUpload(source);
+		source = Object.values(sourceUpload.urls)[0];
+	}
+
+	const response: AxiosResponse<T_Response<T_LibraryAsset>> =
+		await axiosInstance.put(
+			"/v1/assets/",
+			{
+				name: data.name,
+				description: data.description,
+				tags: data.tags,
+				thumb: thumbnailUrl,
+				source: source,
+				assettype: data.assettype,
+			},
+			{
+				headers: {
+					"x-access-token": token,
+				},
+			}
+		);
 	return response.data;
 }

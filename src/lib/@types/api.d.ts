@@ -66,4 +66,15 @@ declare module "@api/types" {
 		errfiles: [];
 		errors: boolean;
 	};
+	export type T_LibraryAsset = {
+		id?: string;
+		uuid?: string;
+		name: string;
+		source: string;
+		description: string;
+		thumb: string;
+		assettype: "2d" | "3d";
+		shopifyid?: string;
+		[key: string]: any;
+	};
 }
