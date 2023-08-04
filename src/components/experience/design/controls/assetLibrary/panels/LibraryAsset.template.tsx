@@ -1,13 +1,13 @@
-import PlaceholderImage from "@/assets/placeholder.svg";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
+import useCustomPagination from "@/lib/hooks/useCustomPagination";
 import { T_LibraryAsset } from "@api/types";
 import { Button, Pagination, Text, TextInput, rem } from "@mantine/core";
 import { IconSearch, IconX } from "@tabler/icons-react";
-import Image from "next/image";
 import React, { useState } from "react";
 
 type T_Props = {
-	setAssetId: (id: string) => void;
+	setAssetId: (id: number) => void;
+	assets: T_LibraryAsset[];
 };
 
 const LibraryAsset: React.FC<T_Props> = (props) => {
@@ -18,6 +18,12 @@ const LibraryAsset: React.FC<T_Props> = (props) => {
 		open: false,
 		asset: null,
 	});
+
+	const pagination = useCustomPagination({
+		data: props.assets,
+		limit: 5,
+	});
+
 	return (
 		<div className="grid gap-[32px]">
 			<TextInput
@@ -31,30 +37,28 @@ const LibraryAsset: React.FC<T_Props> = (props) => {
 					SELECT AN ASSET
 				</Text>
 				<div className="grid grid-cols-5 gap-[30px]">
-					{["1", "2", "3", "4", "5"].map((item, idx) => (
+					{pagination.data.map((asset, idx) => (
 						<AssetItem
-							onClick={() => props.setAssetId(item)}
+							onClick={() => props.setAssetId(asset.id)}
 							onRemove={() => {
 								setRemoveAsset(() => ({
 									open: true,
-									asset: {
-										image: PlaceholderImage,
-										title: "Lorem ipsum",
-									},
+									asset: asset,
 								}));
 							}}
 							key={`asset-item-${idx}`}
-							asset={{
-								image: PlaceholderImage,
-								title: "Lorem ipsum",
-							}}
+							asset={asset}
 						/>
 					))}
 				</div>
 			</div>
 			<div className="grid place-items-center">
 				<Pagination
-					total={10}
+					total={pagination.totalPages}
+					{...pagination.pagination}
+					onChange={(page) => {
+						pagination.pagination.setPage(page);
+					}}
 					styles={{
 						control: {
 							":hover": {
@@ -116,12 +120,16 @@ const AssetItem: React.FC<T_AssetItemProps> = (props) => {
 				onMouseLeave={() => setIsHover(false)}
 				onClick={props.onClick}
 			>
-				<div className="w-full h-[108px] relative">
-					<Image
-						className="object-cover w-full h-full rounded-[6px]"
-						fill
-						src={props.asset.image}
-						alt={props.asset.title}
+				<div
+					className="w-full h-[108px] relative rounded-[8px]"
+					style={{
+						border: "1px solid #ededed",
+					}}
+				>
+					<img
+						className="object-cover object-center w-full h-full rounded-[6px]"
+						src={props.asset.thumb}
+						alt={props.asset.name}
 					/>
 				</div>
 				<Text
@@ -129,7 +137,7 @@ const AssetItem: React.FC<T_AssetItemProps> = (props) => {
 					weight={400}
 					className="leading-[24px] text-center"
 				>
-					{props.asset.title}
+					{props.asset.name}
 				</Text>
 
 				<Button

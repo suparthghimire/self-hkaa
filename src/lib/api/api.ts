@@ -171,3 +171,13 @@ export async function UploadAssetToLibrary(
 		);
 	return response.data;
 }
+
+export async function GetAllLibraryAssets(token: string) {
+	const response: AxiosResponse<T_Response<{ assets: T_LibraryAsset[] }>> =
+		await axiosInstance.get("/v1/assets/", {
+			headers: {
+				"x-access-token": token,
+			},
+		});
+	return response.data;
+}

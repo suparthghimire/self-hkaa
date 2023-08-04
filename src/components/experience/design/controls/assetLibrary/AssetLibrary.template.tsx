@@ -1,7 +1,10 @@
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
+import { GetAllLibraryAssets } from "@/lib/api/api";
+import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import { Modal, ModalProps, Tabs, rem } from "@mantine/core";
-import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
 import StyledTabs from "../../common/StyledTabs.template";
 import LibraryAsset from "./panels/LibraryAsset.template";
 import SingleAsset from "./panels/SingleAsset.template";
@@ -12,7 +15,20 @@ type T_Props = ModalProps & {
 };
 
 const AssetLibrary: React.FC<T_Props> = (props) => {
-	const [assetId, setAssetId] = useState<string | undefined>(undefined);
+	const [assetId, setAssetId] = useState<number | undefined>(undefined);
+
+	const { auth } = useAuth();
+	const libraryAssets = useQuery({
+		queryKey: ["libraryAssets"],
+		queryFn: () => GetAllLibraryAssets(auth.user?.token ?? ""),
+	});
+
+	useEffect(() => {
+		if (libraryAssets.data) {
+			console.log(libraryAssets.data);
+		}
+	}, [libraryAssets.data]);
+
 	return (
 		<>
 			<Modal
@@ -34,11 +50,26 @@ const AssetLibrary: React.FC<T_Props> = (props) => {
 								<Tabs.Panel value="library">
 									<div className="h-full flex flex-col justify-between">
 										{!assetId ? (
-											<LibraryAsset
-												setAssetId={
-													props.showSingleAsset ? setAssetId : () => {}
-												}
-											/>
+											<>
+												{libraryAssets.data && (
+													<LibraryAsset
+														setAssetId={
+															props.showSingleAsset ? setAssetId : () => {}
+														}
+														assets={libraryAssets.data.data.assets}
+													/>
+												)}
+												{libraryAssets.isLoading && (
+													<div className="grid w-full h-full place-items-center">
+														Loading Assets
+													</div>
+												)}
+												{libraryAssets.isError && (
+													<div className="grid w-full h-full place-items-center">
+														Error while loading assets
+													</div>
+												)}
+											</>
 										) : (
 											<SingleAsset />
 										)}
