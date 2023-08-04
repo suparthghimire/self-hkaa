@@ -5,12 +5,7 @@ import { z } from "zod";
 export const UploadAssetSchema = z.object({
 	name: z.string().nonempty("Name is required"),
 	description: z.string().nonempty("Description is required"),
-	tags: z
-		.string()
-		.nonempty("Tags is required")
-		.transform((v) => {
-			return v.split(",").map((tag) => tag.trim());
-		}),
+	tags: z.string().nonempty("Tags is required"),
 	thumb: z
 		.custom<File>()
 		.nullable()

@@ -70,6 +70,7 @@ declare module "@api/types" {
 		source: string;
 		description: string;
 		thumb: string;
+		tags: string;
 		assettype: "2d" | "3d";
 		shopifyid?: string;
 		[key: string]: any;

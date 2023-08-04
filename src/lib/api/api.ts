@@ -152,13 +152,20 @@ export async function UploadAssetToLibrary(
 		source = Object.values(sourceUpload.urls)[0];
 	}
 
+	const nonemptyTags = data.tags
+		.split(",")
+		.map((i) => i.trim())
+		.filter((i) => i.length > 0);
+
+	const uniqueTags = [...new Set(nonemptyTags)];
+
 	const response: AxiosResponse<T_Response<T_LibraryAsset>> =
 		await axiosInstance.put(
-			"/v1/assets/",
+			"/v1/assets",
 			{
 				name: data.name,
 				description: data.description,
-				tags: data.tags,
+				tags: JSON.stringify(uniqueTags),
 				thumb: thumbnailUrl,
 				source: source,
 				assettype: data.assettype,
@@ -174,7 +181,17 @@ export async function UploadAssetToLibrary(
 
 export async function GetAllLibraryAssets(token: string) {
 	const response: AxiosResponse<T_Response<{ assets: T_LibraryAsset[] }>> =
-		await axiosInstance.get("/v1/assets/", {
+		await axiosInstance.get("/v1/assets", {
+			headers: {
+				"x-access-token": token,
+			},
+		});
+	return response.data;
+}
+
+export async function DeleteLibraryAsset(token: string, id: number) {
+	const response: AxiosResponse<T_Response<{ assets: T_LibraryAsset[] }>> =
+		await axiosInstance.delete(`/v1/assets/${id}`, {
 			headers: {
 				"x-access-token": token,
 			},

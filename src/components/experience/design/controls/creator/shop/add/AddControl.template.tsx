@@ -10,7 +10,11 @@ const AddAsset = () => {
 			<ExperienceIconButton color="blue.1" onClick={open}>
 				<IconPlus />
 			</ExperienceIconButton>
-			<AssetLibrary opened={openedAssetLibrary} onClose={close} />
+			<AssetLibrary
+				opened={openedAssetLibrary}
+				onClose={close}
+				assetSelectable={true}
+			/>
 		</>
 	);
 };

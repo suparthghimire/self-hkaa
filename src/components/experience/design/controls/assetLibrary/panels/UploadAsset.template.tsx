@@ -39,7 +39,7 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 			description: "",
 			name: "",
 			source: "",
-			tags: [],
+			tags: "",
 			thumb: null,
 		},
 		validate: zodResolver(UploadAssetSchema),
@@ -246,7 +246,7 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 					/>
 					<TextInput
 						className="w-full"
-						placeholder="Tags should be separated by spaces"
+						placeholder="Tags should be separated by comma (,)"
 						styles={() => ({
 							input: {
 								height: rem(48),
