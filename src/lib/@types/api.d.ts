@@ -25,6 +25,17 @@ declare module "@api/types" {
 		token: string;
 		tokenspan: number;
 	}>;
+
+	export type T_User = {
+		user: {
+			primary: {
+				username: "suparth";
+				nickname: "CoconutCoffee";
+				email: "suparthnarayanghimire2014@gmail.com";
+				image: null;
+			};
+		};
+	};
 	export type T_LoginSuccess = T_Response<{
 		user: {
 			primary: {

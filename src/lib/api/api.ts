@@ -4,12 +4,14 @@ import {
 	T_DecodeSlugSuccess,
 	T_Demo,
 	T_LoginSuccess,
+	T_Response,
 	T_SessionTokenSuccess,
+	T_User,
 } from "@api/types";
 import axios, { AxiosResponse } from "axios";
+import Cookie from "js-cookie";
 import { API_ENDPOINT } from "../config";
 import { T_Modes } from "../data/constants";
-
 const axiosInstance = axios.create({
 	baseURL: API_ENDPOINT,
 	// withCredentials: true,
@@ -72,6 +74,11 @@ export async function AdminLogin(data: { identity: string; password: string }) {
 			password: data.password,
 		}
 	);
+	// set token in cookie
+	const expiresIn50Mins = new Date(new Date().getTime() + 50 * 60 * 1000);
+	Cookie.set("x-access-token", response.data.data.token, {
+		expires: expiresIn50Mins,
+	});
 	return response.data;
 }
 
@@ -96,6 +103,31 @@ export async function CloudUpload(file: File) {
 		{
 			headers: {
 				"Content-Type": "multipart/form-data",
+			},
+		}
+	);
+	return response.data;
+}
+
+export async function Logout(token: string) {
+	const response = await axiosInstance.post(
+		"/v1/auth/signout",
+		{},
+		{
+			headers: {
+				"x-access-token": token,
+			},
+		}
+	);
+	return response.data;
+}
+
+export async function GetMyData(token: string) {
+	const response: AxiosResponse<T_Response<T_User>> = await axiosInstance.get(
+		"/v1/user/account",
+		{
+			headers: {
+				"x-access-token": token,
 			},
 		}
 	);
