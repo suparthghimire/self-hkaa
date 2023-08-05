@@ -1,5 +1,6 @@
 import { MODES } from "@/lib/data/constants";
 import useExperienceEventListener from "@/lib/hooks/useEventListener";
+import { T_LibraryAsset } from "@api/types";
 import {
 	T_Experience,
 	T_ExperienceInfo,
@@ -65,6 +66,7 @@ const initialState: T_Experience = {
 	sendChatMessage: () => {},
 	setIframeRef: () => {},
 	setRoomInfo: () => {},
+	dropAsset: () => {},
 };
 const ExperienceContext = createContext<T_Experience>(
 	initialState as T_Experience
@@ -188,6 +190,15 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		[]
 	);
 
+	const dropAsset = useCallback(
+		(asset: T_LibraryAsset) =>
+			dispatch({
+				type: "DROP_ASSET",
+				payload: asset,
+			}),
+		[]
+	);
+
 	useExperienceEventListener(dispatch);
 
 	return (
@@ -208,6 +219,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				setSelectedHotspot,
 				setErrorText,
 				setLoadingText,
+				dropAsset,
 			}}
 		>
 			{props.children}

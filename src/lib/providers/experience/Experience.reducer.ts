@@ -183,5 +183,14 @@ export default function reducer(
 				},
 			};
 		}
+		case "DROP_ASSET": {
+			const asset = actions.payload;
+			const message = {
+				key: "dropasset",
+				value: asset,
+			};
+			iframePostMessage(message);
+			return state;
+		}
 	}
 }

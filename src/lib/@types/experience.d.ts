@@ -1,3 +1,4 @@
+import { T_LibraryAsset } from "@api/types";
 import { T_Modes } from "../data/constants";
 
 declare module "@experience/types" {
@@ -68,6 +69,8 @@ declare module "@experience/types" {
 		};
 		setLoadingText: (text: string | null) => void;
 		setErrorText: (text: string | null) => void;
+
+		dropAsset: (asset: T_LibraryAsset) => void;
 	};
 
 	export type T_HotspotInfo = {
@@ -155,5 +158,9 @@ declare module "@experience/types" {
 		| {
 				type: "SET_ERROR_TEXT";
 				payload: string | null;
+		  }
+		| {
+				type: "DROP_ASSET";
+				payload: T_LibraryAsset;
 		  };
 }

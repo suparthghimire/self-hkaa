@@ -2,6 +2,7 @@ import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
 import { GetAllLibraryAssets } from "@/lib/api/api";
 import { useAuth } from "@/lib/providers/Auth/AuthProvider";
+import { useExperience } from "@/lib/providers/experience/Experience.provider";
 import { T_LibraryAsset } from "@api/types";
 import { Modal, ModalProps, Tabs, rem } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
@@ -17,6 +18,8 @@ type T_Props = ModalProps & {
 
 const AssetLibrary: React.FC<T_Props> = (props) => {
 	const [asset, setAsset] = useState<T_LibraryAsset | undefined>(undefined);
+
+	const { dropAsset } = useExperience();
 
 	const { auth } = useAuth();
 	const libraryAssets = useQuery({
@@ -38,7 +41,7 @@ const AssetLibrary: React.FC<T_Props> = (props) => {
 						<Title>Asset Library</Title>
 						<StyledTabs defaultValue="library">
 							<Tabs.List className="mb-6" grow>
-								<Tabs.Tab value="library">Choose from Library</Tabs.Tab>
+								<Tabs.Tab value="library	">Choose from Library</Tabs.Tab>
 								<Tabs.Tab value="upload">Upload Asset</Tabs.Tab>
 							</Tabs.List>
 							<div className="grid gap-[32px] h-full w-full">
@@ -77,7 +80,14 @@ const AssetLibrary: React.FC<T_Props> = (props) => {
 														Back
 													</Button>
 													{props.assetSelectable && (
-														<Button onClick={props.onClose}>Select</Button>
+														<Button
+															onClick={() => {
+																dropAsset(asset);
+																props.onClose();
+															}}
+														>
+															Select
+														</Button>
 													)}
 												</>
 											) : (
