@@ -72,6 +72,9 @@ declare module "@api/types" {
 		thumb: string;
 		tags: string;
 		assettype: "2d" | "3d";
+		position?: [number, number, number];
+		rotation?: [number, number, number];
+		scale?: [number, number, number];
 		shopifyid?: string;
 		[key: string]: any;
 	};

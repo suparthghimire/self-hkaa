@@ -1,3 +1,4 @@
+import { T_LibraryAsset } from "@api/types";
 import { T_Actions, T_HotspotSelect, T_WorldInfo } from "@experience/types";
 import { useEffect } from "react";
 
@@ -95,6 +96,23 @@ export default function useExperienceEventListener(
 						dispatch({
 							type: "SET_ERROR_TEXT",
 							payload: value,
+						});
+						break;
+					}
+					case "select": {
+						const asset = value as T_LibraryAsset;
+						dispatch({
+							type: "RECEIVE_SELECT",
+							payload: asset,
+						});
+
+						break;
+					}
+					case "deselect": {
+						const asset = value as T_LibraryAsset;
+						dispatch({
+							type: "SEND_DESELECTED",
+							payload: asset,
 						});
 						break;
 					}

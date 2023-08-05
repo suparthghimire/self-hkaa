@@ -37,6 +37,9 @@ export async function CreateSessionToken(
 		roomId: string;
 		layoutId: string;
 		mode: T_Modes;
+		extraData?: {
+			[key: string]: any;
+		};
 	}
 ) {
 	const response: AxiosResponse<T_SessionTokenSuccess> =
@@ -47,6 +50,7 @@ export async function CreateSessionToken(
 				layoutid: data.layoutId,
 				mode: data.mode,
 				ui: "lucid",
+				...data.extraData,
 			},
 			{
 				headers: {
