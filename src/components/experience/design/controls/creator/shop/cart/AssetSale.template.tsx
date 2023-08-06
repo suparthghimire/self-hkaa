@@ -1,4 +1,5 @@
 import Button from "@/components/common/Button";
+import StyledDropzone from "@/components/experience/design/common/StyledDropzone.template";
 import StyledLabel from "@/components/experience/design/common/StyledLabel.template";
 import {
 	Modal,
@@ -12,7 +13,6 @@ import {
 	rem,
 	useMantineTheme,
 } from "@mantine/core";
-import { Dropzone, DropzoneProps } from "@mantine/dropzone";
 import { IconInfoCircle, IconUpload } from "@tabler/icons-react";
 import React from "react";
 
@@ -93,23 +93,6 @@ const AssetSale: React.FC<ModalProps> = (props) => {
 	);
 };
 
-const StyledDropzone: React.FC<DropzoneProps> = (props) => {
-	return (
-		<Dropzone
-			{...props}
-			padding={rem(24)}
-			radius={4}
-			styles={() => ({
-				root: {
-					height: rem(187),
-					borderStyle: "solid",
-					display: "grid",
-					placeItems: "center",
-				},
-			})}
-		/>
-	);
-};
 const StyledTextInput: React.FC<TextInputProps> = (props) => {
 	return (
 		<TextInput

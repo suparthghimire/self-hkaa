@@ -12,6 +12,9 @@ type T_Props = {
 	accessToken?: string;
 	leaveUrl: string;
 	ui?: React.ReactNode;
+	sessionTokenData?: {
+		[key: string]: any;
+	};
 };
 const Experience: React.FC<T_Props> = (props) => {
 	const { hasLoaded, setIframeRef, setRoomInfo } = useExperience();
@@ -28,6 +31,7 @@ const Experience: React.FC<T_Props> = (props) => {
 		mode: props.mode,
 		slug: props.roomSlug,
 		accessToken: props.accessToken,
+		extraData: props.sessionTokenData,
 	});
 	const showLoadingScreen = useMemo(
 		() => tokenLoading || !hasLoaded,
@@ -54,7 +58,7 @@ const Experience: React.FC<T_Props> = (props) => {
 	}, [iframeRef]);
 
 	return (
-		<div className="absolute w-screen h-screen top-0 bg-neutral-100 z-[100]">
+		<div className="absolute w-screen h-screen top-0 bg-neutral-100 z-[100] overflow-hidden">
 			{showLoadingScreen && <ExperienceLoading />}
 			<>
 				<iframe

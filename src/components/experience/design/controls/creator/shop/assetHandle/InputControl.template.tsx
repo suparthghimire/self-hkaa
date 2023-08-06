@@ -20,7 +20,8 @@ const StyledSlider: React.FC<SliderProps> = (props) => {
 type T_Props = {
 	label: string;
 };
-const InputControl: React.FC<T_Props> = (props) => {
+
+const InputControl: React.FC<T_Props & SliderProps> = (props) => {
 	return (
 		<div className="w-full grid gap-[12px]">
 			<div className="grid gap-[10px]">
@@ -38,9 +39,11 @@ const InputControl: React.FC<T_Props> = (props) => {
 								padding: 0,
 							},
 						})}
+						value={props.value}
+						onChange={props.onChange}
 					/>
 				</div>
-				<StyledSlider max={100} min={0} defaultValue={50} />
+				<StyledSlider max={100} min={0} defaultValue={50} {...props} />
 			</div>
 		</div>
 	);

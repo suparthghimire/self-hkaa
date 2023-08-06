@@ -1,6 +1,11 @@
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
+import { GetAllLibraryAssets } from "@/lib/api/api";
+import { useAuth } from "@/lib/providers/Auth/AuthProvider";
+import { useExperience } from "@/lib/providers/experience/Experience.provider";
+import { T_LibraryAsset } from "@api/types";
 import { Modal, ModalProps, Tabs, rem } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import StyledTabs from "../../common/StyledTabs.template";
 import LibraryAsset from "./panels/LibraryAsset.template";
@@ -8,11 +13,20 @@ import SingleAsset from "./panels/SingleAsset.template";
 import UploadAsset from "./panels/UploadAsset.template";
 
 type T_Props = ModalProps & {
-	showSingleAsset?: boolean;
+	assetSelectable?: boolean;
 };
 
 const AssetLibrary: React.FC<T_Props> = (props) => {
-	const [assetId, setAssetId] = useState<string | undefined>(undefined);
+	const [asset, setAsset] = useState<T_LibraryAsset | undefined>(undefined);
+
+	const { dropAsset } = useExperience();
+
+	const { auth } = useAuth();
+	const libraryAssets = useQuery({
+		queryKey: ["libraryAssets"],
+		queryFn: () => GetAllLibraryAssets(auth.user?.token ?? ""),
+	});
+
 	return (
 		<>
 			<Modal
@@ -27,31 +41,54 @@ const AssetLibrary: React.FC<T_Props> = (props) => {
 						<Title>Asset Library</Title>
 						<StyledTabs defaultValue="library">
 							<Tabs.List className="mb-6" grow>
-								<Tabs.Tab value="library">Choose from Library</Tabs.Tab>
+								<Tabs.Tab value="library	">Choose from Library</Tabs.Tab>
 								<Tabs.Tab value="upload">Upload Asset</Tabs.Tab>
 							</Tabs.List>
 							<div className="grid gap-[32px] h-full w-full">
 								<Tabs.Panel value="library">
 									<div className="h-full flex flex-col justify-between">
-										{!assetId ? (
-											<LibraryAsset
-												setAssetId={
-													props.showSingleAsset ? setAssetId : () => {}
-												}
-											/>
+										{!asset ? (
+											<>
+												{libraryAssets.data && (
+													<LibraryAsset
+														setAsset={setAsset}
+														refetch={libraryAssets.refetch}
+														assets={libraryAssets.data.data.assets}
+													/>
+												)}
+												{libraryAssets.isLoading && (
+													<div className="grid w-full h-full place-items-center">
+														Loading Assets
+													</div>
+												)}
+												{libraryAssets.isError && (
+													<div className="grid w-full h-full place-items-center">
+														Error while loading assets
+													</div>
+												)}
+											</>
 										) : (
-											<SingleAsset />
+											<SingleAsset asset={asset} />
 										)}
 										<div className="flex items-center justify-center gap-[48px]">
-											{assetId ? (
+											{asset ? (
 												<>
 													<Button
 														variant="outline"
-														onClick={() => setAssetId(undefined)}
+														onClick={() => setAsset(undefined)}
 													>
 														Back
 													</Button>
-													<Button onClick={props.onClose}>Select</Button>
+													{props.assetSelectable && (
+														<Button
+															onClick={() => {
+																dropAsset(asset);
+																props.onClose();
+															}}
+														>
+															Select
+														</Button>
+													)}
 												</>
 											) : (
 												<Button onClick={props.onClose}>Done</Button>

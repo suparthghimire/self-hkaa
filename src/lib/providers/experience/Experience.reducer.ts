@@ -183,5 +183,57 @@ export default function reducer(
 				},
 			};
 		}
+		case "DROP_ASSET": {
+			const asset = actions.payload;
+			const message = {
+				key: "dropasset",
+				value: asset,
+			};
+			iframePostMessage(message);
+			return state;
+		}
+		case "RECEIVE_SELECT":
+		case "SEND_SELECTED": {
+			const asset = actions.payload;
+			const message = {
+				key: "selected",
+				value: asset,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				asset: {
+					...state.asset,
+					selected: asset,
+				},
+			};
+		}
+		case "RECEIVE_DESELECT":
+		case "SEND_DESELECTED": {
+			const asset = actions.payload;
+			if (!asset) return state;
+
+			const message = {
+				key: "deselected",
+				value: asset,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				asset: {
+					...state.asset,
+					selected: null,
+				},
+			};
+		}
+		case "UPDATE_ASSET": {
+			const { type, value } = actions.payload;
+			const message = {
+				key: type,
+				value: value,
+			};
+			iframePostMessage(message);
+			return state;
+		}
 	}
 }

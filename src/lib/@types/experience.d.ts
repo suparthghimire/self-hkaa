@@ -1,3 +1,4 @@
+import { T_LibraryAsset } from "@api/types";
 import { T_Modes } from "../data/constants";
 
 declare module "@experience/types" {
@@ -21,6 +22,9 @@ declare module "@experience/types" {
 		| "audio"
 		| "video"
 		| "stream";
+
+	export type T_TransformType = "xmove" | "ymove" | "zmove" | "xscale" | "yrot";
+
 	export type T_HotspotSelect = {
 		assettype: T_HotspotAssetType;
 		targetname: string;
@@ -68,6 +72,16 @@ declare module "@experience/types" {
 		};
 		setLoadingText: (text: string | null) => void;
 		setErrorText: (text: string | null) => void;
+
+		asset: {
+			selected: T_LibraryAsset | null;
+		};
+
+		dropAsset: (asset: T_LibraryAsset) => void;
+		receiveSelect: (asset: T_LibraryAsset) => void;
+		sendSelected: (asset: T_LibraryAsset) => void;
+		sendDeselected: (asset: T_LibraryAsset) => void;
+		updateAsset: (data: { type: T_TransformType; value: number }) => void;
 	};
 
 	export type T_HotspotInfo = {
@@ -155,5 +169,32 @@ declare module "@experience/types" {
 		| {
 				type: "SET_ERROR_TEXT";
 				payload: string | null;
+		  }
+		| {
+				type: "DROP_ASSET";
+				payload: T_LibraryAsset;
+		  }
+		| {
+				type: "RECEIVE_SELECT";
+				payload: T_LibraryAsset;
+		  }
+		| {
+				type: "SEND_SELECTED";
+				payload: T_LibraryAsset;
+		  }
+		| {
+				type: "RECEIVE_DESELECT";
+				payload: T_LibraryAsset;
+		  }
+		| {
+				type: "SEND_DESELECTED";
+				payload: T_LibraryAsset;
+		  }
+		| {
+				type: "UPDATE_ASSET";
+				payload: {
+					type: T_TransformType;
+					value: number;
+				};
 		  };
 }

@@ -2,10 +2,7 @@ declare module "@api/types" {
 	export type T_Demo = {
 		key: string;
 	};
-	export type T_LibraryAsset = {
-		image: string;
-		title: string;
-	};
+
 	export type T_Response<T> = {
 		success: boolean;
 		data: T;
@@ -65,5 +62,20 @@ declare module "@api/types" {
 		};
 		errfiles: [];
 		errors: boolean;
+	};
+	export type T_LibraryAsset = {
+		id: number;
+		uuid?: string;
+		name: string;
+		source: string;
+		description: string;
+		thumb: string;
+		tags: string;
+		assettype: "2d" | "3d";
+		position?: [number, number, number];
+		rotation?: [number, number, number];
+		scale?: [number, number, number];
+		shopifyid?: string;
+		[key: string]: any;
 	};
 }

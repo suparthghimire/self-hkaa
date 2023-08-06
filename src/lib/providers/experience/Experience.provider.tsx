@@ -1,10 +1,12 @@
 import { MODES } from "@/lib/data/constants";
 import useExperienceEventListener from "@/lib/hooks/useEventListener";
+import { T_LibraryAsset } from "@api/types";
 import {
 	T_Experience,
 	T_ExperienceInfo,
 	T_HotspotAssetSend,
 	T_HotspotSelect,
+	T_TransformType,
 	T_WorldInfo,
 } from "@experience/types";
 import {
@@ -65,6 +67,14 @@ const initialState: T_Experience = {
 	sendChatMessage: () => {},
 	setIframeRef: () => {},
 	setRoomInfo: () => {},
+	asset: {
+		selected: null,
+	},
+	dropAsset: () => {},
+	receiveSelect: () => {},
+	sendSelected: () => {},
+	sendDeselected: () => {},
+	updateAsset: () => {},
 };
 const ExperienceContext = createContext<T_Experience>(
 	initialState as T_Experience
@@ -188,6 +198,48 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		[]
 	);
 
+	const dropAsset = useCallback(
+		(asset: T_LibraryAsset) =>
+			dispatch({
+				type: "DROP_ASSET",
+				payload: asset,
+			}),
+		[]
+	);
+
+	const receiveSelect = useCallback(
+		(asset: T_LibraryAsset) =>
+			dispatch({
+				type: "RECEIVE_SELECT",
+				payload: asset,
+			}),
+		[]
+	);
+	const sendSelected = useCallback(
+		(asset: T_LibraryAsset) =>
+			dispatch({
+				type: "SEND_SELECTED",
+				payload: asset,
+			}),
+		[]
+	);
+	const sendDeselected = useCallback(
+		(asset: T_LibraryAsset) =>
+			dispatch({
+				type: "SEND_DESELECTED",
+				payload: asset,
+			}),
+		[]
+	);
+	const updateAsset = useCallback(
+		(data: { type: T_TransformType; value: number }) =>
+			dispatch({
+				type: "UPDATE_ASSET",
+				payload: data,
+			}),
+		[]
+	);
+
 	useExperienceEventListener(dispatch);
 
 	return (
@@ -208,6 +260,11 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				setSelectedHotspot,
 				setErrorText,
 				setLoadingText,
+				dropAsset,
+				receiveSelect,
+				sendSelected,
+				sendDeselected,
+				updateAsset,
 			}}
 		>
 			{props.children}

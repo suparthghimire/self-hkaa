@@ -13,6 +13,9 @@ export const USER_INSTANCES: T_Instance[] = [
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
 		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-1",
+		sessionTokenData: {
+			config: "config-dev",
+		},
 	},
 	{
 		id: 2,
@@ -25,6 +28,9 @@ export const USER_INSTANCES: T_Instance[] = [
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
 		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-2",
+		sessionTokenData: {
+			config: "config-dev",
+		},
 	},
 	{
 		id: 3,
@@ -37,6 +43,9 @@ export const USER_INSTANCES: T_Instance[] = [
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
 		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-3",
+		sessionTokenData: {
+			config: "config-dev",
+		},
 	},
 ];
 
@@ -52,6 +61,9 @@ export const ADMIN_INSTANCES = [
 		buttonName: "Enter Instance",
 		date: "19/07/2023",
 		slug: "hkaa-instance-1",
+		sessionTokenData: {
+			config: "config-dev",
+		},
 	},
 	...USER_INSTANCES,
 ];

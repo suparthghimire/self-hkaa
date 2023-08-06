@@ -1,7 +1,9 @@
 import CustomButton from "@/components/common/Button";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import ExperienceIconButton from "@/components/experience/design/common/IconButton";
+import { useExperience } from "@/lib/providers/experience/Experience.provider";
 import { Button, Drawer, Text, rem } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import InputControl from "./InputControl.template";
@@ -13,6 +15,19 @@ const AssetHandle = () => {
 		revertModalOpened,
 		{ open: openRevertConfirm, close: closeRevertConfirm },
 	] = useDisclosure(false);
+
+	const {
+		updateAsset,
+		asset: { selected },
+	} = useExperience();
+
+	const form = useForm({
+		initialValues: {
+			z: selected?.position?.at(0) ?? 50,
+			x: selected?.position?.at(1) ?? 50,
+			y: selected?.position?.at(2) ?? 50,
+		},
+	});
 
 	return (
 		<>
@@ -50,9 +65,39 @@ const AssetHandle = () => {
 						</Text>
 						<div className="grid mt-[48px] gap-[48px]">
 							<div className="grid gap-[12px]">
-								<InputControl label="Vertical" />
-								<InputControl label="Horizontal A" />
-								<InputControl label="Horizontal A" />
+								<InputControl
+									label="Vertical"
+									value={form.values.z}
+									onChange={(v) => {
+										form.setFieldValue("z", v);
+										updateAsset({
+											type: "zmove",
+											value: v,
+										});
+									}}
+								/>
+								<InputControl
+									label="Horizontal A"
+									value={form.values.x}
+									onChange={(v) => {
+										form.setFieldValue("x", v);
+										updateAsset({
+											type: "xmove",
+											value: v,
+										});
+									}}
+								/>
+								<InputControl
+									label="Horizontal B"
+									value={form.values.y}
+									onChange={(v) => {
+										form.setFieldValue("y", v);
+										updateAsset({
+											type: "ymove",
+											value: v,
+										});
+									}}
+								/>
 							</div>
 							<div className="grid gap-[12px]">
 								<InputControl label="Rotate" />

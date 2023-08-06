@@ -10,5 +10,8 @@ declare module "@app/types" {
 		buttonName: string;
 		date: string;
 		slug: string;
+		sessionTokenData: {
+			[key: string]: any;
+		};
 	};
 }

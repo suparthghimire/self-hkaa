@@ -7,6 +7,9 @@ type T_SessionTokenData = {
 	mode: T_Modes;
 	accessToken?: string;
 	slug: string;
+	extraData?: {
+		[key: string]: any;
+	};
 };
 const useSessionToken = (data: T_SessionTokenData) => {
 	const [decodeToken, anonLogin] = useQueries({
@@ -29,6 +32,7 @@ const useSessionToken = (data: T_SessionTokenData) => {
 				layoutId: HKAA_LAYOUT,
 				roomId: roomId,
 				mode: data.mode,
+				extraData: data.extraData,
 			}),
 	});
 
