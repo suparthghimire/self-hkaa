@@ -104,6 +104,8 @@ const AssetHandle = () => {
 								<InputControl
 									label="Rotate"
 									value={form.values.z}
+									min={-180}
+									max={180}
 									onChange={(v) => {
 										form.setFieldValue("rotate", v);
 										updateAsset({
@@ -114,6 +116,8 @@ const AssetHandle = () => {
 								/>
 								<InputControl
 									label="Size"
+									min={0.01}
+									max={10}
 									onChange={(v) => {
 										form.setFieldValue("scale", v);
 										updateAsset({
