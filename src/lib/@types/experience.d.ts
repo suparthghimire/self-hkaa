@@ -38,6 +38,11 @@ declare module "@experience/types" {
 			[other: string]: any;
 		};
 	};
+
+	type T_ExperienceAsset = T_LibraryAsset & {
+		dbid: number;
+		assetsaleid?: number;
+	};
 	export type T_Experience = {
 		roomInfo: T_ExperienceInfo;
 		worldInfo: T_WorldInfo;
@@ -74,14 +79,15 @@ declare module "@experience/types" {
 		setErrorText: (text: string | null) => void;
 
 		asset: {
-			selected: T_LibraryAsset | null;
+			selected: T_ExperienceAsset | null;
 		};
 
-		dropAsset: (asset: T_LibraryAsset) => void;
-		receiveSelect: (asset: T_LibraryAsset) => void;
-		sendSelected: (asset: T_LibraryAsset) => void;
-		sendDeselected: (asset: T_LibraryAsset) => void;
+		dropAsset: (asset: T_ExperienceAsset) => void;
+		receiveSelect: (asset: T_ExperienceAsset) => void;
+		sendSelected: (asset: T_ExperienceAsset) => void;
+		sendDeselected: (asset: T_ExperienceAsset) => void;
 		updateAsset: (data: { type: T_TransformType; value: number }) => void;
+		sendAssetMeta: (data: { [key: string]: any }) => void;
 	};
 
 	export type T_HotspotInfo = {
@@ -172,29 +178,39 @@ declare module "@experience/types" {
 		  }
 		| {
 				type: "DROP_ASSET";
-				payload: T_LibraryAsset;
+				payload: T_ExperienceAsset;
 		  }
 		| {
 				type: "RECEIVE_SELECT";
-				payload: T_LibraryAsset;
+				payload: T_ExperienceAsset;
 		  }
 		| {
 				type: "SEND_SELECTED";
-				payload: T_LibraryAsset;
+				payload: T_ExperienceAsset;
 		  }
 		| {
 				type: "RECEIVE_DESELECT";
-				payload: T_LibraryAsset;
+				payload: T_ExperienceAsset;
 		  }
 		| {
 				type: "SEND_DESELECTED";
-				payload: T_LibraryAsset;
+				payload: T_ExperienceAsset;
 		  }
 		| {
 				type: "UPDATE_ASSET";
 				payload: {
 					type: T_TransformType;
 					value: number;
+				};
+		  }
+		| {
+				type: "SET_SELECTED_ASSET";
+				payload: T_ExperienceAsset | null;
+		  }
+		| {
+				type: "SEND_ASSET_META";
+				payload: {
+					[key: string]: any;
 				};
 		  };
 }

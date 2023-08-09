@@ -14,13 +14,38 @@ export const MODES = {
 export type T_Modes = (typeof MODES)[keyof typeof MODES];
 export const HKAA_LAYOUT = "AAHK_V03";
 
-export const VIDEO_MIMES = ["video/mp4", "video/webm"];
-export const IMAGE_MIMES = ["image/jpeg", "image/png", "image/webp"];
+export const IMG_MIMES = ["image/jpeg", "image/png", "image/webp"];
 
-export const VALID_MEDIA_UPLOAD_MIMES = [...IMAGE_MIMES, ...VIDEO_MIMES];
+export const VIDEO_MIMES = ["video/mp4", "video/webm"];
+
+export const VALID_MEDIA_UPLOAD_MIMES = [...IMG_MIMES, ...VIDEO_MIMES];
 
 export const VALID_MEDIA_EXT = VALID_MEDIA_UPLOAD_MIMES.map(
 	(mime) => mime.split("/")[1]
 );
 export const SHOP_PATH = "/admin/shop";
 export const MAX_FILE_SIZE = 1024 * 1024 * 10; // 10MB
+
+export const ASSET_TRANSFORM = {
+	positon: {
+		step: 0.01,
+		offset: -10,
+		scalar: 20,
+		min: -10,
+		max: 10,
+	},
+	scale: {
+		step: 0.01,
+		scalar: 10,
+		offset: 0,
+	},
+	rotation: {
+		step: 0.01,
+		scalar: 360,
+		offset: 0,
+	},
+};
+
+function X() {}
+
+X.bind(ASSET_TRANSFORM);

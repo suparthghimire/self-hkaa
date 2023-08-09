@@ -116,6 +116,15 @@ export default function useExperienceEventListener(
 						});
 						break;
 					}
+					case "sceneasset": {
+						const asset = value as T_LibraryAsset & {
+							dbid: number;
+						};
+						dispatch({
+							type: "RECEIVE_SELECT",
+							payload: asset,
+						});
+					}
 				}
 			} catch (error) {
 				console.log("EVENT NOT FROM IFRAME");
