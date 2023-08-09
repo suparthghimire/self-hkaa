@@ -26,19 +26,18 @@ const AssetHandle = () => {
 			z: selected?.position?.at(0) ?? 50,
 			x: selected?.position?.at(1) ?? 50,
 			y: selected?.position?.at(2) ?? 50,
+			rotate: selected?.rotation?.at(0) ?? 0,
+			size: selected?.scale?.at(0) ?? 1,
 		},
 	});
 
 	return (
 		<>
 			<Drawer
+				withOverlay={false}
 				opened={drawerOpened}
 				onClose={closeDrawer}
 				position="right"
-				overlayProps={{
-					blur: 0,
-					opacity: 0,
-				}}
 				padding={rem(40)}
 				closeButtonProps={{
 					iconSize: rem(24),
@@ -64,7 +63,7 @@ const AssetHandle = () => {
 							Asset Positioning
 						</Text>
 						<div className="grid mt-[48px] gap-[48px]">
-							<div className="grid gap-[12px]">
+							{/* <div className="grid gap-[12px]">
 								<InputControl
 									label="Vertical"
 									value={form.values.z}
@@ -79,6 +78,7 @@ const AssetHandle = () => {
 								<InputControl
 									label="Horizontal A"
 									value={form.values.x}
+									step={0.01}
 									onChange={(v) => {
 										form.setFieldValue("x", v);
 										updateAsset({
@@ -90,6 +90,7 @@ const AssetHandle = () => {
 								<InputControl
 									label="Horizontal B"
 									value={form.values.y}
+									step={0.01}
 									onChange={(v) => {
 										form.setFieldValue("y", v);
 										updateAsset({
@@ -98,10 +99,33 @@ const AssetHandle = () => {
 										});
 									}}
 								/>
-							</div>
+							</div> */}
 							<div className="grid gap-[12px]">
-								<InputControl label="Rotate" />
-								<InputControl label="Size" />
+								<InputControl
+									label="Rotate"
+									value={form.values.z}
+									min={-180}
+									max={180}
+									onChange={(v) => {
+										form.setFieldValue("rotate", v);
+										updateAsset({
+											type: "yrot",
+											value: v,
+										});
+									}}
+								/>
+								<InputControl
+									label="Size"
+									min={0.01}
+									max={10}
+									onChange={(v) => {
+										form.setFieldValue("scale", v);
+										updateAsset({
+											type: "xscale",
+											value: v,
+										});
+									}}
+								/>
 							</div>
 							<div className="grid cursor-pointer">
 								<Button

@@ -184,7 +184,11 @@ export default function reducer(
 			};
 		}
 		case "DROP_ASSET": {
-			const asset = actions.payload;
+			const asset = actions.payload as any;
+			// rename id key to dbid
+			asset.dbid = asset.id;
+			delete asset.id;
+
 			const message = {
 				key: "dropasset",
 				value: asset,
@@ -197,7 +201,7 @@ export default function reducer(
 			const asset = actions.payload;
 			const message = {
 				key: "selected",
-				value: asset,
+				value: asset.id,
 			};
 			iframePostMessage(message);
 			return {
@@ -210,12 +214,12 @@ export default function reducer(
 		}
 		case "RECEIVE_DESELECT":
 		case "SEND_DESELECTED": {
-			const asset = actions.payload;
+			const asset = state.asset.selected;
 			if (!asset) return state;
 
 			const message = {
 				key: "deselected",
-				value: asset,
+				value: asset.id,
 			};
 			iframePostMessage(message);
 			return {
@@ -233,6 +237,31 @@ export default function reducer(
 				value: value,
 			};
 			iframePostMessage(message);
+			return state;
+		}
+		case "SET_SELECTED_ASSET": {
+			const asset = actions.payload;
+			return {
+				...state,
+				asset: {
+					...state.asset,
+					selected: asset,
+				},
+			};
+		}
+		case "SEND_ASSET_META": {
+			const selectedAsset = state.asset.selected;
+
+			if (!selectedAsset) return state;
+			const message = {
+				key: "assetmeta",
+				value: {
+					id: selectedAsset.id,
+					value: actions.payload,
+				},
+			};
+			iframePostMessage(message);
+
 			return state;
 		}
 	}

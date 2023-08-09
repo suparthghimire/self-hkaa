@@ -1,8 +1,8 @@
 import { MODES } from "@/lib/data/constants";
 import useExperienceEventListener from "@/lib/hooks/useEventListener";
-import { T_LibraryAsset } from "@api/types";
 import {
 	T_Experience,
+	T_ExperienceAsset,
 	T_ExperienceInfo,
 	T_HotspotAssetSend,
 	T_HotspotSelect,
@@ -75,6 +75,7 @@ const initialState: T_Experience = {
 	sendSelected: () => {},
 	sendDeselected: () => {},
 	updateAsset: () => {},
+	sendAssetMeta: () => {},
 };
 const ExperienceContext = createContext<T_Experience>(
 	initialState as T_Experience
@@ -199,7 +200,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 	);
 
 	const dropAsset = useCallback(
-		(asset: T_LibraryAsset) =>
+		(asset: T_ExperienceAsset) =>
 			dispatch({
 				type: "DROP_ASSET",
 				payload: asset,
@@ -208,7 +209,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 	);
 
 	const receiveSelect = useCallback(
-		(asset: T_LibraryAsset) =>
+		(asset: T_ExperienceAsset) =>
 			dispatch({
 				type: "RECEIVE_SELECT",
 				payload: asset,
@@ -216,7 +217,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		[]
 	);
 	const sendSelected = useCallback(
-		(asset: T_LibraryAsset) =>
+		(asset: T_ExperienceAsset) =>
 			dispatch({
 				type: "SEND_SELECTED",
 				payload: asset,
@@ -224,7 +225,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		[]
 	);
 	const sendDeselected = useCallback(
-		(asset: T_LibraryAsset) =>
+		(asset: T_ExperienceAsset) =>
 			dispatch({
 				type: "SEND_DESELECTED",
 				payload: asset,
@@ -239,6 +240,20 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 			}),
 		[]
 	);
+	const sendAssetMeta = useCallback((data: { [key: string]: any }) => {
+		dispatch({
+			type: "SEND_ASSET_META",
+			payload: data,
+		});
+	}, []);
+
+	// const sendAssetMeta = useCallback((data: { [key: string]: any }) => {
+	// 	console.log("SEND ASSET META");
+	// 	dispatch({
+	// 		type: "SEND_ASSET_META",
+	// 		payload: data,
+	// 	});
+	// }, []);
 
 	useExperienceEventListener(dispatch);
 
@@ -265,6 +280,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				sendSelected,
 				sendDeselected,
 				updateAsset,
+				sendAssetMeta,
 			}}
 		>
 			{props.children}

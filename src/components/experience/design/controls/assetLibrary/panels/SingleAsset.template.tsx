@@ -3,7 +3,7 @@ import { Badge, Box, Text } from "@mantine/core";
 import React from "react";
 
 type T_Props = {
-	asset: T_LibraryAsset;
+	asset: T_LibraryAsset<number>;
 };
 
 const SingleAsset: React.FC<T_Props> = (props) => {

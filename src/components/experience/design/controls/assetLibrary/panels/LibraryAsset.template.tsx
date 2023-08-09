@@ -10,8 +10,8 @@ import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 
 type T_Props = {
-	setAsset: (asset: T_LibraryAsset) => void;
-	assets: T_LibraryAsset[];
+	setAsset: (asset: T_LibraryAsset<number>) => void;
+	assets: T_LibraryAsset<number>[];
 	refetch: () => void;
 };
 
@@ -146,7 +146,7 @@ const LibraryAsset: React.FC<T_Props> = (props) => {
 	);
 };
 type T_AssetItemProps = {
-	asset: T_LibraryAsset;
+	asset: T_LibraryAsset<number>;
 	onRemove: () => void;
 	onClick: () => void;
 };

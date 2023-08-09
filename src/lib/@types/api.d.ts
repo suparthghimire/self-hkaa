@@ -63,8 +63,8 @@ declare module "@api/types" {
 		errfiles: [];
 		errors: boolean;
 	};
-	export type T_LibraryAsset = {
-		id: number;
+	export type T_LibraryAsset<T_Id = string> = {
+		id: T_Id;
 		uuid?: string;
 		name: string;
 		source: string;
@@ -77,5 +77,15 @@ declare module "@api/types" {
 		scale?: [number, number, number];
 		shopifyid?: string;
 		[key: string]: any;
+	};
+	export type T_AssetSale = {
+		assetSale: {
+			id: number;
+			name: string;
+			description: string;
+			price: string;
+			url: string;
+			media: (string | File)[] | string;
+		};
 	};
 }

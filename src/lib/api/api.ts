@@ -1,6 +1,8 @@
+import { T_LinkAsset } from "@/components/experience/lib/schema/linkAsset.schema";
 import { T_UploadAssetSchema } from "@/components/experience/lib/schema/uploadAsset.schema";
 import {
 	T_AnonLoginSuccess,
+	T_AssetSale,
 	T_CloudUpload,
 	T_DecodeSlugSuccess,
 	T_Demo,
@@ -163,7 +165,7 @@ export async function UploadAssetToLibrary(
 
 	const uniqueTags = [...new Set(nonemptyTags)];
 
-	const response: AxiosResponse<T_Response<T_LibraryAsset>> =
+	const response: AxiosResponse<T_Response<T_LibraryAsset<number>>> =
 		await axiosInstance.put(
 			"/v1/assets",
 			{
@@ -184,8 +186,69 @@ export async function UploadAssetToLibrary(
 }
 
 export async function GetAllLibraryAssets(token: string) {
-	const response: AxiosResponse<T_Response<{ assets: T_LibraryAsset[] }>> =
-		await axiosInstance.get("/v1/assets", {
+	const response: AxiosResponse<
+		T_Response<{ assets: T_LibraryAsset<number>[] }>
+	> = await axiosInstance.get("/v1/assets", {
+		headers: {
+			"x-access-token": token,
+		},
+	});
+	return response.data;
+}
+
+export async function DeleteLibraryAsset(token: string, id: number) {
+	const response: AxiosResponse<
+		T_Response<{ assets: T_LibraryAsset<number>[] }>
+	> = await axiosInstance.delete(`/v1/assets/${id}`, {
+		headers: {
+			"x-access-token": token,
+		},
+	});
+	return response.data;
+}
+
+export async function CreateAssetSale(data: T_LinkAsset, token: string) {
+	const mediaFiles = data.media.filter((m) => m instanceof File) as File[];
+	// upload all media
+
+	const mediaUpload = await Promise.all(
+		mediaFiles.map((m) => {
+			return CloudUpload(m);
+		})
+	);
+
+	const mediaSrc = mediaUpload.map((m) => Object.values(m.urls)[0]);
+
+	const media = [
+		...mediaSrc,
+		...data.media.filter((m) => typeof m === "string"),
+	] as string[];
+
+	const response: AxiosResponse<T_Response<T_AssetSale>> =
+		await axiosInstance.post(
+			`/v1/assets/sale`,
+			{
+				...data,
+				media,
+			},
+			{
+				headers: {
+					"x-access-token": token,
+				},
+			}
+		);
+	return response.data;
+}
+
+export async function GetSingleAssetSale(token: string, id: string) {
+	const params = new URLSearchParams({
+		id: id,
+	});
+	console.log("params");
+	console.log("params", id);
+	const response: AxiosResponse<T_Response<T_AssetSale>> =
+		await axiosInstance.get("/v1/assets/sale", {
+			params,
 			headers: {
 				"x-access-token": token,
 			},
@@ -193,12 +256,39 @@ export async function GetAllLibraryAssets(token: string) {
 	return response.data;
 }
 
-export async function DeleteLibraryAsset(token: string, id: number) {
-	const response: AxiosResponse<T_Response<{ assets: T_LibraryAsset[] }>> =
-		await axiosInstance.delete(`/v1/assets/${id}`, {
-			headers: {
-				"x-access-token": token,
+export async function UpdateAssetSale(
+	data: T_LinkAsset,
+	id: number,
+	token: string
+) {
+	const mediaFiles = data.media.filter((m) => m instanceof File) as File[];
+	// upload all media
+
+	const mediaUpload = await Promise.all(
+		mediaFiles.map((m) => {
+			return CloudUpload(m);
+		})
+	);
+
+	const mediaSrc = mediaUpload.map((m) => Object.values(m.urls)[0]);
+
+	const media = [
+		...mediaSrc,
+		...data.media.filter((m) => typeof m === "string"),
+	] as string[];
+
+	const response: AxiosResponse<T_Response<T_AssetSale>> =
+		await axiosInstance.patch(
+			`/v1/assets/sale/${id}`,
+			{
+				...data,
+				media,
 			},
-		});
+			{
+				headers: {
+					"x-access-token": token,
+				},
+			}
+		);
 	return response.data;
 }
