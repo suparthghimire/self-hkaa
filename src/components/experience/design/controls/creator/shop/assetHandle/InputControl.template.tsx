@@ -43,7 +43,13 @@ const InputControl: React.FC<T_Props & SliderProps> = (props) => {
 						onChange={props.onChange}
 					/>
 				</div>
-				<StyledSlider max={100} min={0} defaultValue={50} {...props} />
+				<StyledSlider
+					step={0.01}
+					max={100}
+					min={0}
+					defaultValue={50}
+					{...props}
+				/>
 			</div>
 		</div>
 	);
