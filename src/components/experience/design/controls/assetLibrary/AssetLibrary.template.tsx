@@ -17,7 +17,9 @@ type T_Props = ModalProps & {
 };
 
 const AssetLibrary: React.FC<T_Props> = (props) => {
-	const [asset, setAsset] = useState<T_LibraryAsset | undefined>(undefined);
+	const [asset, setAsset] = useState<T_LibraryAsset<number> | undefined>(
+		undefined
+	);
 
 	const { dropAsset } = useExperience();
 
@@ -82,7 +84,11 @@ const AssetLibrary: React.FC<T_Props> = (props) => {
 													{props.assetSelectable && (
 														<Button
 															onClick={() => {
-																dropAsset(asset);
+																dropAsset({
+																	...asset,
+																	id: asset.id.toString(),
+																	dbid: -1,
+																});
 																props.onClose();
 															}}
 														>
