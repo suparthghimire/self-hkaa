@@ -52,6 +52,7 @@ export async function CreateSessionToken(
 				layoutid: data.layoutId,
 				mode: data.mode,
 				ui: "lucid",
+				webglversion: 1,
 				...data.extraData,
 			},
 			{
