@@ -43,7 +43,7 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 							<Link
 								href={
 									type === "user"
-										? `/world/${slug}`
+										? `/instance/${slug}`
 										: `/admin/visitor/${experienceType}/${slug}`
 								}
 							>
