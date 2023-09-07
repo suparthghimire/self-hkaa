@@ -43,7 +43,7 @@ const AssetLibrary: React.FC<T_Props> = (props) => {
 						<Title>Asset Library</Title>
 						<StyledTabs defaultValue="library">
 							<Tabs.List className="mb-6" grow>
-								<Tabs.Tab value="library	">Choose from Library</Tabs.Tab>
+								<Tabs.Tab value="library">Choose from Library</Tabs.Tab>
 								<Tabs.Tab value="upload">Upload Asset</Tabs.Tab>
 							</Tabs.List>
 							<div className="grid gap-[32px] h-full w-full">

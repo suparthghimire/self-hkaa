@@ -22,7 +22,7 @@ const StyledTabs: React.FC<TabsProps> = (props) => {
 					fontFamily: FONT_FAMILY,
 
 					"&[data-active]": {
-						borderBottom: `3px solid ${theme.colors.blue[0]}`,
+						borderBottom: `3px solid ${theme.colors.primaryBlue[5]}`,
 						fontWeight: 600,
 					},
 				},

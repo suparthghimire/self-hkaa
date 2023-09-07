@@ -9,6 +9,7 @@ import {
 	T_LibraryAsset,
 	T_LoginSuccess,
 	T_Response,
+	T_RoomAnalytics,
 	T_SessionTokenSuccess,
 	T_User,
 } from "@api/types";
@@ -292,4 +293,15 @@ export async function UpdateAssetSale(
 			}
 		);
 	return response.data;
+}
+
+export async function GetRoomStat() {
+	// https://shadowversedev.shadowfactory.io:8443/worlds/users
+	const response: AxiosResponse<T_RoomAnalytics> = await axiosInstance.get(
+		"/worlds/users"
+	);
+	const data = response.data;
+
+	// filter all data where world_name ends with _2
+	return data.filter((d) => d.worldName.endsWith("_2"));
 }

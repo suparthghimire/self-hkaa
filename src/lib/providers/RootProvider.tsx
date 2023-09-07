@@ -33,8 +33,24 @@ const RootProvider: React.FC<PropsWithChildren> = (props) => {
 									"#6A89F8",
 									"#6A89F8",
 								],
+								primaryBlue: [
+									"#ffffff",
+									"#c6d2ff",
+									"#8da5ff",
+									"#5579fe",
+									"#0030e2",
+									"#1c4cff",
+									"#6A89F8",
+									"#0024aa",
+									"#001871",
+									"#000c38",
+								],
 							},
-							primaryColor: "blue",
+							primaryShade: {
+								light: 5,
+								dark: 6,
+							},
+							primaryColor: "primaryBlue",
 							fontFamily: FONT_FAMILY,
 						}}
 					>

@@ -32,16 +32,22 @@ function StyledTabs(props: TabsProps) {
 					justifyContent: "center",
 					alignItems: "center",
 					borderRadius: "12px",
-
+					":hover": {
+						backgroundColor: theme.colors.primaryBlue[6],
+						color: "#fff",
+					},
 					"&:disabled": {
 						opacity: 0.5,
 						cursor: "not-allowed",
 					},
-
 					"&[data-active]": {
-						backgroundColor: theme.colors.blue[7],
-						borderColor: theme.colors.blue[7],
+						backgroundColor: theme.colors.primaryBlue[5],
+						borderColor: theme.colors.primaryBlue[5],
 						color: "#fff",
+						":hover": {
+							backgroundColor: theme.colors.primaryBlue[6],
+							color: "#fff",
+						},
 					},
 				},
 				tabsList: {
