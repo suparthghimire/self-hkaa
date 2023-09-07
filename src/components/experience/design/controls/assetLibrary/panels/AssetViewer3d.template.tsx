@@ -13,7 +13,13 @@ function Model(props: { url: string; [x: string]: any }) {
 
 const AssetViewer3d: React.FC<T_Props> = (props) => {
 	return (
-		<Suspense fallback={<Loader />}>
+		<Suspense
+			fallback={
+				<div className="w-full h-full grid place-items-center">
+					<Loader />
+				</div>
+			}
+		>
 			<Canvas
 				dpr={[1, 2]}
 				camera={{

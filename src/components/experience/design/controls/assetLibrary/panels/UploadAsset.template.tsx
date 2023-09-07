@@ -1,5 +1,6 @@
 import CustomButtom from "@/components/common/Button";
 import {
+	IsValidSrcType,
 	T_UploadAssetSchema,
 	UploadAssetSchema,
 } from "@/components/experience/lib/schema/uploadAsset.schema";
@@ -7,22 +8,26 @@ import { UploadAssetToLibrary } from "@/lib/api/api";
 import useShowStatusNotification from "@/lib/hooks/useShowStatusNotification";
 import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import {
+	ActionIcon,
 	Button,
 	Divider,
 	FileButton,
 	Text,
 	TextInput,
 	Textarea,
+	Tooltip,
 	rem,
 	useMantineTheme,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-import { IconUpload } from "@tabler/icons-react";
+import { showNotification } from "@mantine/notifications";
+import { IconTrash, IconUpload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
-import React, { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import React, { useState } from "react";
 import StyledDropzone from "../../../common/StyledDropzone.template";
 import StyledLabel from "../../../common/StyledLabel.template";
-import AssetViewer from "./AssetViewer.template";
+import AssetViewer3d from "./AssetViewer3d.template";
 type T_Props = {
 	onDone: () => void;
 };
@@ -34,10 +39,10 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 
 	const form = useForm<T_UploadAssetSchema>({
 		initialValues: {
-			assettype: "audio",
+			assettype: "3d",
 			description: "",
 			name: "",
-			source: "",
+			source: null,
 			tags: "",
 			thumb: null,
 		},
@@ -51,35 +56,6 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 			props.onDone();
 		},
 	});
-
-	const fileType = useMemo(() => {
-		if (form.values.source instanceof File)
-			return form.values.source.type.length > 0
-				? form.values.source.type
-				: form.values.source.name.split(".").pop() ?? "invalid_file_type";
-		else return "url";
-	}, [form.values.source]);
-
-	useEffect(() => {
-		switch (fileType) {
-			case "image/png":
-			case "image/jpg":
-			case "image/jpeg":
-			case "image/webp":
-			case "video/mp4":
-			case "video/mkv":
-				form.setFieldValue("assettype", "2d");
-				break;
-			case "audio/mp3":
-			case "audio/wav":
-			case "audio/mpeg":
-				form.setFieldValue("assettype", "audio");
-				break;
-			case "glb":
-				form.setFieldValue("assettype", "3d");
-				break;
-		}
-	}, [fileType]);
 
 	useShowStatusNotification({
 		error: {
@@ -106,15 +82,23 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 					<StyledDropzone
 						height="100%"
 						width="342px"
-						accept={["application/octet-stream"]}
 						onDrop={(f) => {
 							if (!f) return;
-							if (f.length <= 0) return;
-							form.setFieldValue("source", f[0]);
+							const firstFile = f.at(0);
+
+							if (!firstFile) return;
+							// check file extention
+							if (IsValidSrcType(firstFile))
+								form.setFieldValue("source", firstFile);
+							else
+								showNotification({
+									title: "Invalid file type",
+									message: "File must be .glb or .gltf",
+								});
 						}}
 						className="w-full"
 						padding={0}
-						bg="gray.2"
+						bg="gray.1"
 						radius={8}
 					>
 						<div className="grid place-items-center gap-[20px]">
@@ -130,49 +114,40 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 								</span>{" "}
 								to upload
 							</Text>
-							<Text size={16} weight={500} color="gray.5">
-								3D models must be under 10 MB
-							</Text>
-							<Text size={16} weight={500} color="gray.5">
-								Supported file types: glb, gltf
-							</Text>
+							<div className="grid gap-[6px] place-items-center">
+								<Text size={16} weight={500} color="gray.5">
+									3D models must be under 10 MB
+								</Text>
+								<Text size={16} weight={500} color="gray.5">
+									Supported file types: glb, gltf
+								</Text>
+							</div>
 						</div>
 					</StyledDropzone>
 				) : (
-					<div className="flex flex-col items-end gap-[4px]">
-						<div className="w-fit">
-							<FileButton
-								accept="application/octet-stream"
-								onChange={(f) => {
-									if (!f) return;
-									form.setFieldValue("source", f);
-								}}
-							>
-								{(assetBtnProps) => (
-									<Button
-										{...assetBtnProps}
-										variant="transparent"
-										leftIcon={<IconUpload />}
-										size="xs"
-										styles={(theme) => ({
-											root: {
-												color: theme.colors.blue[1],
-											},
-										})}
-									>
-										Change Asset
-									</Button>
-								)}
-							</FileButton>
+					<div className="relative flex flex-col h-full items-start gap-[4px]">
+						<div
+							style={{
+								border: "2px solid #ededed",
+								backgroundColor: "#f5f5f5",
+							}}
+							className="w-full h-[450px] rounded-[8px]"
+						>
+							<AssetViewer3d url={URL.createObjectURL(form.values.source)} />
 						</div>
-						<AssetViewer
-							url={
-								form.values.source instanceof File
-									? URL.createObjectURL(form.values.source)
-									: form.values.source
-							}
-							fileType={fileType}
-						/>
+						<div className="absolute top-2 right-2 z-[9999999999999]">
+							<Image
+								src="/assets/icons/teeny360icon.svg"
+								alt="Teeny 360 Icon"
+								width={24}
+								height={24}
+							/>
+						</div>
+						<Tooltip label="Remove Asset">
+							<ActionIcon onClick={() => form.setFieldValue("source", null)}>
+								<IconTrash />
+							</ActionIcon>
+						</Tooltip>
 					</div>
 				)}
 			</div>
