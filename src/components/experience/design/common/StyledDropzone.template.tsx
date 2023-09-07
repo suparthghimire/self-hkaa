@@ -4,6 +4,7 @@ import { Dropzone, DropzoneProps } from "@mantine/dropzone";
 const StyledDropzone: React.FC<
 	DropzoneProps & {
 		height?: string;
+		width?: string;
 	}
 > = (props) => {
 	return (
@@ -13,8 +14,9 @@ const StyledDropzone: React.FC<
 			styles={() => ({
 				root: {
 					height: props.height ?? rem(187),
-					borderStyle: "solid",
+					width: props.width ?? rem(187),
 					display: "grid",
+					border: "none",
 					placeItems: "center",
 				},
 			})}

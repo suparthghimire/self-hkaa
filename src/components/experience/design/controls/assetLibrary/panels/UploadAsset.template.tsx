@@ -10,7 +10,6 @@ import {
 	Button,
 	Divider,
 	FileButton,
-	Select,
 	Text,
 	TextInput,
 	Textarea,
@@ -105,7 +104,9 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 			<div className="w-full h-full justify-center flex flex-col gap-[24px]">
 				{!form.values.source ? (
 					<StyledDropzone
-						height={rem(207)}
+						height="100%"
+						width="342px"
+						accept={["application/octet-stream"]}
 						onDrop={(f) => {
 							if (!f) return;
 							if (f.length <= 0) return;
@@ -113,7 +114,7 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 						}}
 						className="w-full"
 						padding={0}
-						bg="gray.1"
+						bg="gray.2"
 						radius={8}
 					>
 						<div className="grid place-items-center gap-[20px]">
@@ -129,12 +130,19 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 								</span>{" "}
 								to upload
 							</Text>
+							<Text size={16} weight={500} color="gray.5">
+								3D models must be under 10 MB
+							</Text>
+							<Text size={16} weight={500} color="gray.5">
+								Supported file types: glb, gltf
+							</Text>
 						</div>
 					</StyledDropzone>
 				) : (
 					<div className="flex flex-col items-end gap-[4px]">
 						<div className="w-fit">
 							<FileButton
+								accept="application/octet-stream"
 								onChange={(f) => {
 									if (!f) return;
 									form.setFieldValue("source", f);
@@ -167,57 +175,6 @@ const UploadAsset: React.FC<T_Props> = (props) => {
 						/>
 					</div>
 				)}
-
-				<Text align="center" color="gray.9">
-					OR
-				</Text>
-				<div className="grid gap-[4px]">
-					<StyledLabel>Enter URL</StyledLabel>
-
-					<div className="flex items-start gap-[8px]">
-						<TextInput
-							className="w-full"
-							placeholder="https://"
-							styles={() => ({
-								input: {
-									height: rem(48),
-								},
-							})}
-							rightSection={
-								<Button
-									mr={48}
-									onClick={() => {
-										if (!customUrl) return;
-										form.setFieldValue("source", customUrl);
-									}}
-								>
-									Load
-								</Button>
-							}
-							value={customUrl}
-							onChange={(e) => {
-								setCustomUrl(e.target.value);
-							}}
-							error={form.errors.source}
-						/>
-						<Select
-							styles={() => ({
-								input: {
-									width: "97px",
-									height: rem(48),
-								},
-							})}
-							defaultValue="audio"
-							data={[
-								{ value: "3d", label: "3d" },
-								{ value: "audio", label: "Audio" },
-								{ value: "image", label: "Image" },
-								{ value: "video", label: "Video" },
-							]}
-							{...form.getInputProps("assettype")}
-						/>
-					</div>
-				</div>
 			</div>
 			<Divider orientation="vertical" />
 			<div className="flex h-full w-full flex-col justify-between">

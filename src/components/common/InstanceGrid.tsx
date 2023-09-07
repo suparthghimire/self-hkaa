@@ -1,7 +1,7 @@
 import Button from "@/components/common/Button";
 import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import { T_UserType } from "@app/types";
-import { Grid } from "@mantine/core";
+import { Grid, Button as MantineButton, rem } from "@mantine/core";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -54,9 +54,24 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 							{/* creator */}
 							{type === "admin" && auth.status === true && (
 								<Link href={`/admin/creator/${experienceType}/${slug}`}>
-									<Button radius={100} className="mt-[28px]">
+									<MantineButton
+										radius={100}
+										className="mt-[28px]"
+										styles={() => ({
+											root: {
+												padding: "12px 24px",
+												height: "auto",
+												minWidth: "146px",
+												borderWidth: rem(3),
+												background: "#4B5563",
+											},
+											label: {
+												fontSize: rem(20),
+											},
+										})}
+									>
 										Enter as Creator
-									</Button>
+									</MantineButton>
 								</Link>
 							)}
 						</div>

@@ -15,6 +15,7 @@ export const USER_INSTANCES: T_Instance[] = [
 		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-1",
 		sessionTokenData: {
 			config: "config-dev",
+			instanceid: 1,
 		},
 	},
 	{
@@ -30,6 +31,7 @@ export const USER_INSTANCES: T_Instance[] = [
 		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-2",
 		sessionTokenData: {
 			config: "config-dev",
+			instanceid: 2,
 		},
 	},
 	{
@@ -45,6 +47,7 @@ export const USER_INSTANCES: T_Instance[] = [
 		slug: USE_TEST_ROOM ? "ttest" : "hkaa-instance-3",
 		sessionTokenData: {
 			config: "config-dev",
+			instanceid: 3,
 		},
 	},
 ];
@@ -63,6 +66,8 @@ export const ADMIN_INSTANCES = [
 		slug: "hkaa-instance-1",
 		sessionTokenData: {
 			config: "config-dev",
+			ismaster: true,
+			instanceid: 0,
 		},
 	},
 	...USER_INSTANCES,

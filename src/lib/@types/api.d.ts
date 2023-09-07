@@ -88,4 +88,9 @@ declare module "@api/types" {
 			media: (string | File)[] | string;
 		};
 	};
+	export type T_RoomAnalytics = {
+		worldName: string;
+		activeUsers: number;
+		totalUsers: number;
+	}[];
 }
