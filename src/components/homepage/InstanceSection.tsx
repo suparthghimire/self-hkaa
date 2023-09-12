@@ -2,11 +2,19 @@
 
 import instanceImg from "@/assets/instance-img.jpeg";
 import InstanceGrid from "@/components/common/InstanceGrid";
+import { GetAllRooms } from "@/lib/api/api";
 import { ADMIN_INSTANCES, USER_INSTANCES } from "@/lib/data/mock_data";
-import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import { T_UserType } from "@app/types";
-import { Container, MantineTheme, Tabs, TabsProps } from "@mantine/core";
+import {
+	Container,
+	Loader,
+	MantineTheme,
+	Tabs,
+	TabsProps,
+} from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import ServerError from "../common/ServerError";
 
 function StyledTabs(props: TabsProps) {
 	return (
@@ -73,28 +81,41 @@ const InstanceSection: React.FC<T_Props> = (props) => {
 	const [instances] = useState(
 		props.userType === "admin" ? ADMIN_INSTANCES : USER_INSTANCES
 	);
-	const { auth } = useAuth();
+
+	const allRooms = useQuery({
+		queryKey: ["all-rooms"],
+		queryFn: () => GetAllRooms(),
+	});
+
+	if (allRooms.isError) {
+		return <ServerError error="Something went wrong" />;
+	}
+
+	if (!allRooms.data || allRooms.isLoading) {
+		return <Loader />;
+	}
+
 	return (
 		<Container size="xl" px="xs">
-			<StyledTabs defaultValue={instances[0].key}>
+			<StyledTabs defaultValue={allRooms.data.data.rooms[0].id.toString()}>
 				<Tabs.List position="center">
-					{instances.map((instance) => (
-						<Tabs.Tab value={instance.key} key={instance.key}>
-							{instance.tabName}
+					{allRooms.data.data.rooms.map((room) => (
+						<Tabs.Tab value={room.id.toString()} key={room.id}>
+							{room.name}
 						</Tabs.Tab>
 					))}
 				</Tabs.List>
-				{instances.map((instance) => (
-					<Tabs.Panel value={instance.key} key={instance.key}>
+				{allRooms.data.data.rooms.map((room) => (
+					<Tabs.Panel value={room.id.toString()} key={room.id}>
 						<InstanceGrid
-							experienceType={props.experienceType}
-							instanceType={instance.subTitle}
-							title={instance.title}
-							description={instance.description}
-							instanceUpdated={instance.date}
+							experienceType="world"
+							instanceType={room.name}
+							title={room.name}
+							description={room.description}
+							instanceUpdated={room.updatedAt}
 							image={instanceImg}
 							type={props.userType}
-							slug={instance.slug}
+							slug={room.urlshortcode}
 						/>
 					</Tabs.Panel>
 				))}

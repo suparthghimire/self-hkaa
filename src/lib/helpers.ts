@@ -1,3 +1,5 @@
+import format from "date-fns/format";
+
 export const JoinParams = (
 	baseUrl: string,
 	params: { [key: string]: string },
@@ -26,4 +28,8 @@ export const JoinParams = (
 };
 export const ByteToMb = (bytes: number) => {
 	return bytes / 1024 / 1024;
+};
+
+export const FormatDateTime = (date: Date) => {
+	return format(date, "do MMMM yyyy");
 };

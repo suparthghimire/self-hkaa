@@ -10,6 +10,7 @@ import {
 	T_LoginSuccess,
 	T_Response,
 	T_RoomAnalytics,
+	T_Rooms,
 	T_SessionTokenSuccess,
 	T_User,
 } from "@api/types";
@@ -313,4 +314,9 @@ export async function GetRoomStat() {
 
 	// filter all data where world_name ends with _2
 	return data.filter((d) => d.worldName.endsWith("_2"));
+}
+export async function GetAllRooms() {
+	const response: AxiosResponse<T_Rooms> = await axiosInstance.get("/v1/rooms");
+
+	return response.data;
 }

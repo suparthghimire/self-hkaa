@@ -1,4 +1,5 @@
 import Button from "@/components/common/Button";
+import { FormatDateTime } from "@/lib/helpers";
 import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import { T_UserType } from "@app/types";
 import { Grid, Button as MantineButton, rem } from "@mantine/core";
@@ -76,7 +77,7 @@ const InstanceGrid: React.FC<IInstanceGrid> = ({
 							)}
 						</div>
 					</div>
-					<p>{instanceUpdated}</p>
+					<p>{FormatDateTime(new Date(instanceUpdated))}</p>
 				</div>
 			</Grid.Col>
 			<Grid.Col span={6}>
