@@ -15,7 +15,7 @@ import {
 } from "@api/types";
 import axios, { AxiosResponse } from "axios";
 import Cookie from "js-cookie";
-import { API_ENDPOINT } from "../config";
+import { API_ENDPOINT, NODE_ENV } from "../config";
 import { T_Modes } from "../data/constants";
 const axiosInstance = axios.create({
 	baseURL: API_ENDPOINT,
@@ -40,11 +40,18 @@ export async function CreateSessionToken(
 		roomId: string;
 		layoutId: string;
 		mode: T_Modes;
+		config?: string;
 		extraData?: {
 			[key: string]: any;
 		};
 	}
 ) {
+	const _config = data.config
+		? data.config
+		: NODE_ENV === "development"
+		? "config-dev"
+		: undefined;
+
 	const response: AxiosResponse<T_SessionTokenSuccess> =
 		await axiosInstance.post(
 			"/v1/room/createsessiontoken",
@@ -54,6 +61,7 @@ export async function CreateSessionToken(
 				mode: data.mode,
 				ui: "lucid",
 				webglversion: 1,
+				...(_config && { config: _config }),
 				...data.extraData,
 			},
 			{
@@ -155,9 +163,10 @@ export async function UploadAssetToLibrary(
 	const thumbnailUrl = Object.values(thumbnailUpload.urls)[0];
 
 	let source = data.source;
-	if (source instanceof File) {
+	let url = "";
+	if (source) {
 		const sourceUpload = await CloudUpload(source);
-		source = Object.values(sourceUpload.urls)[0];
+		url = Object.values(sourceUpload.urls)[0];
 	}
 
 	const nonemptyTags = data.tags
@@ -175,7 +184,7 @@ export async function UploadAssetToLibrary(
 				description: data.description,
 				tags: JSON.stringify(uniqueTags),
 				thumb: thumbnailUrl,
-				source: source,
+				source: url,
 				assettype: data.assettype,
 			},
 			{
