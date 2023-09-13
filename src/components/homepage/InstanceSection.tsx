@@ -3,6 +3,7 @@
 import InstanceGrid from "@/components/common/InstanceGrid";
 import { GetAllRooms } from "@/lib/api/api";
 import { ADMIN_INSTANCES, USER_INSTANCES } from "@/lib/data/mock_data";
+import { ParseJson } from "@/lib/helpers";
 import { T_Room } from "@api/types";
 import { T_UserType } from "@app/types";
 import {
@@ -125,6 +126,8 @@ const Instances: React.FC<{
 			{allRooms.data.data.rooms.map((room) => (
 				<Tabs.Panel value={room.id.toString()} key={room.id}>
 					<InstanceGrid
+						uuid={room.uuid}
+						id={room.id}
 						experienceType="world"
 						instanceType={room.name}
 						title={room.name}
@@ -133,6 +136,11 @@ const Instances: React.FC<{
 						image={room.image}
 						type={props.userType}
 						slug={room.urlshortcode}
+						url={
+							ParseJson<{
+								url: string;
+							}>(room.configuration).url
+						}
 					/>
 				</Tabs.Panel>
 			))}
@@ -167,6 +175,8 @@ const Shops: React.FC<{
 			{allRooms.data.data.rooms.map((room) => (
 				<Tabs.Panel value={room.id.toString()} key={room.id}>
 					<InstanceGrid
+						id={room.id}
+						uuid={room.uuid}
 						experienceType="shop"
 						instanceType={room.name}
 						title={room.name}
@@ -175,6 +185,11 @@ const Shops: React.FC<{
 						image={room.image}
 						type={props.userType}
 						slug={room.urlshortcode}
+						url={
+							ParseJson<{
+								url: string;
+							}>(room.configuration).url
+						}
 					/>
 				</Tabs.Panel>
 			))}

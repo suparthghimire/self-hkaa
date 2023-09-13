@@ -33,3 +33,7 @@ export const ByteToMb = (bytes: number) => {
 export const FormatDateTime = (date: Date) => {
 	return format(date, "do MMMM yyyy");
 };
+
+export function ParseJson<T>(json: string): T {
+	return JSON.parse(json) as T;
+}

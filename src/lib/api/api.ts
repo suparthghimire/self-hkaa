@@ -1,6 +1,6 @@
 import { T_LinkAsset } from "@/components/experience/lib/schema/linkAsset.schema";
 import { T_UploadAssetSchema } from "@/components/experience/lib/schema/uploadAsset.schema";
-import { T_InstanceEditSchema } from "@/schema/intance.schema";
+import { T_InstanceEditSchema } from "@/schema/instance.schema";
 import {
 	T_AnonLoginSuccess,
 	T_AssetSale,
@@ -10,6 +10,7 @@ import {
 	T_LibraryAsset,
 	T_LoginSuccess,
 	T_Response,
+	T_Room,
 	T_RoomAnalytics,
 	T_Rooms,
 	T_SessionTokenSuccess,
@@ -326,13 +327,24 @@ export async function UpdateRoom(
 	data: T_InstanceEditSchema,
 	id: number
 ) {
-	const response: AxiosResponse<T_Rooms> = await axiosInstance.patch(
-		`/v1/rooms/${id}`,
-		data,
+	let imageSrc = data.image;
+	if (imageSrc instanceof File) {
+		const imageUpload = await CloudUpload(imageSrc);
+		imageSrc = Object.values(imageUpload.urls)[0];
+	}
+	const response: AxiosResponse<T_Response<T_Room>> = await axiosInstance.post(
+		`/v1/rooms`,
+		{
+			data: {
+				...data,
+				image: imageSrc,
+			},
+		},
 		{
 			headers: {
 				"x-access-token": token,
 			},
 		}
 	);
+	return response.data;
 }

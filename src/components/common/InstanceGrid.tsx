@@ -5,13 +5,14 @@ import { T_UserType } from "@app/types";
 import { Grid, Button as MantineButton, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import CustomModal from "../experience/design/common/CustomModal";
 import InstanceEditForm from "../forms/InstanceEditForm";
+import ImageViewer from "./ImageViewer";
 
 type T_InstanceGrid = {
+	id: number;
 	instanceType: string;
 	title: string;
 	description: string;
@@ -19,17 +20,22 @@ type T_InstanceGrid = {
 	image: string;
 	type: T_UserType;
 	slug: string;
+	url: string;
+	uuid: string;
 	experienceType: "world" | "shop";
 };
 
 const InstanceGrid: React.FC<T_InstanceGrid> = ({
 	instanceType,
 	title,
+	id,
 	description,
 	instanceUpdated,
 	image,
 	slug,
 	type,
+	uuid,
+	url,
 	experienceType,
 }) => {
 	const { auth } = useAuth();
@@ -98,13 +104,14 @@ const InstanceGrid: React.FC<T_InstanceGrid> = ({
 				</div>
 			</Grid.Col>
 			<Grid.Col span={6}>
-				<Image
-					src={image}
-					width={500}
-					height={500}
-					alt="Instance Image"
-					className="w-full h-auto"
-				/>
+				<div className="w-[500px] h-[500px] relative">
+					<ImageViewer
+						src={image}
+						fill
+						alt="Instance Image"
+						className="w-full h-auto"
+					/>
+				</div>
 			</Grid.Col>
 			<CustomModal size={rem(591)} opened={editOpened} onClose={closeEdit}>
 				{experienceType === "world" ? (
@@ -113,6 +120,9 @@ const InstanceGrid: React.FC<T_InstanceGrid> = ({
 						name={title}
 						image={image as string}
 						close={closeEdit}
+						id={id}
+						uuid={uuid}
+						url={url}
 					/>
 				) : (
 					<div>Shop</div>
