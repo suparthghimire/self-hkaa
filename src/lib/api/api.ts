@@ -77,12 +77,11 @@ export async function CreateSessionToken(
 }
 
 export async function DecodeSlug(slug: string) {
-	const response: AxiosResponse<T_DecodeSlugSuccess> = await axiosInstance.post(
-		"/v1/url/redirect",
+	const response: AxiosResponse<T_DecodeSlugSuccess> = await axiosInstance.get(
+		"/v1/rooms/room-uuid",
 		{
-			hashid: slug,
-		},
-		{}
+			params: { hashid: slug },
+		}
 	);
 	return response.data;
 }
