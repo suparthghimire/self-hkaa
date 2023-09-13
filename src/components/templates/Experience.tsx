@@ -74,11 +74,11 @@ const Experience: React.FC<T_Props> = (props) => {
 				</div>
 			</ExperienceError>
 		);
-	} else if (showLoadingScreen) return <ExperienceLoading />;
-	else
+	} else
 		return (
 			<div className="absolute w-screen h-screen top-0 bg-neutral-100 z-[100] overflow-hidden">
 				<>
+					{showLoadingScreen && <ExperienceLoading />}
 					<iframe
 						ref={iframeRef}
 						className="absolute top-0 left-0 w-full h-full"

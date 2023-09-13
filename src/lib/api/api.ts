@@ -3,12 +3,15 @@ import { T_UploadAssetSchema } from "@/components/experience/lib/schema/uploadAs
 import { T_InstanceEditSchema } from "@/schema/instance.schema";
 import {
 	T_AnonLoginSuccess,
+	T_ApiError,
 	T_AssetSale,
+	T_AvatarHeads,
 	T_CloudUpload,
 	T_DecodeSlugSuccess,
 	T_Demo,
 	T_LibraryAsset,
 	T_LoginSuccess,
+	T_PrefixUrl,
 	T_Response,
 	T_Room,
 	T_RoomAnalytics,
@@ -345,5 +348,19 @@ export async function UpdateRoom(
 			},
 		}
 	);
+	return response.data;
+}
+
+export async function GetUserAvatarHeads() {
+	const response: AxiosResponse<
+		T_Response<T_AvatarHeads>,
+		T_ApiError
+	> = await axiosInstance.get("/v1/system/avatars/config");
+	return response.data;
+}
+
+export async function GetAssetPrefixURL() {
+	const response: AxiosResponse<T_Response<T_PrefixUrl>> =
+		await axiosInstance.get("/v1/general/prefix-url");
 	return response.data;
 }

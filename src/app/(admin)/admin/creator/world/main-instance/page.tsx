@@ -9,7 +9,7 @@ type T_Props = {
 		slug: string;
 	};
 };
-const CreatorWorldPage: React.FC<T_Props> = (props) => {
+const MainInstancePage: React.FC<T_Props> = (props) => {
 	const { auth } = useAuth();
 
 	if (!auth.status) return <>Not Admin</>;
@@ -17,7 +17,7 @@ const CreatorWorldPage: React.FC<T_Props> = (props) => {
 	return (
 		<Experience
 			mode={MODES.CREATOR}
-			roomSlug="hkaa-instance-1"
+			roomSlug="hkaa-instance-1-1"
 			leaveUrl="/admin"
 			accessToken={auth.user.token}
 			sessionTokenData={{
@@ -29,4 +29,4 @@ const CreatorWorldPage: React.FC<T_Props> = (props) => {
 	);
 };
 
-export default CreatorWorldPage;
+export default MainInstancePage;
