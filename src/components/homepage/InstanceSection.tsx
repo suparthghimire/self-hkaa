@@ -4,7 +4,6 @@ import InstanceGrid from "@/components/common/InstanceGrid";
 import { GetAllRooms } from "@/lib/api/api";
 import { ADMIN_INSTANCES, USER_INSTANCES } from "@/lib/data/mock_data";
 import { ParseJson } from "@/lib/helpers";
-import { T_Room } from "@api/types";
 import { T_UserType } from "@app/types";
 import {
 	Container,
@@ -105,8 +104,6 @@ const Instances: React.FC<{
 		queryFn: () => GetAllRooms(),
 	});
 
-	const [roomToEdit, setRoomToEdit] = useState<T_Room | null>(null);
-
 	if (allRooms.isError) {
 		return <ServerError error="Something went wrong" />;
 	}
@@ -115,17 +112,42 @@ const Instances: React.FC<{
 		return <Loader />;
 	}
 	return (
-		<StyledTabs defaultValue={allRooms.data.data.rooms[0].id.toString()}>
+		<StyledTabs
+			defaultValue={
+				props.userType === "admin"
+					? "main-instance"
+					: allRooms.data.data.rooms[0].id.toString()
+			}
+		>
 			<Tabs.List position="center">
+				{props.userType === "admin" && (
+					<Tabs.Tab value="main-instance">Main Instance</Tabs.Tab>
+				)}
 				{allRooms.data.data.rooms.map((room) => (
 					<Tabs.Tab value={room.id.toString()} key={room.id}>
 						{room.name}
 					</Tabs.Tab>
 				))}
 			</Tabs.List>
+			{props.userType === "admin" && (
+				<Tabs.Panel value="main-instance">
+					<InstanceGrid
+						editable={false}
+						description="Changes made inside the Main Instance will be applied to all Instances."
+						image="/assets/instance-img.jpeg"
+						experienceType="world"
+						instanceType="Main Instance"
+						instanceUpdated={new Date().toISOString()}
+						slug="main-instance"
+						title="Main Instance"
+						type={props.userType}
+					/>
+				</Tabs.Panel>
+			)}
 			{allRooms.data.data.rooms.map((room) => (
 				<Tabs.Panel value={room.id.toString()} key={room.id}>
 					<InstanceGrid
+						editable
 						uuid={room.uuid}
 						id={room.id}
 						experienceType="world"
@@ -175,6 +197,7 @@ const Shops: React.FC<{
 			{allRooms.data.data.rooms.map((room) => (
 				<Tabs.Panel value={room.id.toString()} key={room.id}>
 					<InstanceGrid
+						editable
 						id={room.id}
 						uuid={room.uuid}
 						experienceType="shop"

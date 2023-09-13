@@ -49,3 +49,4 @@ export const ASSET_TRANSFORM = {
 };
 
 export const MAX_ROOM_NAME_SIZE = 60;
+export const PLACEHOLDER_IMG_SRC = "/assets/placeholder.svg";

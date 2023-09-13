@@ -11,33 +11,31 @@ import CustomModal from "../experience/design/common/CustomModal";
 import InstanceEditForm from "../forms/InstanceEditForm";
 import ImageViewer from "./ImageViewer";
 
-type T_InstanceGrid = {
-	id: number;
-	instanceType: string;
-	title: string;
-	description: string;
-	instanceUpdated: string;
-	image: string;
-	type: T_UserType;
-	slug: string;
+type T_InstanceGridEditable = {
 	url: string;
 	uuid: string;
-	experienceType: "world" | "shop";
+	id: number;
+	editable: true;
 };
-
-const InstanceGrid: React.FC<T_InstanceGrid> = ({
-	instanceType,
-	title,
-	id,
-	description,
-	instanceUpdated,
-	image,
-	slug,
-	type,
-	uuid,
-	url,
-	experienceType,
-}) => {
+type T_InstanceGridNonEditable = {
+	editable: false;
+};
+type T_InstanceGridCommon = {
+	instanceType: string;
+	image: string;
+	experienceType: "world" | "shop";
+	instanceUpdated: string;
+	type: T_UserType;
+	title: string;
+	description: string;
+	slug: string;
+};
+type T_InstanceGridProps = (
+	| T_InstanceGridEditable
+	| T_InstanceGridNonEditable
+) &
+	T_InstanceGridCommon;
+const InstanceGrid: React.FC<T_InstanceGridProps> = (props) => {
 	const { auth } = useAuth();
 	const [editOpened, { open: openEdit, close: closeEdit }] =
 		useDisclosure(false);
@@ -46,8 +44,8 @@ const InstanceGrid: React.FC<T_InstanceGrid> = ({
 			<Grid.Col span={6}>
 				<div className="flex flex-col h-full justify-between pr-5 border-l-0 border-r-0 border-t-1 border-black border-b-1 border-solid">
 					<div className="flex w-full items-center justify-between">
-						<p>{instanceType}</p>
-						{type === "admin" && (
+						<p>{props.instanceType}</p>
+						{props.type === "admin" && props.editable && (
 							<MantineButton
 								color="gray.7"
 								radius={10}
@@ -60,24 +58,28 @@ const InstanceGrid: React.FC<T_InstanceGrid> = ({
 						)}
 					</div>
 					<div>
-						<h2 className="text-[40px] mb-[28px]">{title}</h2>
-						<p className="text-[20px]">{description}</p>
+						<h2 className="text-[40px] mb-[28px]">{props.title}</h2>
+						<p className="text-[20px]">{props.description}</p>
 
 						<div className="flex gap-3 w-full">
 							<Link
 								href={
-									type === "user"
-										? `/instance/${slug}`
-										: `/admin/visitor/${experienceType}/${slug}`
+									props.type === "user"
+										? `/instance/${props.slug}`
+										: `/admin/visitor/${props.experienceType}/${props.slug}`
 								}
 							>
-								<Button radius={100} className="mt-[28px]">
-									{type === "user" ? "Enter Instance" : "Enter as Visitor"}
-								</Button>
+								{props.editable && (
+									<Button radius={100} className="mt-[28px]">
+										{props.type === "user" ? "Enter Instance" : "Visitor Mode"}
+									</Button>
+								)}
 							</Link>
 							{/* creator */}
-							{type === "admin" && auth.status === true && (
-								<Link href={`/admin/creator/${experienceType}/${slug}`}>
+							{props.type === "admin" && auth.status === true && (
+								<Link
+									href={`/admin/creator/${props.experienceType}/${props.slug}`}
+								>
 									<MantineButton
 										radius={100}
 										className="mt-[28px]"
@@ -94,19 +96,19 @@ const InstanceGrid: React.FC<T_InstanceGrid> = ({
 											},
 										})}
 									>
-										Enter as Creator
+										Creator Mode
 									</MantineButton>
 								</Link>
 							)}
 						</div>
 					</div>
-					<p>{FormatDateTime(new Date(instanceUpdated))}</p>
+					<p>{FormatDateTime(new Date(props.instanceUpdated))}</p>
 				</div>
 			</Grid.Col>
 			<Grid.Col span={6}>
 				<div className="w-[500px] h-[500px] relative">
 					<ImageViewer
-						src={image}
+						src={props.image}
 						fill
 						alt="Instance Image"
 						className="w-full h-auto"
@@ -114,15 +116,15 @@ const InstanceGrid: React.FC<T_InstanceGrid> = ({
 				</div>
 			</Grid.Col>
 			<CustomModal size={rem(591)} opened={editOpened} onClose={closeEdit}>
-				{experienceType === "world" ? (
+				{props.experienceType === "world" && props.editable ? (
 					<InstanceEditForm
-						description={description}
-						name={title}
-						image={image as string}
+						description={props.description}
+						name={props.title}
+						image={props.image as string}
 						close={closeEdit}
-						id={id}
-						uuid={uuid}
-						url={url}
+						id={props.id}
+						uuid={props.uuid}
+						url={props.url}
 					/>
 				) : (
 					<div>Shop</div>
