@@ -1,5 +1,6 @@
 import { T_LinkAsset } from "@/components/experience/lib/schema/linkAsset.schema";
 import { T_UploadAssetSchema } from "@/components/experience/lib/schema/uploadAsset.schema";
+import { T_InstanceEditSchema } from "@/schema/intance.schema";
 import {
 	T_AnonLoginSuccess,
 	T_AssetSale,
@@ -319,4 +320,19 @@ export async function GetAllRooms() {
 	const response: AxiosResponse<T_Rooms> = await axiosInstance.get("/v1/rooms");
 
 	return response.data;
+}
+export async function UpdateRoom(
+	token: string,
+	data: T_InstanceEditSchema,
+	id: number
+) {
+	const response: AxiosResponse<T_Rooms> = await axiosInstance.patch(
+		`/v1/rooms/${id}`,
+		data,
+		{
+			headers: {
+				"x-access-token": token,
+			},
+		}
+	);
 }

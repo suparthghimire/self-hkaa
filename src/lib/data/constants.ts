@@ -17,9 +17,9 @@ export const HKAA_LAYOUT = "AAHK";
 
 export const IMG_MIMES = ["image/jpeg", "image/png", "image/webp"] as const;
 
-export const VIDEO_MIMES = ["video/mp4", "video/webm"] as const;
+export const VIDEO_MIMES = ["video/mp4", "video/webm"];
 
-export const VALID_MEDIA_UPLOAD_MIMES = [...IMG_MIMES, ...VIDEO_MIMES] as const;
+export const VALID_MEDIA_UPLOAD_MIMES = [...IMG_MIMES, ...VIDEO_MIMES];
 
 export const VALID_MEDIA_EXT = VALID_MEDIA_UPLOAD_MIMES.map(
 	(mime) => mime.split("/")[1]
