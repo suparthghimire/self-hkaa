@@ -2,7 +2,11 @@
 
 import InstanceGrid from "@/components/common/InstanceGrid";
 import { GetAllRooms } from "@/lib/api/api";
-import { ADMIN_INSTANCES, USER_INSTANCES } from "@/lib/data/mock_data";
+import {
+	ADMIN_INSTANCES,
+	MAIN_INSTANCE,
+	USER_INSTANCES,
+} from "@/lib/data/mock_data";
 import { ParseJson } from "@/lib/helpers";
 import { T_UserType } from "@app/types";
 import {
@@ -133,13 +137,13 @@ const Instances: React.FC<{
 				<Tabs.Panel value="main-instance">
 					<InstanceGrid
 						editable={false}
-						description="Changes made inside the Main Instance will be applied to all Instances."
-						image="/assets/instance-img.jpeg"
+						description={MAIN_INSTANCE.description}
+						image={MAIN_INSTANCE.image}
 						experienceType="world"
-						instanceType="Main Instance"
+						instanceType={MAIN_INSTANCE.tabName}
 						instanceUpdated={new Date().toISOString()}
-						slug="main-instance"
-						title="Main Instance"
+						slug={MAIN_INSTANCE.slug}
+						title={MAIN_INSTANCE.tabName}
 						type={props.userType}
 					/>
 				</Tabs.Panel>

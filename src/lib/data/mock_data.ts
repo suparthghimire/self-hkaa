@@ -52,23 +52,23 @@ export const USER_INSTANCES: T_Instance[] = [
 	},
 ];
 
-export const ADMIN_INSTANCES = [
-	{
-		id: 0,
-		tabName: "Main Instance",
-		key: "instance-0",
-		title: "Main Instance",
-		subTitle: "Main Instance",
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
-		buttonName: "Enter Instance",
-		date: "19/07/2023",
-		slug: "hkaa-instance-1",
-		sessionTokenData: {
-			config: "config-dev",
-			ismaster: true,
-			instanceid: 0,
-		},
+export const MAIN_INSTANCE = {
+	id: 0,
+	tabName: "Main Instance",
+	key: "instance-0",
+	image: "/assets/instance-img.jpeg",
+	title: "Main Instance",
+	subTitle: "Main Instance",
+	description:
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
+	buttonName: "Enter Instance",
+	date: "19/07/2023",
+	slug: "main-instance",
+	sessionTokenData: {
+		config: "config-dev",
+		ismaster: true,
+		instanceid: 0,
 	},
-	...USER_INSTANCES,
-];
+};
+
+export const ADMIN_INSTANCES = [MAIN_INSTANCE, ...USER_INSTANCES];
