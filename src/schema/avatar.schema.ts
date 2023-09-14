@@ -6,7 +6,7 @@ export const AvatarSchema = z.object({
 		avatarid: z.string(),
 		color: z.object({
 			hue: z.number(),
-			alpha: z.number(),
+			brightness: z.number(),
 			cycle: z.boolean(),
 		}),
 	}),
@@ -20,7 +20,7 @@ export const AvatarSchema = z.object({
 			),
 		color: z.object({
 			hue: z.number(),
-			alpha: z.number(),
+			brightness: z.number(),
 			cycle: z.boolean(),
 		}),
 	}),

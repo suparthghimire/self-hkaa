@@ -249,9 +249,26 @@ export default function reducer(
 		}
 		case "UPDATE_AVATAR": {
 			const data = actions.payload;
+			// for hue values normalize to 0 - 1
+			let toSend: typeof data = {
+				avatar: {
+					...data.avatar,
+					color: {
+						...data.avatar.color,
+						hue: data.avatar.color.hue / 360,
+					},
+				},
+				label: {
+					...data.label,
+					color: {
+						...data.label.color,
+						hue: data.label.color.hue / 360,
+					},
+				},
+			};
 			const message = {
 				key: "updateavatar",
-				value: data,
+				value: toSend,
 			};
 			iframePostMessage(message);
 			return {
