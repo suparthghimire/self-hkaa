@@ -12,7 +12,8 @@ export const MODES = {
 } as const;
 
 export type T_Modes = (typeof MODES)[keyof typeof MODES];
-export const HKAA_LAYOUT = "AAHK_V03";
+// export const HKAA_LAYOUT = "AAHK_V03";
+export const HKAA_LAYOUT = "AAHK";
 
 export const IMG_MIMES = ["image/jpeg", "image/png", "image/webp"];
 
@@ -20,6 +21,7 @@ export const VIDEO_MIMES = ["video/mp4", "video/webm"];
 
 export const VALID_MEDIA_UPLOAD_MIMES = [...IMG_MIMES, ...VIDEO_MIMES];
 
+export const VALID_IMAGE_MIMES_STR = IMG_MIMES.join(", ");
 export const VALID_MEDIA_EXT = VALID_MEDIA_UPLOAD_MIMES.map(
 	(mime) => mime.split("/")[1]
 );
@@ -46,6 +48,8 @@ export const ASSET_TRANSFORM = {
 	},
 };
 
-function X() {}
-
-X.bind(ASSET_TRANSFORM);
+export const MAX_ROOM_NAME_SIZE = 60;
+export const MAX_USER_NAME_SIZE = 60;
+export const PLACEHOLDER_IMG_SRC = "/assets/placeholder.svg";
+export const AVATAR_HEAD_PREFIX_URL =
+	"https://shadowfactorystorage.blob.core.windows.net/shadowverse/beworlds/avatars";

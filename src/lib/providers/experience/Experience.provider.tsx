@@ -1,5 +1,6 @@
 import { MODES } from "@/lib/data/constants";
 import useExperienceEventListener from "@/lib/hooks/useEventListener";
+import { T_AvatarSchema } from "@/schema/avatar.schema";
 import {
 	T_Experience,
 	T_ExperienceAsset,
@@ -17,7 +18,24 @@ import {
 	useReducer,
 } from "react";
 import reducer from "./Experience.reducer";
-
+const defaultAvatarInfo = {
+	avatar: {
+		avatarid: "Round",
+		color: {
+			alpha: 1,
+			cycle: false,
+			hue: 100,
+		},
+	},
+	label: {
+		color: {
+			alpha: 1,
+			cycle: false,
+			hue: 100,
+		},
+		name: "",
+	},
+};
 const initialState: T_Experience = {
 	chatMessages: [],
 	hasLoaded: false,
@@ -25,6 +43,7 @@ const initialState: T_Experience = {
 	hotspotInfo: {
 		selectedAsset: null,
 	},
+	avatarInfo: defaultAvatarInfo,
 	roomInfo: {
 		layoutId: "",
 		leaveUrl: "",
@@ -37,9 +56,7 @@ const initialState: T_Experience = {
 		micEnabled: false,
 		voiceEnabled: false,
 	},
-	userInfo: {
-		name: "",
-	},
+
 	worldInfo: {
 		description: "",
 		image: "",
@@ -51,13 +68,13 @@ const initialState: T_Experience = {
 		loadingText: null,
 		errorText: null,
 	},
+	updateAvatar: () => {},
 	setErrorText: () => {},
 	setLoadingText: () => {},
 	sendHotspotAssetSelected: () => {},
 	setSelectedHotspot: () => {},
 	toggleMic: () => {},
 	toggleVoice: () => {},
-	changeUserName: () => {},
 	captureImage: () => {},
 	saveStatus: "idle",
 	setSaveStatus: () => {},
@@ -83,6 +100,7 @@ const ExperienceContext = createContext<T_Experience>(
 
 const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
+	// save avatar when ui loads from localstorage
 
 	const setRoomInfo = useCallback(
 		(info: T_ExperienceInfo) =>
@@ -138,15 +156,6 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 		() =>
 			dispatch({
 				type: "CAPTURE_IMAGE",
-			}),
-		[]
-	);
-
-	const changeUserName = useCallback(
-		(name: string) =>
-			dispatch({
-				type: "CHANGE_USER_NAME",
-				payload: name,
 			}),
 		[]
 	);
@@ -246,6 +255,12 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 			payload: data,
 		});
 	}, []);
+	const updateAvatar = useCallback((data: T_AvatarSchema) => {
+		dispatch({
+			type: "UPDATE_AVATAR",
+			payload: data,
+		});
+	}, []);
 
 	// const sendAssetMeta = useCallback((data: { [key: string]: any }) => {
 	// 	console.log("SEND ASSET META");
@@ -268,7 +283,6 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				saveRoom,
 				setSaveStatus,
 				captureImage,
-				changeUserName,
 				toggleMic,
 				toggleVoice,
 				sendHotspotAssetSelected,
@@ -281,6 +295,7 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 				sendDeselected,
 				updateAsset,
 				sendAssetMeta,
+				updateAvatar,
 			}}
 		>
 			{props.children}

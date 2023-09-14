@@ -109,7 +109,7 @@ const HotspotPanel: React.FC<T_Props> = (props) => {
 			<StyledTabs defaultValue="upload">
 				<Tabs.List grow>
 					<Tabs.Tab value="upload">Upload Media</Tabs.Tab>
-					<Tabs.Tab value="web_cam">Web Cam</Tabs.Tab>
+					<Tabs.Tab value="broadcast">Web Cam</Tabs.Tab>
 				</Tabs.List>
 				<Tabs.Panel value="upload">
 					<div className="w-full grid gap-[24px] mt-[24px]">
@@ -246,10 +246,9 @@ const HotspotPanel: React.FC<T_Props> = (props) => {
 						</div>
 					</div>
 				</Tabs.Panel>
-				<Tabs.Panel value="web_cam">
-					<div className="mt-[24px] h-[475px]">
+				<Tabs.Panel value="broadcast">
+					<div className="mt-[24px] h-[420px]">
 						<div className="grid gap-[24px]">
-							<Text>Livestream yourself via web cam</Text>
 							<Button
 								color="blue.0"
 								radius={8}
@@ -269,8 +268,45 @@ const HotspotPanel: React.FC<T_Props> = (props) => {
 							>
 								CONNECT WEB CAM
 							</Button>
+							<Text align="center" size="14px">
+								OR
+							</Text>
+							<Button
+								color="blue.0"
+								radius={8}
+								onClick={() => {
+									if (!selectedAsset) return;
+									sendHotspotAssetSelected({
+										...selectedAsset,
+										assettype: "stream",
+										value: {
+											email: "",
+											type: "camera",
+											source: "stream",
+										},
+									});
+									props.closeHotspotPanel();
+								}}
+							>
+								SHARE YOUR SCREEN
+							</Button>
 						</div>
 					</div>
+					<Button
+						variant="outline"
+						radius={rem(8)}
+						styles={() => ({
+							root: {
+								padding: "12px 24px",
+								height: "auto",
+								width: "146px",
+								borderWidth: rem(3),
+							},
+						})}
+						onClick={props.closeHotspotPanel}
+					>
+						CANCEL
+					</Button>
 				</Tabs.Panel>
 			</StyledTabs>
 		</form>

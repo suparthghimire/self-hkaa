@@ -11,7 +11,7 @@ const Button: React.FC<T_Props> = (props) => {
 					padding: "12px 24px",
 					height: "auto",
 					minWidth: "146px",
-					borderWidth: rem(3),
+					borderWidth: props.variant === "outline" ? rem(3) : undefined,
 				},
 				label: {
 					fontSize: rem(20),

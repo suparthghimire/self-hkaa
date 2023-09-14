@@ -1,19 +1,15 @@
+import { useDisclosure } from "@mantine/hooks";
 import { IconUser } from "@tabler/icons-react";
-import { useState } from "react";
 import ExperienceIconButton from "../../common/IconButton";
-import ChangeNameModal from "./ChangeNameModal.template";
+import AvatarPanel from "././AvatarPanel";
 
 const User = () => {
-	const [showNameChangeModal, setShowNameChangeModal] = useState(false);
-
+	const [avatarOpen, { open: openAvatar, close: closeAvatar }] =
+		useDisclosure(false);
 	return (
 		<>
-			<ChangeNameModal
-				opened={showNameChangeModal}
-				onClose={() => setShowNameChangeModal(false)}
-				type="update"
-			/>
-			<ExperienceIconButton onClick={() => setShowNameChangeModal(true)}>
+			<AvatarPanel opened={avatarOpen} onClose={closeAvatar} />
+			<ExperienceIconButton onClick={openAvatar}>
 				<IconUser />
 			</ExperienceIconButton>
 		</>

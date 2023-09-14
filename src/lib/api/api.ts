@@ -1,21 +1,27 @@
 import { T_LinkAsset } from "@/components/experience/lib/schema/linkAsset.schema";
 import { T_UploadAssetSchema } from "@/components/experience/lib/schema/uploadAsset.schema";
+import { T_InstanceEditSchema } from "@/schema/instance.schema";
 import {
 	T_AnonLoginSuccess,
+	T_ApiError,
 	T_AssetSale,
+	T_AvatarHeads,
 	T_CloudUpload,
 	T_DecodeSlugSuccess,
 	T_Demo,
 	T_LibraryAsset,
 	T_LoginSuccess,
+	T_PrefixUrl,
 	T_Response,
+	T_Room,
 	T_RoomAnalytics,
+	T_Rooms,
 	T_SessionTokenSuccess,
 	T_User,
 } from "@api/types";
 import axios, { AxiosResponse } from "axios";
 import Cookie from "js-cookie";
-import { API_ENDPOINT } from "../config";
+import { API_ENDPOINT, NODE_ENV } from "../config";
 import { T_Modes } from "../data/constants";
 const axiosInstance = axios.create({
 	baseURL: API_ENDPOINT,
@@ -40,11 +46,18 @@ export async function CreateSessionToken(
 		roomId: string;
 		layoutId: string;
 		mode: T_Modes;
+		config?: string;
 		extraData?: {
 			[key: string]: any;
 		};
 	}
 ) {
+	const _config = data.config
+		? data.config
+		: NODE_ENV === "development"
+		? "config-dev"
+		: undefined;
+
 	const response: AxiosResponse<T_SessionTokenSuccess> =
 		await axiosInstance.post(
 			"/v1/room/createsessiontoken",
@@ -54,6 +67,7 @@ export async function CreateSessionToken(
 				mode: data.mode,
 				ui: "lucid",
 				webglversion: 1,
+				...(_config && { config: _config }),
 				...data.extraData,
 			},
 			{
@@ -66,12 +80,11 @@ export async function CreateSessionToken(
 }
 
 export async function DecodeSlug(slug: string) {
-	const response: AxiosResponse<T_DecodeSlugSuccess> = await axiosInstance.post(
-		"/v1/url/redirect",
+	const response: AxiosResponse<T_DecodeSlugSuccess> = await axiosInstance.get(
+		"/v1/rooms/room-uuid",
 		{
-			hashid: slug,
-		},
-		{}
+			params: { hashid: slug },
+		}
 	);
 	return response.data;
 }
@@ -155,9 +168,10 @@ export async function UploadAssetToLibrary(
 	const thumbnailUrl = Object.values(thumbnailUpload.urls)[0];
 
 	let source = data.source;
-	if (source instanceof File) {
+	let url = "";
+	if (source) {
 		const sourceUpload = await CloudUpload(source);
-		source = Object.values(sourceUpload.urls)[0];
+		url = Object.values(sourceUpload.urls)[0];
 	}
 
 	const nonemptyTags = data.tags
@@ -175,7 +189,7 @@ export async function UploadAssetToLibrary(
 				description: data.description,
 				tags: JSON.stringify(uniqueTags),
 				thumb: thumbnailUrl,
-				source: source,
+				source: url,
 				assettype: data.assettype,
 			},
 			{
@@ -304,4 +318,49 @@ export async function GetRoomStat() {
 
 	// filter all data where world_name ends with _2
 	return data.filter((d) => d.worldName.endsWith("_2"));
+}
+export async function GetAllRooms() {
+	const response: AxiosResponse<T_Rooms> = await axiosInstance.get("/v1/rooms");
+
+	return response.data;
+}
+export async function UpdateRoom(
+	token: string,
+	data: T_InstanceEditSchema,
+	id: number
+) {
+	let imageSrc = data.image;
+	if (imageSrc instanceof File) {
+		const imageUpload = await CloudUpload(imageSrc);
+		imageSrc = Object.values(imageUpload.urls)[0];
+	}
+	const response: AxiosResponse<T_Response<T_Room>> = await axiosInstance.post(
+		`/v1/rooms`,
+		{
+			data: {
+				...data,
+				image: imageSrc,
+			},
+		},
+		{
+			headers: {
+				"x-access-token": token,
+			},
+		}
+	);
+	return response.data;
+}
+
+export async function GetUserAvatarHeads() {
+	const response: AxiosResponse<
+		T_Response<T_AvatarHeads>,
+		T_ApiError
+	> = await axiosInstance.get("/v1/system/avatars/config");
+	return response.data;
+}
+
+export async function GetAssetPrefixURL() {
+	const response: AxiosResponse<T_Response<T_PrefixUrl>> =
+		await axiosInstance.get("/v1/general/prefix-url");
+	return response.data;
 }

@@ -75,6 +75,7 @@ const useSessionToken = (data: T_SessionTokenData) => {
 		isLoading,
 		isError,
 		isSuccess,
+		error: decodeToken.error ?? anonLogin.error ?? sessionToken.error,
 		roomId: decodeToken.data?.data.roomid ?? "",
 	};
 };

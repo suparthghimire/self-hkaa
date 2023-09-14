@@ -2,6 +2,13 @@ import { MAX_FILE_SIZE } from "@/lib/data/constants";
 import { ByteToMb } from "@/lib/helpers";
 import { z } from "zod";
 
+export const IsValidSrcType = (file: File) => {
+	const ext = file.name.split(".").pop();
+	console.log("EXT", ext, ext === "glb" || ext === "gltf");
+
+	return ext === "glb" || ext === "gltf";
+};
+
 export const UploadAssetSchema = z.object({
 	name: z.string().nonempty("Name is required"),
 	description: z.string().nonempty("Description is required"),
@@ -38,18 +45,15 @@ export const UploadAssetSchema = z.object({
 				}
 			}
 		}),
-	source: z.custom<string | File>().superRefine((v, ctx) => {
+	source: z.custom<File | null>().superRefine((v, ctx) => {
 		try {
-			if (typeof v === "string") {
-				const url = new URL(v);
-			}
-			// verify file size to MAX_FILE_SIZE
-			if (v instanceof File) {
-				if (v.size > MAX_FILE_SIZE)
-					throw new Error(
-						`File size must be less than ${ByteToMb(MAX_FILE_SIZE)}MB`
-					);
-			}
+			if (!v) throw new Error("Source is required");
+			if (v.size > MAX_FILE_SIZE)
+				throw new Error(
+					`File size must be less than ${ByteToMb(MAX_FILE_SIZE)}MB`
+				);
+
+			if (!IsValidSrcType(v)) throw new Error("File must be .glb or .gltf");
 		} catch (error) {
 			if (error instanceof Error)
 				ctx.addIssue({

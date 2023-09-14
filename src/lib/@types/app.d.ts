@@ -1,4 +1,5 @@
 declare module "@app/types" {
+	export type T_Environment = "development" | "production";
 	export type T_UserType = "admin" | "user";
 	export type T_Instance = {
 		id: number;
