@@ -1,9 +1,8 @@
-import "@/app/globals.css";
-import MainLayout from "@/components/layout/main/MainLayout.template";
+import AnonAuth from "@/components/auth/AnonAuth.template";
 import React, { PropsWithChildren } from "react";
 
-const RootLayout: React.FC<PropsWithChildren> = (props) => {
-	return <MainLayout userType="user">{props.children}</MainLayout>;
+const AdminLayout: React.FC<PropsWithChildren> = (props) => {
+	return <AnonAuth>{props.children}</AnonAuth>;
 };
 
-export default RootLayout;
+export default AdminLayout;
