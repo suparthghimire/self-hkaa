@@ -5,7 +5,7 @@ import AvatarPanel from "././AvatarPanel";
 
 const User = () => {
 	const [avatarOpen, { open: openAvatar, close: closeAvatar }] =
-		useDisclosure(false);
+		useDisclosure(true);
 	return (
 		<>
 			<AvatarPanel opened={avatarOpen} onClose={closeAvatar} />
