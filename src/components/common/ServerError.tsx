@@ -10,7 +10,7 @@ type T_Props = {
 const ServerError: React.FC<T_Props> = (props) => {
 	let error = "";
 	if (typeof props.error === "string") error = props.error;
-	if (props.error instanceof AxiosError) {
+	else if (props.error instanceof AxiosError) {
 		const apiErr = props.error as AxiosError<T_ApiError>;
 		error = apiErr.response?.data.message ?? "Something went wrong";
 	} else error = "Something went wrong";

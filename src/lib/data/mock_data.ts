@@ -1,5 +1,6 @@
 import { T_Instance } from "@app/types";
 import { USE_TEST_ROOM } from "../config";
+import { HKAA_MAIN_INSTANCE_SLUG } from "./constants";
 
 export const USER_INSTANCES: T_Instance[] = [
 	{
@@ -72,3 +73,48 @@ export const MAIN_INSTANCE = {
 };
 
 export const ADMIN_INSTANCES = [MAIN_INSTANCE, ...USER_INSTANCES];
+
+export const ADMIN_SHOPS = [
+	{
+		id: 1,
+		tabName: "Alexander McQueen",
+		key: "alexander-mcqueen",
+		title: "Alexander McQueen",
+		description:
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
+		buttonName: "Enter",
+		date: new Date().toISOString(),
+		slug: `${HKAA_MAIN_INSTANCE_SLUG}/LV`,
+		sessionTokenData: {
+			config: "config-LV",
+		},
+	},
+	{
+		id: 2,
+		tabName: "Chanel",
+		key: "chanel",
+		title: "Chanel",
+		description:
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
+		buttonName: "Enter",
+		date: new Date().toISOString(),
+		slug: `${HKAA_MAIN_INSTANCE_SLUG}/Chanel`,
+		sessionTokenData: {
+			config: "config-Chanel",
+		},
+	},
+	{
+		id: 3,
+		tabName: "Louis Vuitton",
+		key: "louis-vuitton",
+		title: "Louis Vuitton",
+		description:
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu dolor orci. Vestibulum ornare in leo in varius. Duis aliquam nisl.",
+		buttonName: "Enter",
+		date: new Date().toISOString(),
+		slug: `${HKAA_MAIN_INSTANCE_SLUG}/LV`,
+		sessionTokenData: {
+			config: "config-LV",
+		},
+	},
+];

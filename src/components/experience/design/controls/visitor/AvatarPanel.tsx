@@ -131,6 +131,7 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 							CUSTOMIZE HEAD
 						</Text>
 						<AvatarHeadSelector
+							value={form.values.avatar.avatarid}
 							onChange={(val: string) => {
 								form.setValues({
 									avatar: {
@@ -211,6 +212,7 @@ export default AvatarPanel;
 
 const AvatarHeadSelector: React.FC<{
 	onChange: (val: string) => void;
+	value: string;
 }> = (props) => {
 	const avatars = useQuery({
 		queryKey: ["avatars"],
@@ -230,8 +232,10 @@ const AvatarHeadSelector: React.FC<{
 			{Object.values(avatars.data.data.public).map((avatar) => (
 				<Button
 					variant="transparent"
-					styles={() => ({
+					styles={(theme) => ({
 						root: {
+							border:
+								props.value === avatar.name ? "2px solid #6A89F8" : undefined,
 							padding: 0,
 							":hover": {
 								opacity: 0.7,
