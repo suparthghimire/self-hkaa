@@ -3,7 +3,7 @@ import { GetUserAvatarHeads } from "@/lib/api/api";
 import { AVATAR_HEAD_PREFIX_URL } from "@/lib/data/constants";
 import { GenerateRGBAString } from "@/lib/helpers";
 import { useExperience } from "@/lib/providers/experience/Experience.provider";
-import { T_AvatarSchema } from "@/schema/avatar.schema";
+import { AvatarSchema, T_AvatarSchema } from "@/schema/avatar.schema";
 import {
 	AlphaSlider,
 	Center,
@@ -15,7 +15,7 @@ import {
 	TextInputProps,
 	rem,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useForm, zodResolver } from "@mantine/form";
 import { useQuery } from "@tanstack/react-query";
 import { hsl } from "color-convert";
 import Image from "next/image";
@@ -23,31 +23,14 @@ import React from "react";
 import { MARGIN } from "../../UI/ExperienceUI";
 import CustomModal from "../../common/CustomModal";
 const AvatarPanel: React.FC<ModalProps> = (props) => {
-	const {
-		userInfo: { name },
-	} = useExperience();
+	const { avatarInfo, updateAvatar } = useExperience();
+
 	const form = useForm<T_AvatarSchema>({
-		initialValues: {
-			name: {
-				name: "Coconut Coffee",
-				color: {
-					hue: 230,
-					alpha: 0.5,
-					cycle: false,
-				},
-			},
-			avatar: {
-				avatarid: "round",
-				color: {
-					hue: 230,
-					alpha: 0.5,
-					cycle: false,
-				},
-			},
-		},
+		initialValues: avatarInfo,
+		validate: zodResolver(AvatarSchema),
 	});
 
-	const [dn_r, dn_g, dn_b] = hsl.rgb([form.values.name.color.hue, 100, 50]);
+	const [dn_r, dn_g, dn_b] = hsl.rgb([form.values.label.color.hue, 100, 50]);
 	const [a_r, a_g, a_b] = hsl.rgb([form.values.avatar.color.hue, 100, 50]);
 	const dn_rgba = GenerateRGBAString({
 		r: dn_r,
@@ -59,6 +42,11 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 		g: a_g,
 		b: a_b,
 	});
+
+	const handleSubmit = (data: T_AvatarSchema) => {
+		updateAvatar(data);
+		props.onClose();
+	};
 
 	return (
 		<CustomModal
@@ -89,10 +77,14 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 			})}
 			title="Create your Avatar"
 		>
-			<form className="grid gap-[40px]">
+			<form className="grid gap-[40px]" onSubmit={form.onSubmit(handleSubmit)}>
 				<div className="grid gap-[20px]">
 					<div className="w-full flex items-center gap-2">
-						<StyledTextInput placeholder="user1234" label="DISPLAY NAME" />
+						<StyledTextInput
+							placeholder="user1234"
+							label="DISPLAY NAME"
+							{...form.getInputProps("label.name")}
+						/>
 					</div>
 					<div className="w-full">
 						<Text size={12} weight={700}>
@@ -101,13 +93,13 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 						<div className="grid w-full gap-[20px]">
 							<HueSlider
 								onChangeEnd={() => {}}
-								value={form.values.name.color.hue}
+								value={form.values.label.color.hue}
 								onChange={(value) =>
 									form.setValues({
-										name: {
-											...form.values.name,
+										label: {
+											...form.values.label,
 											color: {
-												...form.values.name.color,
+												...form.values.label.color,
 												hue: value,
 											},
 										},
@@ -117,13 +109,13 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 							<AlphaSlider
 								color={dn_rgba}
 								onChangeEnd={() => {}}
-								value={form.values.name.color.alpha}
+								value={form.values.label.color.alpha}
 								onChange={(value) =>
 									form.setValues({
-										name: {
-											...form.values.name,
+										label: {
+											...form.values.label,
 											color: {
-												...form.values.name.color,
+												...form.values.label.color,
 												alpha: value,
 											},
 										},
@@ -138,7 +130,16 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 						<Text size={12} weight={700}>
 							CUSTOMIZE HEAD
 						</Text>
-						<AvatarHeadSelector onChange={(val: string) => {}} />
+						<AvatarHeadSelector
+							onChange={(val: string) => {
+								form.setValues({
+									avatar: {
+										...form.values.avatar,
+										avatarid: val,
+									},
+								});
+							}}
+						/>
 					</div>
 					<div className="w-full">
 						<Text size={12} weight={700}>
@@ -161,7 +162,7 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 								}
 							/>
 							<AlphaSlider
-								color={dn_rgba}
+								color={a_rgba}
 								onChangeEnd={() => {}}
 								value={form.values.avatar.color.alpha}
 								onChange={(value) =>
@@ -180,7 +181,7 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 					</div>
 				</div>
 				<div className="div grid place-items-center">
-					<Button>APPLY</Button>
+					<Button type="submit">APPLY</Button>
 				</div>
 			</form>
 		</CustomModal>
@@ -239,7 +240,7 @@ const AvatarHeadSelector: React.FC<{
 					})}
 					className="w-[105px] relative h-[105px] grid place-items-center"
 					key={avatar.name}
-					onClick={() => props.onChange(avatar.source)}
+					onClick={() => props.onChange(avatar.name)}
 				>
 					<Image
 						src={`${AVATAR_HEAD_PREFIX_URL}/${avatar.thumb}`}

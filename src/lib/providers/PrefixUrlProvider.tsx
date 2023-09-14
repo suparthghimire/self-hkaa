@@ -2,9 +2,11 @@
 import { GetAssetPrefixURL } from "@/lib/api/api";
 import { T_PrefixUrl } from "@api/types";
 import { useQuery } from "@tanstack/react-query";
-import React, { createContext, PropsWithChildren } from "react";
+import React, { createContext, PropsWithChildren, useContext } from "react";
 
 const PrefixUrlContext = createContext<T_PrefixUrl | undefined>(undefined);
+
+export const usePrefixUrl = () => useContext(PrefixUrlContext);
 
 const PrefixUrlProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { data } = useQuery({

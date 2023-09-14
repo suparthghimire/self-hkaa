@@ -98,23 +98,6 @@ export default function reducer(
 				},
 			};
 		}
-		case "CHANGE_USER_NAME": {
-			const message = {
-				key: "alias",
-				value: actions.payload,
-			};
-			iframePostMessage(message);
-			return {
-				...state,
-				worldInfo: {
-					...state.worldInfo,
-				},
-				userInfo: {
-					...state.userInfo,
-					name: actions.payload,
-				},
-			};
-		}
 		case "TOGGLE_MIC": {
 			const currMicVal = state.audio.micEnabled;
 			const newMicVal = !currMicVal;
@@ -263,6 +246,18 @@ export default function reducer(
 			iframePostMessage(message);
 
 			return state;
+		}
+		case "UPDATE_AVATAR": {
+			const data = actions.payload;
+			const message = {
+				key: "updateavatar",
+				value: data,
+			};
+			iframePostMessage(message);
+			return {
+				...state,
+				avatarInfo: data,
+			};
 		}
 	}
 }

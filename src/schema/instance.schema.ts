@@ -10,6 +10,7 @@ import { z } from "zod";
 export const InstanceEditSchema = z.object({
 	name: z
 		.string()
+		.min(1, "Please enter a valid user name")
 		.max(
 			MAX_ROOM_NAME_SIZE,
 			`Please keep the Shop name to ${MAX_ROOM_NAME_SIZE} characters or less`
