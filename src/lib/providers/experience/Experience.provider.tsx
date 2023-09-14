@@ -10,13 +10,11 @@ import {
 	T_TransformType,
 	T_WorldInfo,
 } from "@experience/types";
-import { useLocalStorage } from "@mantine/hooks";
 import {
 	PropsWithChildren,
 	createContext,
 	useCallback,
 	useContext,
-	useEffect,
 	useReducer,
 } from "react";
 import reducer from "./Experience.reducer";
@@ -102,21 +100,7 @@ const ExperienceContext = createContext<T_Experience>(
 
 const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
-	const [localAvatarInfo, setLocalAvatarInfo] = useLocalStorage<T_AvatarSchema>(
-		{
-			key: "hkaa-avatar-info",
-			defaultValue: defaultAvatarInfo,
-		}
-	);
-
 	// save avatar when ui loads from localstorage
-	useEffect(() => {
-		if (!localAvatarInfo) return;
-		dispatch({
-			type: "UPDATE_AVATAR",
-			payload: localAvatarInfo,
-		});
-	}, [localAvatarInfo]);
 
 	const setRoomInfo = useCallback(
 		(info: T_ExperienceInfo) =>
@@ -276,7 +260,6 @@ const ExperienceProvider: React.FC<PropsWithChildren> = (props) => {
 			type: "UPDATE_AVATAR",
 			payload: data,
 		});
-		setLocalAvatarInfo(data);
 	}, []);
 
 	// const sendAssetMeta = useCallback((data: { [key: string]: any }) => {
