@@ -1,44 +1,53 @@
 "use client";
 import { AnonLogin } from "@/lib/api/api";
+import useShowStatusNotification from "@/lib/hooks/useShowStatusNotification";
 import { useAuth } from "@/lib/providers/Auth/AuthProvider";
-import { Center, Loader } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
+import { useDisclosure } from "@mantine/hooks";
+import { useMutation } from "@tanstack/react-query";
 import React, { PropsWithChildren, useEffect } from "react";
 
 const AnonAuthLayout: React.FC<PropsWithChildren> = (props) => {
 	const { auth, setAuth } = useAuth();
 
-	const anonLogin = useQuery({
-		queryKey: ["anonLogin"],
-		queryFn: () => AnonLogin(),
+	const [anonLoginOpen, { open: openAnonLogin, close: closeAnonLogin }] =
+		useDisclosure(true);
+
+	const anonLogin = useMutation({
+		mutationFn: () => AnonLogin(),
+		onSuccess(successData) {
+			if (!successData.data) return;
+			const anonAuth = successData.data;
+			setAuth({
+				status: true,
+				user: {
+					...anonAuth,
+					primary: {
+						...anonAuth.user.primary,
+						email: "",
+						username: "",
+					},
+				},
+			});
+			closeAnonLogin();
+		},
 	});
 
 	useEffect(() => {
-		if (!anonLogin.data) return;
-		const anonAuth = anonLogin.data.data;
-		setAuth({
-			status: true,
-			user: {
-				...anonAuth,
-				primary: {
-					...anonAuth.user.primary,
-					email: "",
-					username: "",
-				},
-			},
-		});
-	}, [anonLogin.data]);
+		anonLogin.mutate();
+	}, []);
+	useShowStatusNotification({
+		error: { status: anonLogin.isError, text: "Error logging in" },
+		loading: { status: anonLogin.isLoading, text: "Logging in..." },
+		success: { status: anonLogin.isSuccess, text: "Logged in successfully" },
+	});
 
-	if (!auth.status)
-		return (
-			<Center>
-				<Loader />
-			</Center>
-		);
-
-	if (anonLogin.isError) return <>Anon Login Failed</>;
-
-	return <>{props.children}</>;
+	return (
+		<>
+			{anonLogin.isSuccess && props.children}
+			{anonLogin.isLoading && <>Logging you in Anononymously </>}
+			{anonLogin.isError && <>Error logging you in Anononymously </>}
+		</>
+	);
 };
 
 export default AnonAuthLayout;
