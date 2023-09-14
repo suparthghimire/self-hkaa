@@ -3,11 +3,16 @@
 import InstanceGrid from "@/components/common/InstanceGrid";
 import { GetAllRooms } from "@/lib/api/api";
 import {
+	HKAA_MAIN_INSTANCE_SLUG,
+	PLACEHOLDER_IMG_SRC,
+} from "@/lib/data/constants";
+import {
 	ADMIN_INSTANCES,
-	MAIN_INSTANCE,
+	ADMIN_SHOPS,
 	USER_INSTANCES,
 } from "@/lib/data/mock_data";
 import { ParseJson } from "@/lib/helpers";
+import { T_Room } from "@api/types";
 import { T_UserType } from "@app/types";
 import {
 	Container,
@@ -18,8 +23,26 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ServerError from "../common/ServerError";
+
+function MasterFirst(rooms: T_Room[], userType: T_UserType): T_Room[] {
+	if (userType === "user") return rooms;
+
+	const masterRoom = rooms.find(
+		(room) => room.urlshortcode === HKAA_MAIN_INSTANCE_SLUG
+	);
+
+	const otherRooms = rooms.filter(
+		(room) => room.urlshortcode !== HKAA_MAIN_INSTANCE_SLUG
+	);
+	let newRooms = otherRooms;
+	if (masterRoom) newRooms = [masterRoom, ...otherRooms];
+
+	console.log(newRooms);
+
+	return newRooms;
+}
 
 function StyledTabs(props: TabsProps) {
 	return (
@@ -108,6 +131,11 @@ const Instances: React.FC<{
 		queryFn: () => GetAllRooms(),
 	});
 
+	const masterFirstSorted = useMemo(
+		() => MasterFirst(allRooms.data?.data.rooms || [], props.userType),
+		[allRooms.data?.data.rooms, props.userType]
+	);
+
 	if (allRooms.isError) {
 		return <ServerError error="Something went wrong" />;
 	}
@@ -116,42 +144,21 @@ const Instances: React.FC<{
 		return <Loader />;
 	}
 	return (
-		<StyledTabs
-			defaultValue={
-				props.userType === "admin"
-					? "main-instance"
-					: allRooms.data.data.rooms[0].id.toString()
-			}
-		>
+		<StyledTabs defaultValue={masterFirstSorted[0].id.toString()}>
 			<Tabs.List position="center">
-				{props.userType === "admin" && (
-					<Tabs.Tab value="main-instance">Main Instance</Tabs.Tab>
-				)}
-				{allRooms.data.data.rooms.map((room) => (
+				{masterFirstSorted.map((room) => (
 					<Tabs.Tab value={room.id.toString()} key={room.id}>
 						{room.name}
 					</Tabs.Tab>
 				))}
 			</Tabs.List>
-			{props.userType === "admin" && (
-				<Tabs.Panel value="main-instance">
-					<InstanceGrid
-						editable={false}
-						description={MAIN_INSTANCE.description}
-						image={MAIN_INSTANCE.image}
-						experienceType="world"
-						instanceType={MAIN_INSTANCE.tabName}
-						instanceUpdated={new Date().toISOString()}
-						slug={MAIN_INSTANCE.slug}
-						title={MAIN_INSTANCE.tabName}
-						type={props.userType}
-					/>
-				</Tabs.Panel>
-			)}
-			{allRooms.data.data.rooms.map((room) => (
+			{masterFirstSorted.map((room) => (
 				<Tabs.Panel value={room.id.toString()} key={room.id}>
 					<InstanceGrid
-						editable
+						editable={
+							props.userType === "admin" &&
+							room.urlshortcode !== HKAA_MAIN_INSTANCE_SLUG
+						}
 						uuid={room.uuid}
 						id={room.id}
 						experienceType="world"
@@ -160,7 +167,7 @@ const Instances: React.FC<{
 						description={room.description}
 						instanceUpdated={room.updatedAt}
 						image={room.image}
-						type={props.userType}
+						userType={props.userType}
 						slug={room.urlshortcode}
 						url={
 							ParseJson<{
@@ -177,46 +184,30 @@ const Instances: React.FC<{
 const Shops: React.FC<{
 	userType: T_UserType;
 }> = (props) => {
-	const allRooms = useQuery({
-		queryKey: ["all-rooms"],
-		queryFn: () => GetAllRooms(),
-	});
-
-	if (allRooms.isError) {
-		return <ServerError error="Something went wrong" />;
-	}
-
-	if (!allRooms.data || allRooms.isLoading) {
-		return <Loader />;
-	}
 	return (
-		<StyledTabs defaultValue={allRooms.data.data.rooms[0].id.toString()}>
+		<StyledTabs defaultValue={ADMIN_SHOPS[0].id.toString()}>
 			<Tabs.List position="center">
-				{allRooms.data.data.rooms.map((room) => (
-					<Tabs.Tab value={room.id.toString()} key={room.id}>
-						{room.name}
+				{ADMIN_SHOPS.map((shop) => (
+					<Tabs.Tab value={shop.id.toString()} key={shop.id}>
+						{shop.title}
 					</Tabs.Tab>
 				))}
 			</Tabs.List>
-			{allRooms.data.data.rooms.map((room) => (
-				<Tabs.Panel value={room.id.toString()} key={room.id}>
+			{ADMIN_SHOPS.map((shop) => (
+				<Tabs.Panel value={shop.id.toString()} key={shop.id}>
 					<InstanceGrid
-						editable
-						id={room.id}
-						uuid={room.uuid}
+						editable={false}
+						// id={shop.id}
+						// uuid=""
 						experienceType="shop"
-						instanceType={room.name}
-						title={room.name}
-						description={room.description}
-						instanceUpdated={room.updatedAt}
-						image={room.image}
-						type={props.userType}
-						slug={room.urlshortcode}
-						url={
-							ParseJson<{
-								url: string;
-							}>(room.configuration).url
-						}
+						instanceType={shop.title}
+						title={shop.title}
+						description={shop.description}
+						instanceUpdated={shop.date}
+						image={PLACEHOLDER_IMG_SRC}
+						userType={props.userType}
+						slug={shop.slug}
+						// url="https://lucidworlds.com"
 					/>
 				</Tabs.Panel>
 			))}

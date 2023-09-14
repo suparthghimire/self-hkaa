@@ -25,7 +25,7 @@ type T_InstanceGridCommon = {
 	image: string;
 	experienceType: "world" | "shop";
 	instanceUpdated: string;
-	type: T_UserType;
+	userType: T_UserType;
 	title: string;
 	description: string;
 	slug: string;
@@ -45,7 +45,7 @@ const InstanceGrid: React.FC<T_InstanceGridProps> = (props) => {
 				<div className="flex flex-col h-full justify-between pr-5 border-l-0 border-r-0 border-t-1 border-black border-b-1 border-solid">
 					<div className="flex w-full items-center justify-between">
 						<p>{props.instanceType}</p>
-						{props.type === "admin" && props.editable && (
+						{props.userType === "admin" && props.editable && (
 							<MantineButton
 								color="gray.7"
 								radius={10}
@@ -60,23 +60,25 @@ const InstanceGrid: React.FC<T_InstanceGridProps> = (props) => {
 					<div>
 						<h2 className="text-[40px] mb-[28px]">{props.title}</h2>
 						<p className="text-[20px]">{props.description}</p>
-
 						<div className="flex gap-3 w-full">
-							<Link
-								href={
-									props.type === "user"
-										? `/instance/${props.slug}`
-										: `/admin/visitor/${props.experienceType}/${props.slug}`
-								}
-							>
-								{props.editable && (
+							{props.editable && props.experienceType === "world" && (
+								<Link
+									href={
+										props.userType === "user"
+											? `/instance/${props.slug}`
+											: `/admin/visitor/${props.experienceType}/${props.slug}`
+									}
+								>
 									<Button radius={100} className="mt-[28px]">
-										{props.type === "user" ? "Enter Instance" : "Visitor Mode"}
+										{props.userType === "user"
+											? "Enter Instance"
+											: "Visitor Mode"}
 									</Button>
-								)}
-							</Link>
+								</Link>
+							)}
+
 							{/* creator */}
-							{props.type === "admin" && auth.status === true && (
+							{props.userType === "admin" && auth.status === true && (
 								<Link
 									href={`/admin/creator/${props.experienceType}/${props.slug}`}
 								>
@@ -89,14 +91,19 @@ const InstanceGrid: React.FC<T_InstanceGridProps> = (props) => {
 												height: "auto",
 												minWidth: "146px",
 												borderWidth: rem(3),
-												background: "#4B5563",
+												background:
+													props.experienceType === "world"
+														? "#4B5563"
+														: undefined,
 											},
 											label: {
 												fontSize: rem(20),
 											},
 										})}
 									>
-										Creator Mode
+										{props.experienceType === "world"
+											? "Creator Mode"
+											: "Enter"}
 									</MantineButton>
 								</Link>
 							)}
