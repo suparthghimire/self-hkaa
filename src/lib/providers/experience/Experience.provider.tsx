@@ -22,14 +22,14 @@ const defaultAvatarInfo = {
 	avatar: {
 		avatarid: "Round",
 		color: {
-			alpha: 1,
+			brightness: 1,
 			cycle: false,
 			hue: 100,
 		},
 	},
 	label: {
 		color: {
-			alpha: 1,
+			brightness: 1,
 			cycle: false,
 			hue: 100,
 		},

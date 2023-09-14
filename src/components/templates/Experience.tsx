@@ -3,12 +3,8 @@ import { HKAA_LAYOUT, T_Modes } from "@/lib/data/constants";
 import { JoinParams } from "@/lib/helpers";
 import useSessionToken from "@/lib/hooks/useSessionToken";
 import { useExperience } from "@/lib/providers/experience/Experience.provider";
-import { Text } from "@mantine/core";
-import Link from "next/link";
 import React, { useEffect, useMemo } from "react";
-import Button from "../common/Button";
 import ExperienceUI from "../experience/design/UI/ExperienceUI";
-import ExperienceError from "../experience/design/common/ExperienceError";
 import ExperienceLoading from "../experience/design/common/Loading";
 type T_Props = {
 	mode: T_Modes;
@@ -61,48 +57,33 @@ const Experience: React.FC<T_Props> = (props) => {
 		}
 	}, [iframeRef]);
 
-	if (isError) {
-		return (
-			<ExperienceError>
-				<div className="grid place-items-center gap-3">
-					<Text size={24} weight={700}>
-						Something went wrong.
-					</Text>
-					<Link href="/admin">
-						<Button variant="outline">Go Back</Button>
-					</Link>
-				</div>
-			</ExperienceError>
-		);
-	} else
-		return (
-			<div className="absolute w-screen h-screen top-0 bg-neutral-100 z-[100] overflow-hidden">
-				<>
-					{showLoadingScreen && <ExperienceLoading />}
-					<iframe
-						ref={iframeRef}
-						className="absolute top-0 left-0 w-full h-full"
-						src={
-							isSuccess
-								? JoinParams(
-										IFRAME_ENDPOINT,
-										{
-											code: sessionToken,
-										},
-										["noui"]
-								  )
-								: "#"
-						}
-						style={{
-							transform: showLoadingScreen ? "scale(0)" : "scale(1)",
-						}}
-						allow="camera; microphone; display-capture; autoplay; clipboard-write"
-					/>
-					{!showLoadingScreen &&
-						(props.ui ?? <ExperienceUI mode={props.mode} />)}
-				</>
-			</div>
-		);
+	return (
+		<div className="absolute w-screen h-screen top-0 bg-neutral-100 z-[100] overflow-hidden">
+			<>
+				{showLoadingScreen && <ExperienceLoading />}
+				<iframe
+					ref={iframeRef}
+					className="absolute top-0 left-0 w-full h-full"
+					src={
+						isSuccess
+							? JoinParams(
+									IFRAME_ENDPOINT,
+									{
+										code: sessionToken,
+									},
+									["noui"]
+							  )
+							: "#"
+					}
+					style={{
+						transform: showLoadingScreen ? "scale(0)" : "scale(1)",
+					}}
+					allow="camera; microphone; display-capture; autoplay; clipboard-write"
+				/>
+				{!showLoadingScreen && (props.ui ?? <ExperienceUI mode={props.mode} />)}
+			</>
+		</div>
+	);
 };
 
 export default Experience;

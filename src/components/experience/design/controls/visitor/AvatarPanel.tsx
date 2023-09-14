@@ -109,14 +109,14 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 							<AlphaSlider
 								color={dn_rgba}
 								onChangeEnd={() => {}}
-								value={form.values.label.color.alpha}
+								value={form.values.label.color.brightness}
 								onChange={(value) =>
 									form.setValues({
 										label: {
 											...form.values.label,
 											color: {
 												...form.values.label.color,
-												alpha: value,
+												brightness: value,
 											},
 										},
 									})
@@ -164,14 +164,14 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 							<AlphaSlider
 								color={a_rgba}
 								onChangeEnd={() => {}}
-								value={form.values.avatar.color.alpha}
+								value={form.values.avatar.color.brightness}
 								onChange={(value) =>
 									form.setValues({
 										avatar: {
 											...form.values.avatar,
 											color: {
 												...form.values.avatar.color,
-												alpha: value,
+												brightness: value,
 											},
 										},
 									})
