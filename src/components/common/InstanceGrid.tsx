@@ -117,7 +117,7 @@ const InstanceGrid: React.FC<T_InstanceGridProps> = (props) => {
 							)}
 						</div>
 					</div>
-					<p>{FormatDateTime(new Date(props.instanceUpdated))}</p>
+					<p>Last Updated: {FormatDateTime(new Date(props.instanceUpdated))}</p>
 				</div>
 			</Grid.Col>
 			<Grid.Col span={6}>
