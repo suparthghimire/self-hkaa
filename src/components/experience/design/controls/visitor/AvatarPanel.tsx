@@ -53,13 +53,14 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 		<CustomModal
 			{...props}
 			overlayProps={{
-				opacity: 0.5,
+				opacity: 0,
+				blur: 0,
 			}}
 			withCloseButton={false}
 			styles={() => ({
 				content: {
 					position: "absolute",
-					bottom: "10vh",
+					bottom: rem(100),
 					width: "420px",
 					right: MARGIN,
 				},
