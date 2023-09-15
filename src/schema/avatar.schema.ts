@@ -23,6 +23,7 @@ export const AvatarSchema = z.object({
 			brightness: z.number(),
 			cycle: z.boolean(),
 		}),
+		hidelabel: z.boolean().default(false),
 	}),
 });
 

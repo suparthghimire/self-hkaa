@@ -1,3 +1,4 @@
+import { T_AvatarSchema } from "@/schema/avatar.schema";
 import {
 	T_Actions,
 	T_ExperienceAsset,
@@ -48,6 +49,7 @@ export default function useExperienceEventListener(
 					case "worldinfo": {
 						const { description, image, name, urlshortcode, published } =
 							value as T_WorldInfo;
+						const { avtcolor } = value as { avtcolor: T_AvatarSchema };
 						dispatch({
 							type: "SET_WORLD_INFO",
 							payload: {
@@ -57,6 +59,10 @@ export default function useExperienceEventListener(
 								urlshortcode: urlshortcode ?? "",
 								published: published ?? false,
 							},
+						});
+						dispatch({
+							type: "UPDATE_AVATAR",
+							payload: avtcolor,
 						});
 						break;
 					}
