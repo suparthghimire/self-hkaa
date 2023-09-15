@@ -61,6 +61,14 @@ const InstanceGrid: React.FC<T_InstanceGridProps> = (props) => {
 						<h2 className="text-[40px] mb-[28px]">{props.title}</h2>
 						<p className="text-[20px]">{props.description}</p>
 						<div className="flex gap-3 w-full">
+							{props.userType === "user" && (
+								<Link href={`/instance/${props.slug}`}>
+									<Button radius={100} className="mt-[28px]">
+										Enter Instance
+									</Button>
+								</Link>
+							)}
+							{/* visitor */}
 							{props.editable && props.experienceType === "world" && (
 								<Link
 									href={
