@@ -201,7 +201,7 @@ const Shops: React.FC<{
 					<InstanceGrid
 						editable={false}
 						// id={shop.id}
-						// uuid=""
+						uuid=""
 						experienceType="shop"
 						instanceType={shop.title}
 						title={shop.title}

@@ -18,7 +18,7 @@ import {
 	useReducer,
 } from "react";
 import reducer from "./Experience.reducer";
-const defaultAvatarInfo = {
+const defaultAvatarInfo: T_AvatarSchema = {
 	avatar: {
 		avatarid: "Round",
 		color: {
@@ -33,6 +33,7 @@ const defaultAvatarInfo = {
 			cycle: false,
 			hue: 100,
 		},
+		hidelabel: false,
 		name: "",
 	},
 };

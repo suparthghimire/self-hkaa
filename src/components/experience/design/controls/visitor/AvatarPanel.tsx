@@ -10,6 +10,7 @@ import {
 	HueSlider,
 	Loader,
 	ModalProps,
+	Switch,
 	Text,
 	TextInput,
 	TextInputProps,
@@ -79,10 +80,29 @@ const AvatarPanel: React.FC<ModalProps> = (props) => {
 		>
 			<form className="grid gap-[40px]" onSubmit={form.onSubmit(handleSubmit)}>
 				<div className="grid gap-[20px]">
-					<div className="w-full flex items-center gap-2">
+					<div className="grid gap-[2px]">
+						<div className="w-full flex items-center justify-between">
+							<Text weight={700} size={12}>
+								DISPLAY NAME
+							</Text>
+							<Switch
+								labelPosition="left"
+								checked={!form.values.label.hidelabel}
+								onChange={(e) =>
+									form.setValues({
+										label: {
+											...form.values.label,
+											hidelabel: !e.target.checked,
+										},
+									})
+								}
+								label={`Name ${
+									form.values.label.hidelabel ? "Hidden" : "Shown"
+								}`}
+							/>
+						</div>
 						<StyledTextInput
 							placeholder="user1234"
-							label="DISPLAY NAME"
 							{...form.getInputProps("label.name")}
 						/>
 					</div>

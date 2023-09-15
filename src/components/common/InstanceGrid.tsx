@@ -1,10 +1,20 @@
 import Button from "@/components/common/Button";
+import { GetRoomUsers } from "@/lib/api/api";
+import { ROOM_USERS_REFETCH_INTERVAL } from "@/lib/data/constants";
 import { FormatDateTime } from "@/lib/helpers";
 import { useAuth } from "@/lib/providers/Auth/AuthProvider";
 import { T_UserType } from "@app/types";
-import { Grid, Button as MantineButton, rem } from "@mantine/core";
+import {
+	Grid,
+	Loader,
+	Button as MantineButton,
+	Text,
+	Tooltip,
+	rem,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconEdit } from "@tabler/icons-react";
+import { IconEdit, IconUserCancel, IconUsers } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React from "react";
 import CustomModal from "../experience/design/common/CustomModal";
@@ -13,7 +23,6 @@ import ImageViewer from "./ImageViewer";
 
 type T_InstanceGridEditable = {
 	url: string;
-	uuid: string;
 	id: number;
 	editable: true;
 };
@@ -29,6 +38,7 @@ type T_InstanceGridCommon = {
 	title: string;
 	description: string;
 	slug: string;
+	uuid: string;
 };
 type T_InstanceGridProps = (
 	| T_InstanceGridEditable
@@ -58,7 +68,10 @@ const InstanceGrid: React.FC<T_InstanceGridProps> = (props) => {
 						)}
 					</div>
 					<div>
-						<h2 className="text-[40px] mb-[28px]">{props.title}</h2>
+						<div className="flex gap-[20px] items-center">
+							<h2 className="text-[40px] mb-[28px] ">{props.title}</h2>
+							<RealTimeUserCount uuid={props.uuid} />
+						</div>
 						<p className="text-[20px]">{props.description}</p>
 						<div className="flex gap-3 w-full">
 							{props.userType === "user" && (
@@ -146,6 +159,65 @@ const InstanceGrid: React.FC<T_InstanceGridProps> = (props) => {
 				)}
 			</CustomModal>
 		</Grid>
+	);
+};
+const RealTimeUserCount: React.FC<{
+	uuid: string;
+}> = (props) => {
+	const roomUsers = useQuery({
+		queryKey: ["room-users"],
+		queryFn: () => GetRoomUsers(),
+		refetchInterval: ROOM_USERS_REFETCH_INTERVAL,
+	});
+
+	const currentUserCount = roomUsers.data?.find((u) => {
+		console.log(u.worldName);
+		console.log(props.uuid);
+		console.log(u.worldName === props.uuid);
+		return u.worldName === props.uuid;
+	});
+
+	if (!roomUsers.data || roomUsers.isLoading) return <Loader />;
+	else if (roomUsers.isError)
+		return (
+			<Tooltip label="Error while fetching users">
+				<IconUserCancel />
+			</Tooltip>
+		);
+
+	return (
+		<div className="flex gap-[4px] items-center">
+			<IconUsers size={rem(24)} color="#6B7280" />
+			{currentUserCount !== undefined ? (
+				<Text size={rem(24)} color="gray.7">
+					{currentUserCount?.activeUsers}
+				</Text>
+			) : (
+				<Text size={rem(18)} color="gray.7">
+					No Room
+				</Text>
+			)}
+
+			<RefetchIndicator isFetching={roomUsers.isFetching} />
+		</div>
+	);
+};
+
+const RefetchIndicator: React.FC<{ isFetching: boolean }> = (props) => {
+	return (
+		<span
+			style={{
+				display: "inline-block",
+				marginLeft: ".5rem",
+				width: 10,
+				height: 10,
+				// background: "green",
+				background: props.isFetching ? "green" : "transparent",
+				transition: !props.isFetching ? "all .3s ease" : "none",
+				borderRadius: "100%",
+				transform: "scale(2)",
+			}}
+		/>
 	);
 };
 
