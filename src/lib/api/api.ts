@@ -15,6 +15,7 @@ import {
 	T_Response,
 	T_Room,
 	T_RoomAnalytics,
+	T_RoomUsers,
 	T_Rooms,
 	T_SessionTokenSuccess,
 	T_User,
@@ -364,3 +365,15 @@ export async function GetAssetPrefixURL() {
 		await axiosInstance.get("/v1/general/prefix-url");
 	return response.data;
 }
+
+export async function GetRoomUsers() {
+	const url = "https://hkaa-iframe.lucidworlds.com/worlds/users";
+	const response: AxiosResponse<T_RoomUsers> = await axios.get(url);
+	return response.data;
+}
+
+// export async function GetRoomUsers() {
+// 	const url = "/api/room-users";
+// 	const response: AxiosResponse<T_RoomUsers> = await axios.get(url);
+// 	return response.data;
+// }
