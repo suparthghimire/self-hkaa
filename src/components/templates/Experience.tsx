@@ -76,6 +76,7 @@ const Experience: React.FC<T_Props> = (props) => {
 							: "#"
 					}
 					style={{
+						border: 0,
 						transform: showLoadingScreen ? "scale(0)" : "scale(1)",
 					}}
 					allow="camera; microphone; display-capture; autoplay; clipboard-write"

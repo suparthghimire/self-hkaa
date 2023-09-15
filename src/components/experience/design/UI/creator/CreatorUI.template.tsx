@@ -3,6 +3,7 @@ import Settings from "@/components/experience/design/controls/creator/settings/S
 import { useExperience } from "@/lib/providers/experience/Experience.provider";
 import { Modal, rem } from "@mantine/core";
 import { useState } from "react";
+import Help from "../../controls/help/HelpControl";
 import Speaker from "../../controls/visitor/SpeakerControl.template";
 import HotspotPanel from "../../panels/HotspotPanel.template";
 import { getMarginStyle } from "../ExperienceUI";
@@ -23,6 +24,7 @@ const CreatorUI = () => {
 				<Save />
 			</div>
 			<div className="absolute" style={getMarginStyle("bottom", "right")}>
+				<Help />
 				<Settings />
 			</div>
 			<Modal
