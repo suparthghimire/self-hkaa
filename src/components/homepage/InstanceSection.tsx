@@ -27,7 +27,10 @@ import React, { useMemo, useState } from "react";
 import ServerError from "../common/ServerError";
 
 function MasterFirst(rooms: T_Room[], userType: T_UserType): T_Room[] {
-	if (userType === "user") return rooms;
+	if (userType === "user")
+		return rooms.filter(
+			(room) => room.urlshortcode !== HKAA_MAIN_INSTANCE_SLUG
+		);
 
 	const masterRoom = rooms.find(
 		(room) => room.urlshortcode === HKAA_MAIN_INSTANCE_SLUG
